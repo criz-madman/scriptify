@@ -121,37 +121,117 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
       
       <!-- Feature 1: UI Panel Builder -->
-      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+      <div class="glass-card glass-card-hover rounded-3xl p-7 sm:p-8 flex flex-col justify-between group">
         <div>
-          <div class="w-13 h-13 w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
-            <i class="fa-solid fa-shapes"></i>
+          <div class="flex items-center justify-between mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-shapes"></i>
+            </div>
+            <span class="text-[11px] font-mono text-amber-400 bg-orange-950/70 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+              30 Tools Included
+            </span>
           </div>
+
           <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">3-Section UI Panel Builder</h4>
           <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
-            Pick from 28+ categorized actions (<span class="text-amber-200">Null, Solids, Anchor Centering, Aligning, Trimming, Easing, Sequencing</span>), reorder them dynamically with drag-and-drop or arrows, switch button sizes (<span class="text-amber-200">Compact, Regular, Wide</span>), and export a dockable After Effects ScriptUI panel.
+            Pick from 30 categorized actions (<span class="text-amber-200">Null, Solids, Anchor Centering, Aligning, Trimming, Easing, Sequencing</span>), reorder them dynamically with drag-and-drop or arrows, switch button sizes (<span class="text-amber-200">Compact, Regular, Wide</span>), and export a dockable After Effects ScriptUI panel.
           </p>
+
+          <!-- Frame Design with Window Controls and Action Icons -->
+          <div class="mt-5 p-3.5 rounded-2xl bg-[#0a0603]/80 border border-amber-500/20 shadow-inner space-y-2.5">
+            <div class="flex items-center justify-between pb-2 border-b border-amber-500/15">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                <span class="text-[11px] font-mono text-zinc-400 ml-1">ScriptUI &bull; Quick_Actions.jsx</span>
+              </div>
+              <span class="text-[10px] font-mono text-amber-400 bg-[#160d05] px-2 py-0.5 rounded border border-amber-500/25">Compact Mode</span>
+            </div>
+
+            <!-- Frame Button Grid with Icons -->
+            <div class="grid grid-cols-6 gap-1.5 pt-0.5">
+              <div class="p-2 aspect-square rounded-lg bg-zinc-800/90 border border-zinc-700 flex items-center justify-center text-amber-400 text-xs shadow-sm hover:border-amber-400/50 transition-colors" title="Null Controller">
+                <i class="fa-solid fa-square-plus"></i>
+              </div>
+              <div class="p-2 aspect-square rounded-lg bg-zinc-800/90 border border-zinc-700 flex items-center justify-center text-amber-400 text-xs shadow-sm hover:border-amber-400/50 transition-colors" title="Anchor Center">
+                <i class="fa-solid fa-crosshairs"></i>
+              </div>
+              <div class="p-2 aspect-square rounded-lg bg-zinc-800/90 border border-zinc-700 flex items-center justify-center text-amber-400 text-xs shadow-sm hover:border-amber-400/50 transition-colors" title="Center in Comp">
+                <i class="fa-solid fa-bullseye"></i>
+              </div>
+              <div class="p-2 aspect-square rounded-lg bg-zinc-800/90 border border-zinc-700 flex items-center justify-center text-amber-400 text-xs shadow-sm hover:border-amber-400/50 transition-colors" title="Easy Ease Keyframes">
+                <i class="fa-solid fa-wave-square"></i>
+              </div>
+              <div class="p-2 aspect-square rounded-lg bg-zinc-800/90 border border-zinc-700 flex items-center justify-center text-amber-400 text-xs shadow-sm hover:border-amber-400/50 transition-colors" title="Sequence Layers">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+              </div>
+              <div class="p-2 aspect-square rounded-lg bg-zinc-800/90 border border-zinc-700 flex items-center justify-center text-amber-400 text-xs shadow-sm hover:border-amber-400/50 transition-colors" title="Fit to Comp">
+                <i class="fa-solid fa-expand"></i>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+
+        <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
           <a href="/panel-builder.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
             <span>Explore Panel Builder</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
           </a>
-          <span class="text-[10px] font-mono text-zinc-400">28 Tools Included</span>
+          <span class="text-[10px] font-mono text-zinc-400">Export .jsx Panels</span>
         </div>
       </div>
 
       <!-- Feature 2: Text Animation Generator -->
-      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+      <div class="glass-card glass-card-hover rounded-3xl p-7 sm:p-8 flex flex-col justify-between group">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
-            <i class="fa-solid fa-font"></i>
+          <div class="flex items-center justify-between mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-font"></i>
+            </div>
+            <span class="text-[11px] font-mono text-orange-300 bg-orange-950/70 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+              12 AE Properties
+            </span>
           </div>
+
           <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">Kinetic Text Animation Generator</h4>
           <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
-            Interactive two-column studio featuring real-time harmonic wiggle physics simulation. Configure Frequency (Speed) and Amplitude (Distance) sliders with live web feedback, toggle Null Object Controller generation, and export production ExtendScript.
+            Interactive studio featuring real-time decaying sine bounce physics simulation. Configure Frequency (Speed), Decay, and Stagger Delay sliders with live web feedback, customize expressions, and export production ExtendScript.
           </p>
+
+          <!-- Frame Design with Window Controls and Typography Wave Preview -->
+          <div class="mt-5 p-3.5 rounded-2xl bg-[#0a0603]/80 border border-amber-500/20 shadow-inner space-y-2.5 text-center">
+            <div class="flex items-center justify-between pb-2 border-b border-amber-500/15 text-[11px] font-mono text-zinc-400">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                <span class="ml-1">Composition Viewport</span>
+              </div>
+              <span class="text-amber-400 font-bold">Characters Wave</span>
+            </div>
+
+            <div class="py-1.5 text-lg font-black tracking-wider flex justify-center items-center space-x-1.5 select-none">
+              <span class="text-amber-400 transform -translate-y-2 inline-block">S</span>
+              <span class="text-orange-400 transform -translate-y-2.5 inline-block">C</span>
+              <span class="text-amber-300 transform -translate-y-1 inline-block">R</span>
+              <span class="text-white transform translate-y-0.5 inline-block">I</span>
+              <span class="text-orange-300 transform -translate-y-2 inline-block">P</span>
+              <span class="text-amber-400 transform -translate-y-1 inline-block">T</span>
+              <span class="text-white transform -translate-y-0.5 inline-block">I</span>
+              <span class="text-orange-400 transform -translate-y-2 inline-block">F</span>
+              <span class="text-amber-300 transform -translate-y-1.5 inline-block">Y</span>
+            </div>
+
+            <div class="flex items-center justify-center space-x-2 text-[10px] font-mono text-zinc-400 pt-0.5">
+              <span class="px-2 py-0.5 rounded bg-[#181109] border border-amber-500/20 text-amber-300">3.0 Hz</span>
+              <span class="px-2 py-0.5 rounded bg-[#181109] border border-amber-500/20 text-amber-300">Decay: 4.5</span>
+              <span class="px-2 py-0.5 rounded bg-[#181109] border border-amber-500/20 text-amber-300">Delay: 0.08s</span>
+            </div>
+          </div>
         </div>
-        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+
+        <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
           <a href="/text-animator.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
             <span>Open Text Animator</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -160,38 +240,108 @@
         </div>
       </div>
 
-      <!-- Feature 3: Preset Studio -->
-      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+      <!-- Feature 3: Preset Studio & Digital Marketplace -->
+      <div class="glass-card glass-card-hover rounded-3xl p-7 sm:p-8 flex flex-col justify-between group">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
-            <i class="fa-solid fa-sliders"></i>
+          <div class="flex items-center justify-between mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-store"></i>
+            </div>
+            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/70 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+              Instant Download
+            </span>
           </div>
-          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">Preset & Code Sanitizer Studio</h4>
+
+          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">Digital Marketplace Shop</h4>
           <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
-            Battle-tested automation presets: Layer Time Stagger, Auto-Null Parent Rigging, Batch Render Queue Item Exporter, and Expression Slider controllers. Automatically sanitizes modern ES6 syntax for After Effects.
+            Battle-tested automation presets and community scripts: QuickStagger Pro, AutoBounce Elastic Rig, and MotionPalette CEP extensions. Includes installation instructions and registry setup guides for unsigned panels.
           </p>
+
+          <!-- Frame Design with Window Controls and Products Mockup -->
+          <div class="mt-5 p-3.5 rounded-2xl bg-[#0a0603]/80 border border-amber-500/20 shadow-inner space-y-2">
+            <div class="flex items-center justify-between pb-1.5 border-b border-amber-500/15 text-[11px] font-mono text-zinc-400">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                <span class="ml-1">Featured Catalog</span>
+              </div>
+              <span class="text-zinc-500">Credits Store</span>
+            </div>
+
+            <div class="p-2 rounded-xl bg-[#120c06] border border-amber-500/20 flex items-center justify-between text-xs">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-file-code text-amber-400 text-[11px]"></i>
+                <span class="font-bold text-white text-[11px]">QuickStagger Pro</span>
+              </div>
+              <span class="text-[10px] font-mono font-bold text-amber-300 bg-orange-950/70 px-2 py-0.5 rounded border border-orange-500/30">6 Credits</span>
+            </div>
+            <div class="p-2 rounded-xl bg-[#120c06] border border-amber-500/20 flex items-center justify-between text-xs">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-cube text-orange-400 text-[11px]"></i>
+                <span class="font-bold text-white text-[11px]">AutoBounce Elastic Rig</span>
+              </div>
+              <span class="text-[10px] font-mono font-bold text-amber-300 bg-orange-950/70 px-2 py-0.5 rounded border border-orange-500/30">8 Credits</span>
+            </div>
+          </div>
         </div>
-        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+
+        <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
           <a href="/presets.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
-            <span>Open Preset Studio</span>
+            <span>Browse Marketplace</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
           </a>
           <span class="text-[10px] font-mono text-zinc-400">ES3 Syntax Engine</span>
         </div>
       </div>
 
-      <!-- Feature 4: Credit Wallet Engine -->
-      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+      <!-- Feature 4: My Wallet (Renamed from Normalized 3NF Credit Wallet) -->
+      <div class="glass-card glass-card-hover rounded-3xl p-7 sm:p-8 flex flex-col justify-between group">
         <div>
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
-            <i class="fa-solid fa-wallet"></i>
+          <div class="flex items-center justify-between mb-5">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+            <span class="text-[11px] font-mono text-amber-300 bg-orange-950/70 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+              Zero Race Conditions
+            </span>
           </div>
-          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">Normalized 3NF Credit Wallet</h4>
+
+          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">My Wallet</h4>
           <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
-            Strict PostgreSQL 3NF database schema (<code class="font-mono text-amber-300">Users</code>, <code class="font-mono text-amber-300">CreditWallet</code>, <code class="font-mono text-amber-300">HistoryLog</code>, <code class="font-mono text-amber-300">Transactions</code>) utilizing row-level locking (<code class="font-mono text-amber-400">SELECT ... FOR UPDATE</code>) to guarantee atomic, zero-race-condition transactions.
+            Manage your credit balance, review script generation history logs, and securely top up your wallet. Built on a strict 3NF database schema with atomic row-level locks (<code class="font-mono text-amber-400">SELECT ... FOR UPDATE</code>) guaranteeing zero double-spends.
           </p>
+
+          <!-- Frame Design with Window Controls and Wallet Mockup -->
+          <div class="mt-5 p-3.5 rounded-2xl bg-[#0a0603]/80 border border-amber-500/20 shadow-inner space-y-2.5">
+            <div class="flex items-center justify-between pb-1.5 border-b border-amber-500/15 text-[11px] font-mono text-zinc-400">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                <span class="ml-1">Credit Ledger</span>
+              </div>
+              <span class="text-emerald-400 font-bold">ACID Verified</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-0.5">
+              <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-amber-400 text-xs">
+                  <i class="fa-solid fa-coins"></i>
+                </div>
+                <div>
+                  <span class="text-[10px] text-zinc-400 uppercase tracking-wider font-mono block">Balance</span>
+                  <span class="text-sm font-black text-white">100 Credits Available</span>
+                </div>
+              </div>
+              <div class="text-[10px] font-mono text-amber-300 bg-[#160d05] px-2 py-1 rounded border border-amber-500/25">
+                OTP Login
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+
+        <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
           <a href="/wallet.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
             <span>Manage Wallet & Credits</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -207,7 +357,7 @@
   <footer class="mt-auto border-t border-amber-500/20 bg-[#090603]/90 py-10 px-4 text-center text-xs text-zinc-400">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <img src="/images/logo.png" alt="Scriptify" class="h-6 w-auto object-contain">
+        <img src="myimages/scriptfy%20icon.png" alt="Scriptify" class="h-6 w-auto object-contain">
         <span>&bull;</span>
         <span>Adobe After Effects ExtendScript Automation</span>
       </div>

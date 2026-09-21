@@ -224,3 +224,119 @@ code, pre, .font-mono {
   background-color: rgba(5, 3, 1, 0.88);
   backdrop-filter: blur(10px);
 }
+
+/* ==============================================================================
+   Ambient Glowing Background Blur Orbs Keyframes & Classes
+   ============================================================================== */
+@keyframes orb-float-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(25px, -35px, 0) scale(1.12);
+    opacity: 0.95;
+  }
+}
+
+@keyframes orb-float-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate3d(-30px, 40px, 0) scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+@keyframes orb-float-3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(20px, 30px, 0) scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+.animate-orb-1 {
+  animation: orb-float-1 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-orb-2 {
+  animation: orb-float-2 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-orb-3 {
+  animation: orb-float-3 10s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* ==============================================================================
+   Pinterest-Style Fluid Glassmorphism Pin Cards
+   ============================================================================== */
+.glass-pin-card {
+  background: linear-gradient(145deg, rgba(26, 17, 10, 0.78) 0%, rgba(13, 8, 4, 0.88) 100%);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  border-radius: 28px;
+  box-shadow: 
+    0 20px 45px -15px rgba(0, 0, 0, 0.92),
+    0 0 35px -10px rgba(249, 115, 22, 0.12),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.14);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.45s ease;
+  will-change: transform, box-shadow;
+}
+
+.hover-tilt-left {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-tilt-left:hover {
+  transform: translateY(-8px) scale(1.02) rotate(-0.8deg);
+  border-color: rgba(249, 115, 22, 0.65);
+  box-shadow: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.96),
+    0 0 50px 0 rgba(249, 115, 22, 0.28),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.22);
+}
+
+.hover-tilt-right {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-tilt-right:hover {
+  transform: translateY(-8px) scale(1.02) rotate(0.8deg);
+  border-color: rgba(249, 115, 22, 0.65);
+  box-shadow: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.96),
+    0 0 50px 0 rgba(249, 115, 22, 0.28),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.22);
+}
+
+.hover-float {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-float:hover {
+  transform: translateY(-8px) scale(1.015);
+  border-color: rgba(249, 115, 22, 0.65);
+  box-shadow: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.96),
+    0 0 50px 0 rgba(249, 115, 22, 0.28),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.22);
+}
