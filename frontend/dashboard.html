@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — Studio Tools Hub</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
+  <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#100b06',
+              surface: '#181008',
+              border: 'rgba(245, 158, 11, 0.2)',
+              accent: '#f97316',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased relative">
+
+  <!-- Top Light Beam -->
+  <div class="light-beam-glow"></div>
+
+  <!-- Universal Navbar -->
+  <div id="site-navbar"></div>
+
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-8 space-y-8 relative z-10">
+    
+    <!-- Top Greeting & Glowing Wallet Card -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_40px_rgba(249,115,22,0.15)]">
+      <div class="space-y-1.5">
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold">Studio Active</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Studio Tools Hub</h1>
+        <p class="text-xs sm:text-sm text-zinc-300">Generate custom After Effects ExtendScript tools and dockable panels in seconds.</p>
+      </div>
+
+      <div class="flex items-center space-x-4 bg-[#150e06]/90 border border-amber-500/30 rounded-2xl p-4 shrink-0 shadow-inner">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 block">Available Balance</span>
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-bolt text-amber-400 text-lg"></i>
+            <span id="dash-wallet-balance" class="text-2xl font-black text-white font-mono">--</span>
+            <span class="text-xs text-zinc-400 font-medium">Credits</span>
+          </div>
+        </div>
+        <a href="/wallet.html" class="btn-amber-pill py-2.5 px-4 text-white font-bold text-xs shadow-md">
+          + Add Credits
+        </a>
+      </div>
+    </div>
+
+    <!-- Tools Grid -->
+    <div>
+      <h2 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono mb-4 flex items-center space-x-2">
+        <i class="fa-solid fa-shapes text-orange-400"></i>
+        <span>Creation Suites</span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Tool Card 1: UI Panel Builder -->
+        <a href="/panel-builder.html" class="glass-card glass-card-hover group rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h3 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors">UI Panel Builder</h3>
+            <p class="text-xs text-zinc-300 mt-2 leading-relaxed">
+              Assemble custom dockable After Effects panels using 28+ automation actions. Includes drag-and-drop sorting and button sizing controls.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between text-xs font-bold text-amber-400">
+            <span>Open Builder &rarr;</span>
+            <span class="text-[10px] text-zinc-400 font-mono bg-[#180f06] px-2 py-0.5 rounded border border-amber-500/20">28 Tools</span>
+          </div>
+        </a>
+
+        <!-- Tool Card 2: Text Animation Generator -->
+        <a href="/text-animator.html" class="glass-card glass-card-hover group rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-font"></i>
+            </div>
+            <h3 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors">Text Animator Generator</h3>
+            <p class="text-xs text-zinc-300 mt-2 leading-relaxed">
+              Configure kinetic text wiggle physics with real-time browser preview, frequency/amplitude sliders, and Null controller expressions.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between text-xs font-bold text-amber-400">
+            <span>Open Animator &rarr;</span>
+            <span class="text-[10px] text-zinc-400 font-mono bg-[#180f06] px-2 py-0.5 rounded border border-amber-500/20">Live Physics</span>
+          </div>
+        </a>
+
+        <!-- Tool Card 3: Digital Marketplace Shop -->
+        <a href="/presets.html" class="glass-card glass-card-hover group rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-300 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-store"></i>
+            </div>
+            <h3 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors">Digital Marketplace</h3>
+            <p class="text-xs text-zinc-300 mt-2 leading-relaxed">
+              Browse, purchase, and download custom After Effects scripts, CEP plugins, and modular 4K project files with instant credit wallet deduction.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between text-xs font-bold text-amber-400">
+            <span>Open Marketplace &rarr;</span>
+            <span class="text-[10px] text-zinc-400 font-mono bg-[#180f06] px-2 py-0.5 rounded border border-amber-500/20">Digital Goods</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Quick History Activity -->
+    <div class="glass-card rounded-3xl p-6 sm:p-7">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-amber-500/15">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center space-x-2">
+          <i class="fa-solid fa-clock-rotate-left text-orange-400"></i>
+          <span>Recent Generations (Table D3: HistoryLog)</span>
+        </h3>
+        <span class="text-[10px] font-mono text-zinc-400">PostgreSQL 3NF Database</span>
+      </div>
+
+      <div id="dash-history-list" class="space-y-2.5 text-xs text-zinc-300">
+        <div class="py-6 text-center text-zinc-500">Loading history...</div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      Navbar.mount('dashboard');
+
+      if (!API.isAuthenticated()) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      const balanceEl = document.getElementById('dash-wallet-balance');
+      const historyList = document.getElementById('dash-history-list');
+
+      try {
+        const authData = await API.get('/api/auth/me');
+        if (balanceEl) balanceEl.textContent = authData.walletBalance ?? '0';
+
+        const histData = await API.get('/api/scripts/history');
+        if (!histData.history || histData.history.length === 0) {
+          historyList.innerHTML = `<div class="py-4 text-center text-zinc-500">No scripts generated yet. Try opening a tool above!</div>`;
+          return;
+        }
+
+        historyList.innerHTML = histData.history.slice(0, 5).map(item => {
+          const d = item.actionDetails || {};
+          const dt = new Date(item.timestamp).toLocaleString();
+          return `
+            <div class="p-3.5 bg-[#140e06]/80 border border-amber-500/20 rounded-2xl flex items-center justify-between hover:border-orange-500/50 transition-colors">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 rounded-xl bg-orange-500/15 border border-orange-500/30 text-amber-400 flex items-center justify-center font-mono text-xs font-bold">
+                  Ae
+                </span>
+                <div>
+                  <span class="font-bold text-white">${d.scriptName || 'After Effects Tool'}</span>
+                  <span class="text-[11px] text-zinc-400 ml-2">&bull; ${dt}</span>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-orange-950/60 border border-orange-500/30 text-amber-300">
+                -${d.creditsDeducted || 1} Credit
+              </span>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

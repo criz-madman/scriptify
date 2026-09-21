@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — Text Animation Generator for After Effects</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
+  <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#100b06',
+              surface: '#181008',
+              border: 'rgba(245, 158, 11, 0.2)',
+              accent: '#f97316',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-orange-500 selection:text-white relative">
+
+  <!-- Top Light Beam -->
+  <div class="light-beam-glow"></div>
+
+  <!-- Universal Navbar -->
+  <div id="site-navbar"></div>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-8 flex flex-col justify-center relative z-10">
+    
+    <!-- Breadcrumb & Page Header -->
+    <div class="mb-6 flex items-center justify-between">
+      <div>
+        <div class="flex items-center space-x-2 text-xs text-zinc-400 mb-1.5 font-mono">
+          <a href="/dashboard.html" class="hover:text-amber-300 transition-colors">Tools Hub</a>
+          <span>/</span>
+          <span class="text-amber-400">Text Animator</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center space-x-3">
+          <span>Text Animation Generator</span>
+          <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/30 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+            AE Wiggle Rig
+          </span>
+        </h1>
+      </div>
+      
+      <div class="hidden sm:flex items-center space-x-2 text-xs text-zinc-400 font-mono">
+        <i class="fa-solid fa-bolt text-amber-400"></i>
+        <span>Cost: 1 Credit per generation</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- Two-Column Layout (Specifications 3.1 & 3.2) -->
+    <!-- ======================================================================= -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- ===================================================================== -->
+      <!-- LEFT COLUMN: Animation Parameters (col-span-5) -->
+      <!-- ===================================================================== -->
+      <section class="lg:col-span-5">
+        <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-2xl">
+          
+          <div class="flex items-center space-x-3 pb-4 mb-6 border-b border-amber-500/15">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/40 text-amber-400 flex items-center justify-center text-base font-bold shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+            <div>
+              <h2 class="text-sm font-bold text-white uppercase tracking-wider">Bounce & Rig Parameters</h2>
+              <p class="text-[11px] text-zinc-400">Configure separation, decay, and textIndex physics</p>
+            </div>
+          </div>
+
+          <!-- Parameter 1: Text Content Input -->
+          <div class="mb-4">
+            <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1.5">
+              Text Content
+            </label>
+            <input 
+              type="text" 
+              id="ta-text-input" 
+              value="Scriptify Kinetic Motion" 
+              placeholder="Enter text to animate..." 
+              class="w-full bg-[#130d07] border border-amber-500/25 rounded-2xl px-4 py-2.5 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-orange-500 transition-colors font-semibold shadow-inner"
+            >
+          </div>
+
+          <!-- Parameter 2: Separation Selector (Characters, Words, Lines) -->
+          <div class="mb-4">
+            <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+              <span>Separation Selector (Based On)</span>
+              <span class="text-[10px] font-mono text-amber-400 bg-orange-950/60 px-2 py-0.5 rounded border border-orange-500/30">textIndex</span>
+            </label>
+            <div class="grid grid-cols-3 gap-1.5 p-1 bg-[#120c06] rounded-2xl border border-amber-500/25">
+              <button 
+                type="button" 
+                data-sep="characters" 
+                class="ta-sep-btn py-2 text-xs font-bold rounded-xl transition-all bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-sm flex items-center justify-center space-x-1"
+              >
+                <i class="fa-solid fa-font text-[10px]"></i>
+                <span>Characters</span>
+              </button>
+              <button 
+                type="button" 
+                data-sep="words" 
+                class="ta-sep-btn py-2 text-xs font-semibold rounded-xl text-zinc-400 hover:text-white transition-all flex items-center justify-center space-x-1"
+              >
+                <i class="fa-solid fa-align-left text-[10px]"></i>
+                <span>Words</span>
+              </button>
+              <button 
+                type="button" 
+                data-sep="lines" 
+                class="ta-sep-btn py-2 text-xs font-semibold rounded-xl text-zinc-400 hover:text-white transition-all flex items-center justify-center space-x-1"
+              >
+                <i class="fa-solid fa-bars-staggered text-[10px]"></i>
+                <span>Lines</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Parameter 3: Animated Property (12 AE Properties) -->
+          <div class="mb-4">
+            <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+              <span>Target Property</span>
+              <span class="text-[10px] font-mono text-amber-400 bg-orange-950/60 px-2 py-0.5 rounded border border-orange-500/30">12 AE Properties</span>
+            </label>
+            <select 
+              id="ta-prop-select" 
+              class="w-full bg-[#130d07] border border-amber-500/25 rounded-2xl px-3.5 py-2 text-xs text-zinc-200 focus:outline-none focus:border-orange-500"
+            >
+              <option value="position">Position (Vertical Y Bounce)</option>
+              <option value="scale">Scale (Pop Overshoot Bounce)</option>
+              <option value="skew">Skew (Dynamic Slant Shear)</option>
+              <option value="rotation">Rotation (Z-Tilt Wobble)</option>
+              <option value="opacity">Opacity (Fade In Ripple)</option>
+              <option value="fillColor">Fill Color (Amber Glow Shift)</option>
+              <option value="strokeColor">Stroke Color (Outline Tint Wave)</option>
+              <option value="strokeWidth">Stroke Width (Pulsing Outline)</option>
+              <option value="tracking">Tracking (Letter Spread & Snap)</option>
+              <option value="lineSpacing">Line Spacing (Line Separation)</option>
+              <option value="characterOffset">Character Offset (Matrix Scramble)</option>
+              <option value="blur">Blur (Gaussian Dissolve to Sharp)</option>
+            </select>
+          </div>
+
+          <!-- Parameter Mode: Preset Physics vs Custom Expression Studio -->
+          <div class="mb-4 bg-[#140e07]/90 p-3.5 rounded-2xl border border-amber-500/25 shadow-inner">
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-bold text-zinc-200">
+                Expression Engine
+              </label>
+              <div class="flex items-center space-x-1 p-0.5 bg-[#0e0904] rounded-xl border border-amber-500/20">
+                <button 
+                  type="button" 
+                  id="ta-mode-preset-btn"
+                  class="px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-sm"
+                >
+                  Preset Physics
+                </button>
+                <button 
+                  type="button" 
+                  id="ta-mode-custom-btn"
+                  class="px-2.5 py-1 text-[11px] font-semibold rounded-lg transition-all text-zinc-400 hover:text-white"
+                >
+                  Custom Studio
+                </button>
+              </div>
+            </div>
+
+            <!-- Custom Expression Studio Container (Toggled) -->
+            <div id="ta-custom-expr-container" class="hidden mt-3 space-y-2.5 pt-2 border-t border-amber-500/15">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-amber-300">Quick Templates:</span>
+                <div class="flex flex-wrap gap-1">
+                  <button type="button" class="ta-template-btn text-[10px] px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700/60 transition-colors" data-template="bounce">Bounce</button>
+                  <button type="button" class="ta-template-btn text-[10px] px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700/60 transition-colors" data-template="elastic">Elastic</button>
+                  <button type="button" class="ta-template-btn text-[10px] px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700/60 transition-colors" data-template="cascade">Cascade</button>
+                  <button type="button" class="ta-template-btn text-[10px] px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700/60 transition-colors" data-template="jitter">Jitter</button>
+                </div>
+              </div>
+
+              <textarea 
+                id="ta-custom-expr-input" 
+                rows="4" 
+                placeholder="Enter custom expression body (use variables: freq, decay, delay, amp, textIndex, time, inPoint)..."
+                class="w-full bg-[#0c0803] border border-amber-500/30 rounded-xl p-2.5 font-mono text-[11px] text-amber-200 placeholder-zinc-600 focus:outline-none focus:border-orange-500 leading-relaxed resize-y"
+              >var myDelay = (textIndex - 1) * delay;
+var t = time - inPoint - myDelay;
+if (t < 0) { 0; } else { (Math.sin(t * freq * Math.PI * 2) / Math.exp(t * decay)) * 100; }</textarea>
+
+              <div class="flex items-center justify-between text-[10px] text-zinc-400 font-mono">
+                <span>Variables: <code class="text-amber-400 font-bold">freq</code>, <code class="text-amber-400 font-bold">decay</code>, <code class="text-amber-400 font-bold">delay</code>, <code class="text-amber-400 font-bold">amp</code></span>
+                <span class="text-emerald-400 flex items-center"><i class="fa-solid fa-bolt text-[9px] mr-1"></i>Live Tuner</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parameter 4: Frequency (Speed in Hz) -->
+          <div class="mb-3.5 bg-[#140e07]/80 p-3.5 rounded-2xl border border-amber-500/20 shadow-inner">
+            <div class="flex items-center justify-between mb-2">
+              <label for="ta-freq-slider" class="text-xs font-bold text-zinc-200">
+                Frequency (Speed)
+              </label>
+              <span id="ta-freq-val" class="text-xs font-mono font-bold text-amber-300 bg-orange-950/70 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+                3.0 Hz
+              </span>
+            </div>
+            <input 
+              type="range" 
+              id="ta-freq-slider" 
+              min="0.5" 
+              max="10" 
+              step="0.1" 
+              value="3.0" 
+              class="w-full accent-orange-500 cursor-pointer h-1.5 bg-[#26170b] rounded-lg appearance-none"
+            >
+            <div class="flex justify-between text-[10px] font-mono text-zinc-400 mt-1.5">
+              <span>0.5 Hz (Slow Bounce)</span>
+              <span>10.0 Hz (Rapid Jitter)</span>
+            </div>
+          </div>
+
+          <!-- Parameter 5: Decay (Damping / Friction) -->
+          <div class="mb-3.5 bg-[#140e07]/80 p-3.5 rounded-2xl border border-amber-500/20 shadow-inner">
+            <div class="flex items-center justify-between mb-2">
+              <label for="ta-decay-slider" class="text-xs font-bold text-zinc-200">
+                Decay (Friction Damping)
+              </label>
+              <span id="ta-decay-val" class="text-xs font-mono font-bold text-amber-300 bg-orange-950/70 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+                4.5
+              </span>
+            </div>
+            <input 
+              type="range" 
+              id="ta-decay-slider" 
+              min="1.0" 
+              max="10.0" 
+              step="0.1" 
+              value="4.5" 
+              class="w-full accent-orange-500 cursor-pointer h-1.5 bg-[#26170b] rounded-lg appearance-none"
+            >
+            <div class="flex justify-between text-[10px] font-mono text-zinc-400 mt-1.5">
+              <span>1.0 (Bouncy / Long Tail)</span>
+              <span>10.0 (Snappy / Dry)</span>
+            </div>
+          </div>
+
+          <!-- Parameter 6: Stagger Delay per Unit -->
+          <div class="mb-3.5 bg-[#140e07]/80 p-3.5 rounded-2xl border border-amber-500/20 shadow-inner">
+            <div class="flex items-center justify-between mb-2">
+              <label for="ta-delay-slider" class="text-xs font-bold text-zinc-200">
+                Stagger Delay (Per Character / Word)
+              </label>
+              <span id="ta-delay-val" class="text-xs font-mono font-bold text-amber-300 bg-orange-950/70 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+                0.08 s
+              </span>
+            </div>
+            <input 
+              type="range" 
+              id="ta-delay-slider" 
+              min="0.01" 
+              max="0.30" 
+              step="0.01" 
+              value="0.08" 
+              class="w-full accent-orange-500 cursor-pointer h-1.5 bg-[#26170b] rounded-lg appearance-none"
+            >
+            <div class="flex justify-between text-[10px] font-mono text-zinc-400 mt-1.5">
+              <span>0.01s (Simultaneous)</span>
+              <span>0.30s (Extended Ripple)</span>
+            </div>
+          </div>
+
+          <!-- Parameter 7: Amplitude (Overshoot Amount) -->
+          <div class="mb-4 bg-[#140e07]/80 p-3.5 rounded-2xl border border-amber-500/20 shadow-inner">
+            <div class="flex items-center justify-between mb-2">
+              <label for="ta-amp-slider" class="text-xs font-bold text-zinc-200">
+                Bounce Amplitude
+              </label>
+              <span id="ta-amp-val" class="text-xs font-mono font-bold text-amber-300 bg-orange-950/70 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+                60 px
+              </span>
+            </div>
+            <input 
+              type="range" 
+              id="ta-amp-slider" 
+              min="10" 
+              max="150" 
+              step="5" 
+              value="60" 
+              class="w-full accent-orange-500 cursor-pointer h-1.5 bg-[#26170b] rounded-lg appearance-none"
+            >
+            <div class="flex justify-between text-[10px] font-mono text-zinc-400 mt-1.5">
+              <span>10 px (Subtle)</span>
+              <span>150 px (Dramatic)</span>
+            </div>
+          </div>
+
+          <!-- Parameter 8: Include Null Object Generation Checkbox -->
+          <div class="mb-5 bg-[#140e07]/60 p-3.5 rounded-2xl border border-amber-500/20 flex items-start space-x-3">
+            <input 
+              type="checkbox" 
+              id="ta-null-check" 
+              checked 
+              class="mt-0.5 h-4 w-4 rounded-md bg-[#0a0603] border-amber-500/40 text-orange-600 focus:ring-0 cursor-pointer accent-orange-500"
+            >
+            <label for="ta-null-check" class="text-xs text-zinc-300 cursor-pointer select-none">
+              <span class="font-bold block text-white">Include Master Null Controller</span>
+              <span class="text-[11px] text-zinc-400">Adds live Expression Slider Controls (Frequency, Decay, Delay, Amplitude) on a controller null.</span>
+            </label>
+          </div>
+
+          <!-- Action Buttons -->
+          <button 
+            id="ta-btn-download" 
+            class="btn-amber-pill w-full py-3.5 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2.5 shadow-xl shadow-orange-500/30"
+          >
+            <i class="fa-solid fa-download"></i>
+            <span>Download .jsx Script</span>
+          </button>
+
+          <!-- Secondary Actions -->
+          <div class="grid grid-cols-2 gap-2 mt-3">
+            <button 
+              id="ta-btn-copy-expr" 
+              class="btn-amber-pill py-2.5 px-3 text-xs font-bold flex items-center justify-center space-x-1.5 bg-gradient-to-r from-amber-600 to-orange-600 text-white"
+            >
+              <i class="fa-regular fa-copy"></i>
+              <span>Copy Expression</span>
+            </button>
+            <button 
+              id="ta-btn-copy" 
+              class="btn-amber-outline py-2.5 px-3 text-zinc-200 text-xs font-semibold flex items-center justify-center space-x-1.5"
+            >
+              <i class="fa-solid fa-code text-amber-400"></i>
+              <span>Copy .jsx File</span>
+            </button>
+          </div>
+
+          <button 
+            id="ta-btn-guide" 
+            onclick="document.getElementById('ae-installation-guide').scrollIntoView({ behavior: 'smooth' })"
+            class="w-full mt-2.5 py-2.5 px-3 rounded-full bg-[#181108] hover:bg-[#22160a] border border-amber-500/30 hover:border-amber-400 text-amber-300 text-xs font-bold flex items-center justify-center space-x-2 transition-all shadow-sm"
+          >
+            <i class="fa-solid fa-book-open text-amber-400"></i>
+            <span>How to Apply / Installation Guide</span>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- RIGHT COLUMN: Live Web Preview & Ready Expression (col-span-7)       -->
+      <!-- ===================================================================== -->
+      <section class="lg:col-span-7 flex flex-col space-y-4">
+        
+        <!-- Viewport Preview Card -->
+        <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-2xl flex flex-col">
+          
+          <!-- Header Bar of Preview Window -->
+          <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-amber-500/15">
+            <div class="flex items-center space-x-2">
+              <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+              <span class="text-xs font-mono font-semibold text-zinc-400 ml-2">Composition Viewport &bull; 1080p (24 fps)</span>
+            </div>
+            <span id="ta-mode-badge" class="text-[10px] font-mono text-amber-400 bg-orange-950/60 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+              Characters Based
+            </span>
+          </div>
+
+          <!-- Canvas Container for Real-Time Cascading Bounce Text -->
+          <div class="bg-[#090603] rounded-2xl border border-amber-500/20 relative flex items-center justify-center overflow-hidden p-8 min-h-[220px] shadow-inner">
+            
+            <!-- Center Guide Lines -->
+            <div class="absolute inset-0 pointer-events-none opacity-20">
+              <div class="w-full h-[1px] bg-orange-400 absolute top-1/2 -translate-y-1/2"></div>
+              <div class="h-full w-[1px] bg-orange-400 absolute left-1/2 -translate-x-1/2"></div>
+            </div>
+
+            <!-- Animated Target Text Element with Spans Container -->
+            <div 
+              id="ta-preview-target" 
+              class="text-2xl sm:text-4xl font-black text-white tracking-tight select-none z-10 will-change-transform text-center drop-shadow-[0_10px_35px_rgba(249,115,22,0.45)] flex flex-wrap justify-center items-center gap-x-2 gap-y-1"
+            >
+              <!-- Populated with animated spans by textAnimator.js -->
+            </div>
+
+          </div>
+
+          <!-- Status Subtext -->
+          <div class="pt-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-zinc-400 border-t border-amber-500/15 mt-4 gap-2">
+            <p id="ta-status-subtext" class="text-zinc-300">
+              Simulating <code class="font-mono text-amber-400 bg-[#160e05] px-2 py-0.5 rounded border border-amber-500/30">sin(t*freq)/exp(t*decay)</code> cascading by Characters
+            </p>
+            <span class="text-[11px] text-emerald-400 font-mono flex items-center">
+              <i class="fa-solid fa-circle text-[8px] mr-1.5 animate-pulse"></i>Real-time Physics
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Expression Code Box (Ready to Paste in After Effects) -->
+        <div class="glass-card rounded-3xl p-5 sm:p-6 border border-amber-500/20 shadow-xl space-y-3">
+          <div class="flex items-center justify-between pb-2.5 border-b border-amber-500/15">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-code text-amber-400 text-xs"></i>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">
+                Ready-to-Paste After Effects Expression
+              </h3>
+            </div>
+            <button 
+              id="ta-btn-copy-expr-box" 
+              class="px-3 py-1 rounded-full bg-[#181108] hover:bg-[#22160a] text-amber-300 hover:text-white border border-amber-500/30 text-[11px] font-mono font-bold transition-all flex items-center space-x-1.5"
+            >
+              <i class="fa-regular fa-copy"></i>
+              <span>Copy Expression</span>
+            </button>
+          </div>
+
+          <p class="text-[11px] text-zinc-400">
+            Paste directly into your Text Animator's <strong>Expression Selector &rarr; Amount</strong> (or target property expression):
+          </p>
+
+          <div class="bg-[#0b0703] border border-amber-500/20 rounded-2xl p-4 overflow-x-auto">
+            <pre class="font-mono text-xs text-amber-300 whitespace-pre leading-relaxed select-all"><code id="ta-expr-code-output">// Generating expression...</code></pre>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- VIDEO TUTORIAL & WORKFLOW REFERENCE SECTION (https://youtu.be/gPL0YoR6F4s) -->
+  <!-- ===================================================================== -->
+  <section class="max-w-7xl w-full mx-auto p-4 sm:p-6 pt-0 pb-8">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 border border-amber-500/20 shadow-2xl relative">
+      
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 mb-6 border-b border-amber-500/15">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600/20 to-orange-500/10 border border-red-500/30 text-red-400 flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center space-x-2">
+              <span>Text Bounce Expression Workflow & Video Reference</span>
+              <span class="badge-amber text-[10px]">Reference Tutorial</span>
+            </h2>
+            <p class="text-xs text-zinc-400">Master the After Effects cascading textIndex bounce expression physics</p>
+          </div>
+        </div>
+
+        <a 
+          href="https://youtu.be/gPL0YoR6F4s?si=LcegJIAvZOiFF5pX" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="btn-amber-outline px-4 py-1.5 text-xs font-bold flex items-center space-x-2"
+        >
+          <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
+          <span>Watch on YouTube &rarr;</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        
+        <!-- Embedded YouTube Player -->
+        <div class="lg:col-span-7">
+          <div class="aspect-video w-full rounded-2xl overflow-hidden border border-amber-500/30 shadow-[0_0_35px_rgba(249,115,22,0.15)] bg-black">
+            <iframe 
+              class="w-full h-full"
+              src="https://www.youtube.com/embed/gPL0YoR6F4s" 
+              title="After Effects Bounce Animation Tutorial & Workflow" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+
+        <!-- Workflow Breakdown Callouts -->
+        <div class="lg:col-span-5 space-y-3.5">
+          <div class="p-4 rounded-2xl bg-black/40 border border-amber-500/20">
+            <div class="flex items-center space-x-2 text-amber-300 font-bold text-xs mb-1.5">
+              <i class="fa-solid fa-arrow-down-1-9 text-amber-400"></i>
+              <span>1. The `textIndex` Stagger Principle</span>
+            </div>
+            <p class="text-[11px] text-zinc-300 leading-relaxed">
+              In After Effects, <code class="text-amber-300 font-mono">textIndex</code> assigns an incremental index (1, 2, 3...) to each character, word, or line. Multiplying <code class="text-amber-300 font-mono">(textIndex - 1) * delay</code> offsets the start time of the physics calculation across each unit.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-black/40 border border-amber-500/20">
+            <div class="flex items-center space-x-2 text-amber-300 font-bold text-xs mb-1.5">
+              <i class="fa-solid fa-wave-square text-orange-400"></i>
+              <span>2. Decaying Sine Wave Formula</span>
+            </div>
+            <p class="text-[11px] text-zinc-300 leading-relaxed font-mono text-[10px] bg-[#0d0904] p-2 rounded-xl border border-zinc-800">
+              Math.sin(t * freq * 2 * Math.PI) / Math.exp(t * decay)
+            </p>
+            <p class="text-[11px] text-zinc-400 mt-1.5 leading-relaxed">
+              Produces a physical harmonic spring that oscillates back and forth while smoothly decaying to zero rest state.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-black/40 border border-amber-500/20">
+            <div class="flex items-center space-x-2 text-amber-300 font-bold text-xs mb-1.5">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+              <span>3. Automatic Rigging in Scriptify</span>
+            </div>
+            <p class="text-[11px] text-zinc-300 leading-relaxed">
+              Scriptify automates this entire manual setup: click <strong>"Download .jsx Script"</strong> to automatically create the text layer, attach the animator with the chosen separation, and wire live sliders on a master controller.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- DEDICATED HOW TO APPLY / INSTALLATION GUIDE SECTION                   -->
+  <!-- ===================================================================== -->
+  <section id="ae-installation-guide" class="max-w-7xl w-full mx-auto p-4 sm:p-6 pt-0 pb-12">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 border border-amber-500/20 shadow-2xl relative">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 mb-6 border-b border-amber-500/15">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-circle-question"></i>
+          </div>
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center space-x-2">
+              <span>How to Apply & Install in Adobe After Effects</span>
+              <span class="badge-amber text-[10px]">Step-by-Step</span>
+            </h2>
+            <p class="text-xs text-zinc-400">Complete setup walkthrough for CEP extensions and ScriptUI panels on Windows & macOS</p>
+          </div>
+        </div>
+
+        <!-- OS Toggle Pills -->
+        <div class="flex items-center p-1 bg-black/60 rounded-full border border-amber-500/20">
+          <button id="guide-tab-win" onclick="switchGuideOS('win')" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-sm">
+            <i class="fa-brands fa-windows mr-1.5"></i>Windows
+          </button>
+          <button id="guide-tab-mac" onclick="switchGuideOS('mac')" class="px-4 py-1.5 rounded-full text-xs font-semibold text-zinc-400 hover:text-white transition-all">
+            <i class="fa-brands fa-apple mr-1.5"></i>macOS
+          </button>
+        </div>
+      </div>
+
+      <!-- Steps Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        
+        <!-- STEP 1: Allowing Unsigned Panels -->
+        <div class="p-5 rounded-2xl bg-black/40 border border-amber-500/20 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-xs flex items-center justify-center">01</span>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">Security Setup</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">Allow Unsigned Panels</h3>
+            <p class="text-xs text-zinc-300 leading-relaxed">
+              Enable Adobe PlayerDebugMode in system settings so After Effects loads custom panels:
+            </p>
+
+            <!-- Windows Steps -->
+            <div id="guide-step1-win" class="mt-3 space-y-2 text-xs text-zinc-300">
+              <ol class="list-decimal list-inside space-y-1.5 font-sans">
+                <li>Press <kbd class="px-1.5 py-0.5 bg-zinc-800 rounded font-mono text-[11px] text-amber-300 border border-zinc-700">Win + R</kbd>, type <code class="text-amber-400 font-mono">regedit</code>, and press Enter.</li>
+                <li>Navigate to registry key:
+                  <div class="p-2 mt-1 rounded bg-[#090603] border border-zinc-800 font-mono text-[11px] text-amber-300 select-all overflow-x-auto">
+                    HKEY_CURRENT_USER\Software\Adobe\CSXS.11
+                  </div>
+                </li>
+                <li>Right-click in right area &rarr; <strong>New</strong> &rarr; <strong>String Value</strong>.</li>
+                <li>Name it <code class="text-amber-400 font-mono">PlayerDebugMode</code> and set value to <code class="text-emerald-400 font-mono font-bold">1</code>.</li>
+                <li class="text-zinc-400 text-[11px]">(Repeat for <code class="text-zinc-300">CSXS.12</code> and <code class="text-zinc-300">CSXS.13</code> if they exist on your PC).</li>
+              </ol>
+            </div>
+
+            <!-- macOS Steps -->
+            <div id="guide-step1-mac" class="hidden mt-3 space-y-2 text-xs text-zinc-300">
+              <p class="text-xs text-zinc-300">Open Terminal and execute the following commands:</p>
+              <div class="p-2 rounded bg-[#090603] border border-zinc-800 font-mono text-[11px] text-amber-300 select-all overflow-x-auto space-y-1">
+                <div>defaults write com.adobe.CSXS.11 PlayerDebugMode 1</div>
+                <div>defaults write com.adobe.CSXS.12 PlayerDebugMode 1</div>
+                <div>defaults write com.adobe.CSXS.13 PlayerDebugMode 1</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Unzipping & Folder Placement -->
+        <div class="p-5 rounded-2xl bg-black/40 border border-amber-500/20 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-xs flex items-center justify-center">02</span>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Folder Placement</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">Unzip into Extensions Folder</h3>
+            <p class="text-xs text-zinc-300 leading-relaxed">
+              Copy your panel files into Adobe's central extensions directory:
+            </p>
+
+            <!-- Windows Path -->
+            <div id="guide-step2-win" class="mt-3 space-y-2.5 text-xs text-zinc-300">
+              <p class="text-[11px] text-zinc-400 font-semibold">CEP Extensions Path:</p>
+              <div class="p-2 rounded bg-[#090603] border border-zinc-800 font-mono text-[11px] text-amber-300 select-all break-all">
+                C:\Users\&lt;you&gt;\AppData\Roaming\Adobe\CEP\extensions\
+              </div>
+
+              <!-- Critical Path Callout -->
+              <div class="p-2.5 rounded-xl bg-orange-950/40 border border-orange-500/30 text-[11px] text-zinc-300">
+                <span class="text-orange-400 font-bold block mb-1">
+                  <i class="fa-solid fa-triangle-exclamation mr-1"></i>Path Ending Rule:
+                </span>
+                Ensure files are strictly <strong>one folder deep (no nested subfolders)</strong>:
+                <div class="font-mono text-[10px] text-amber-300 mt-1">
+                  ...extensions\QuickAccess\CSXS\manifest.xml ✓
+                </div>
+              </div>
+
+              <div class="pt-1 text-zinc-400 text-[11px]">
+                <strong>For ScriptUI (.jsx):</strong> Put in <code class="text-amber-300">Support Files\Scripts\ScriptUI Panels\</code>
+              </div>
+            </div>
+
+            <!-- macOS Path -->
+            <div id="guide-step2-mac" class="hidden mt-3 space-y-2.5 text-xs text-zinc-300">
+              <p class="text-[11px] text-zinc-400 font-semibold">CEP Extensions Path:</p>
+              <div class="p-2 rounded bg-[#090603] border border-zinc-800 font-mono text-[11px] text-amber-300 select-all break-all">
+                ~/Library/Application Support/Adobe/CEP/extensions/
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-orange-950/40 border border-orange-500/30 text-[11px] text-zinc-300">
+                <span class="text-orange-400 font-bold block mb-1">
+                  <i class="fa-solid fa-triangle-exclamation mr-1"></i>Path Ending Rule:
+                </span>
+                Ensure one folder deep (e.g. <code class="text-amber-300">.../extensions/QuickAccess/CSXS/manifest.xml</code>).
+              </div>
+
+              <div class="pt-1 text-zinc-400 text-[11px]">
+                <strong>For ScriptUI (.jsx):</strong> Put in <code class="text-amber-300">/Applications/Adobe After Effects &lt;Ver&gt;/Scripts/ScriptUI Panels/</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Opening in After Effects -->
+        <div class="p-5 rounded-2xl bg-black/40 border border-amber-500/20 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-xs flex items-center justify-center">03</span>
+              <span class="text-[10px] uppercase font-mono tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Launch in AE</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">Open in After Effects</h3>
+            <p class="text-xs text-zinc-300 leading-relaxed">
+              Launch After Effects to dock and execute your newly built panel:
+            </p>
+
+            <div class="mt-3 space-y-3 text-xs text-zinc-300">
+              <div class="flex items-start space-x-2">
+                <span class="w-5 h-5 rounded-full bg-zinc-800 text-amber-400 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                <span><strong>Restart After Effects</strong> completely to reload the extensions manifest cache.</span>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="w-5 h-5 rounded-full bg-zinc-800 text-amber-400 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <div>
+                  <span>For CEP Panels: Navigate to top menu:</span>
+                  <div class="p-2 mt-1 rounded bg-[#090603] border border-zinc-800 font-mono text-[11px] text-amber-300">
+                    Window &rarr; Extensions &rarr; Quick Access
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="w-5 h-5 rounded-full bg-zinc-800 text-amber-400 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                <span>For ScriptUI Panels (.jsx): Go to <strong>Window</strong> and click your script name at the bottom of the list. Dock anywhere!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    function switchGuideOS(os) {
+      const btnWin = document.getElementById('guide-tab-win');
+      const btnMac = document.getElementById('guide-tab-mac');
+      const step1Win = document.getElementById('guide-step1-win');
+      const step1Mac = document.getElementById('guide-step1-mac');
+      const step2Win = document.getElementById('guide-step2-win');
+      const step2Mac = document.getElementById('guide-step2-mac');
+
+      if (os === 'win') {
+        btnWin.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-sm';
+        btnMac.className = 'px-4 py-1.5 rounded-full text-xs font-semibold text-zinc-400 hover:text-white transition-all';
+        step1Win.classList.remove('hidden');
+        step1Mac.classList.add('hidden');
+        step2Win.classList.remove('hidden');
+        step2Mac.classList.add('hidden');
+      } else {
+        btnMac.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-sm';
+        btnWin.className = 'px-4 py-1.5 rounded-full text-xs font-semibold text-zinc-400 hover:text-white transition-all';
+        step1Win.classList.add('hidden');
+        step1Mac.classList.remove('hidden');
+        step2Win.classList.add('hidden');
+        step2Mac.classList.remove('hidden');
+      }
+    }
+  </script>
+
+  <!-- Code Inspection Modal -->
+  <div id="ta-code-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-backdrop p-4">
+    <div class="glass-card rounded-3xl max-w-2xl w-full p-6 shadow-2xl relative flex flex-col max-h-[80vh]">
+      <div class="flex items-center justify-between pb-3 mb-3 border-b border-amber-500/20">
+        <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+          <i class="fa-solid fa-code text-amber-400"></i>
+          <span>ExtendScript Code Preview (.jsx)</span>
+        </h3>
+        <button onclick="document.getElementById('ta-code-modal').classList.add('hidden')" class="text-zinc-500 hover:text-zinc-200">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="flex-1 bg-[#0b0703] border border-amber-500/20 rounded-2xl p-4 overflow-auto mb-4">
+        <pre class="font-mono text-xs text-zinc-300 whitespace-pre"><code id="ta-code-output"></code></pre>
+      </div>
+      <div class="flex justify-end">
+        <button onclick="document.getElementById('ta-code-modal').classList.add('hidden')" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/textAnimator.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Navbar.mount('text-animator');
+      TextAnimator.init();
+    });
+  </script>
+</body>
+</html>

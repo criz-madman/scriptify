@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — Adobe After Effects ExtendScript & ScriptUI Platform</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
+  <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#100b06',
+              surface: '#181008',
+              border: 'rgba(245, 158, 11, 0.2)',
+              accent: '#f97316',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-orange-500 selection:text-white relative">
+
+  <!-- Top Radiant Light Beam Effect -->
+  <div class="light-beam-glow"></div>
+
+  <!-- Universal Navbar -->
+  <div id="site-navbar"></div>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden py-20 sm:py-28 px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto text-center relative z-10 space-y-7">
+      
+      <!-- Feature Pill -->
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-amber-300 text-xs font-mono shadow-[0_0_20px_rgba(249,115,22,0.15)]">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span>Adobe After Effects CC 2020 - 2026 Compatible</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-[1.12]">
+        Automate After Effects <br class="hidden sm:inline">
+        <span class="text-gradient-amber">
+          Without Writing Any Code
+        </span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="max-w-2xl mx-auto text-sm sm:text-base text-zinc-300 leading-relaxed font-normal">
+        Scriptify generates production-ready ExtendScript (<code class="font-mono text-amber-400 bg-[#160d05] px-1.5 py-0.5 rounded border border-amber-500/30">.jsx</code>) scripts and dockable ScriptUI panels. Assemble custom toolbars, kinetic typography rigs, and timeline automations in seconds.
+      </p>
+
+      <!-- Prominent Call-to-Action Pill Buttons -->
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a 
+          href="/panel-builder.html" 
+          class="btn-amber-pill w-full sm:w-auto px-8 py-4 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2.5"
+        >
+          <i class="fa-solid fa-shapes text-sm"></i>
+          <span>Launch UI Panel Builder</span>
+        </a>
+
+        <a 
+          href="/text-animator.html" 
+          class="btn-amber-outline w-full sm:w-auto px-8 py-4 text-amber-300 hover:text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2.5"
+        >
+          <i class="fa-solid fa-font text-sm"></i>
+          <span>Text Animation Generator</span>
+        </a>
+
+        <a 
+          href="/login.html" 
+          class="btn-amber-outline w-full sm:w-auto px-7 py-4 text-zinc-300 hover:text-white font-semibold text-xs flex items-center justify-center space-x-2"
+        >
+          <i class="fa-regular fa-user text-amber-400"></i>
+          <span>Sign In (OTP)</span>
+        </a>
+      </div>
+
+      <!-- Trust Metrics -->
+      <div class="pt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-zinc-400 font-mono">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-check text-emerald-400"></i>
+          <span>ES3 Syntax Validated</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-rotate-left text-orange-400"></i>
+          <span>Single-Step Undo Groups</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-shield-halved text-amber-400"></i>
+          <span>PostgreSQL 3NF Wallet</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Feature Grid -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="text-center mb-14">
+      <h2 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono">Platform Capabilities</h2>
+      <h3 class="text-2xl sm:text-4xl font-black text-white mt-1.5">Four Specialized Motion Studios</h3>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+      
+      <!-- Feature 1: UI Panel Builder -->
+      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+        <div>
+          <div class="w-13 h-13 w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+            <i class="fa-solid fa-shapes"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">3-Section UI Panel Builder</h4>
+          <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
+            Pick from 28+ categorized actions (<span class="text-amber-200">Null, Solids, Anchor Centering, Aligning, Trimming, Easing, Sequencing</span>), reorder them dynamically with drag-and-drop or arrows, switch button sizes (<span class="text-amber-200">Compact, Regular, Wide</span>), and export a dockable After Effects ScriptUI panel.
+          </p>
+        </div>
+        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+          <a href="/panel-builder.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+            <span>Explore Panel Builder</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+          <span class="text-[10px] font-mono text-zinc-400">28 Tools Included</span>
+        </div>
+      </div>
+
+      <!-- Feature 2: Text Animation Generator -->
+      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+            <i class="fa-solid fa-font"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">Kinetic Text Animation Generator</h4>
+          <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
+            Interactive two-column studio featuring real-time harmonic wiggle physics simulation. Configure Frequency (Speed) and Amplitude (Distance) sliders with live web feedback, toggle Null Object Controller generation, and export production ExtendScript.
+          </p>
+        </div>
+        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+          <a href="/text-animator.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+            <span>Open Text Animator</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+          <span class="text-[10px] font-mono text-zinc-400">Live Physics Engine</span>
+        </div>
+      </div>
+
+      <!-- Feature 3: Preset Studio -->
+      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-amber-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">Preset & Code Sanitizer Studio</h4>
+          <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
+            Battle-tested automation presets: Layer Time Stagger, Auto-Null Parent Rigging, Batch Render Queue Item Exporter, and Expression Slider controllers. Automatically sanitizes modern ES6 syntax for After Effects.
+          </p>
+        </div>
+        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+          <a href="/presets.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+            <span>Open Preset Studio</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+          <span class="text-[10px] font-mono text-zinc-400">ES3 Syntax Engine</span>
+        </div>
+      </div>
+
+      <!-- Feature 4: Credit Wallet Engine -->
+      <div class="glass-card glass-card-hover rounded-3xl p-8 flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(249,115,22,0.25)]">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">Normalized 3NF Credit Wallet</h4>
+          <p class="text-xs text-zinc-300 mt-2.5 leading-relaxed">
+            Strict PostgreSQL 3NF database schema (<code class="font-mono text-amber-300">Users</code>, <code class="font-mono text-amber-300">CreditWallet</code>, <code class="font-mono text-amber-300">HistoryLog</code>, <code class="font-mono text-amber-300">Transactions</code>) utilizing row-level locking (<code class="font-mono text-amber-400">SELECT ... FOR UPDATE</code>) to guarantee atomic, zero-race-condition transactions.
+          </p>
+        </div>
+        <div class="mt-8 pt-5 border-t border-amber-500/15 flex items-center justify-between">
+          <a href="/wallet.html" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+            <span>Manage Wallet & Credits</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+          <span class="text-[10px] font-mono text-zinc-400">Atomic Row Locks</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-amber-500/20 bg-[#090603]/90 py-10 px-4 text-center text-xs text-zinc-400">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <img src="/images/logo.png" alt="Scriptify" class="h-6 w-auto object-contain">
+        <span>&bull;</span>
+        <span>Adobe After Effects ExtendScript Automation</span>
+      </div>
+      <div class="flex items-center space-x-5 text-zinc-300 font-medium">
+        <a href="/panel-builder.html" class="hover:text-amber-300 transition-colors">Panel Builder</a>
+        <a href="/text-animator.html" class="hover:text-amber-300 transition-colors">Text Animator</a>
+        <a href="/presets.html" class="hover:text-amber-300 transition-colors">Marketplace</a>
+        <a href="/wallet.html" class="hover:text-amber-300 transition-colors">Pricing & Wallet</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Navbar.mount('home');
+    });
+  </script>
+</body>
+</html>

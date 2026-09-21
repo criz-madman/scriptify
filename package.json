@@ -1,0 +1,11 @@
+{
+  "name": "scriptify-workspace",
+  "version": "1.0.0",
+  "description": "Scriptify - After Effects ExtendScript and ScriptUI Platform",
+  "scripts": {
+    "start": "node backend/src/server.js",
+    "dev": "node --watch backend/src/server.js",
+    "db:init": "node backend/src/models/initDb.js",
+    "backend:install": "cd backend && npm install"
+  }
+}
