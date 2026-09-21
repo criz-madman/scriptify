@@ -259,23 +259,28 @@
           const amount = parseFloat(card.getAttribute('data-topup-amount'));
           const method = card.getAttribute('data-topup-method') || 'stripe_checkout';
 
-          try {
-            statusText.textContent = 'Processing transaction...';
-            statusText.className = 'text-center text-xs text-amber-400 mt-3 font-semibold';
+          // If it's a free test grant, process immediately
+          if (amount === 0) {
+            try {
+              statusText.textContent = 'Processing free grant...';
+              statusText.className = 'text-center text-xs text-amber-400 mt-3 font-semibold';
 
-            const res = await API.post('/api/wallet/topup', {
-              amountPaid: amount,
-              creditPoints: credits,
-              paymentMethod: method
-            });
+              const res = await API.post('/api/wallet/topup', {
+                amountPaid: amount,
+                creditPoints: credits,
+                paymentMethod: method
+              });
 
-            statusText.textContent = `✓ Successfully added ${credits} credits to your account! (Tx: ${res.transactionId.substring(0, 8)})`;
-            statusText.className = 'text-center text-xs text-emerald-400 mt-3 font-semibold';
-
-            await refreshWallet();
-          } catch (err) {
-            statusText.textContent = 'Transaction failed: ' + err.message;
-            statusText.className = 'text-center text-xs text-rose-400 mt-3';
+              statusText.textContent = `✓ Successfully added ${credits} free test credits! (Tx: ${res.transactionId.substring(0, 8)})`;
+              statusText.className = 'text-center text-xs text-emerald-400 mt-3 font-semibold';
+              await refreshWallet();
+            } catch (err) {
+              statusText.textContent = 'Grant failed: ' + err.message;
+              statusText.className = 'text-center text-xs text-rose-400 mt-3';
+            }
+          } else {
+            // Paid packages redirect to the checkout flow
+            window.location.href = `/checkout?credits=${credits}&amount=${amount}&method=${method}`;
           }
         });
       });

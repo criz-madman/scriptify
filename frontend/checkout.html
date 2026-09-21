@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — Secure Checkout</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
+  <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#0f0c08',
+              surface: '#18130c',
+              border: '#2a2015',
+              accent: '#f59e0b',
+              glow: '#f97316'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Card specific styling */
+    .card-input {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: #f4f4f5;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      transition: all 0.2s;
+    }
+    .card-input:focus {
+      outline: none;
+      border-color: rgba(245, 158, 11, 0.8);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1);
+    }
+    .card-input::placeholder {
+      color: #52525b;
+    }
+  </style>
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased relative selection:bg-amber-500 selection:text-black overflow-x-hidden">
+
+  <!-- Atmospheric amber glow & top radiant beam -->
+  <div class="light-beam-glow pointer-events-none"></div>
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-amber-500/10 via-orange-600/5 to-transparent blur-3xl pointer-events-none -z-10"></div>
+
+  <!-- Universal Navbar -->
+  <div id="site-navbar"></div>
+
+  <!-- Checkout Container -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-8 flex items-center justify-center min-h-[calc(100vh-80px)]">
+    
+    <div class="w-full max-w-lg">
+      <!-- Order Summary Card -->
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-zinc-800/80 shadow-2xl mb-6 relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 text-amber-500/5 text-9xl">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        
+        <h1 class="text-xl font-bold text-white mb-1">Order Summary</h1>
+        <p class="text-xs text-zinc-400 mb-6 border-b border-zinc-800/80 pb-4">Secure payment via Scriptify FakePay™</p>
+        
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-zinc-300 font-medium">Credit Package</span>
+          <span id="summary-credits" class="font-bold text-amber-400">...</span>
+        </div>
+        <div class="flex justify-between items-center text-xs text-zinc-500 mb-4 border-b border-zinc-800/80 pb-4">
+          <span>Type</span>
+          <span class="font-mono">Generation Credits</span>
+        </div>
+        
+        <div class="flex justify-between items-center text-lg font-black">
+          <span class="text-white">Total Due</span>
+          <span id="summary-amount" class="text-emerald-400">...</span>
+        </div>
+      </div>
+
+      <!-- Payment Form Card -->
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-zinc-800/80 shadow-2xl relative">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-200 mb-6 flex items-center space-x-2">
+          <i class="fa-regular fa-credit-card text-amber-400"></i>
+          <span>Payment Details</span>
+        </h2>
+
+        <form id="checkout-form" class="space-y-4">
+          <!-- Name on Card -->
+          <div>
+            <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1.5 ml-1">Name on Card</label>
+            <input type="text" required id="card-name" class="card-input" placeholder="John Doe">
+          </div>
+
+          <!-- Card Number -->
+          <div>
+            <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1.5 ml-1">Card Number</label>
+            <div class="relative">
+              <i class="fa-brands fa-cc-visa absolute right-4 top-1/2 -translate-y-1/2 text-xl text-zinc-500"></i>
+              <input type="text" required id="card-number" class="card-input font-mono" placeholder="0000 0000 0000 0000" maxlength="19">
+            </div>
+          </div>
+
+          <!-- Expiry & CVV -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1.5 ml-1">Expiry Date</label>
+              <input type="text" required id="card-expiry" class="card-input font-mono" placeholder="MM/YY" maxlength="5">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1.5 ml-1">Security Code</label>
+              <input type="text" required id="card-cvv" class="card-input font-mono" placeholder="CVV" maxlength="4">
+            </div>
+          </div>
+
+          <!-- Error/Status Display -->
+          <div id="payment-status" class="hidden text-center text-xs font-semibold py-2 rounded-lg mt-2"></div>
+
+          <!-- Submit Button -->
+          <div class="pt-4 mt-2 border-t border-zinc-800/80">
+            <button type="submit" id="pay-btn" class="btn-amber-pill w-full py-3.5 text-sm font-bold shadow-lg shadow-amber-500/20 flex items-center justify-center space-x-2 transition-all">
+              <i class="fa-solid fa-lock text-xs opacity-70"></i>
+              <span id="pay-btn-text">Pay Securely</span>
+              <i id="pay-spinner" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+            </button>
+            <p class="text-center text-[10px] text-zinc-500 mt-3">
+              <i class="fa-solid fa-shield-halved mr-1 text-emerald-500"></i> End-to-end encrypted simulated transaction.
+            </p>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Navbar.mount('wallet');
+
+      if (!API.isAuthenticated()) {
+        window.location.href = '/login?redirect=/wallet';
+        return;
+      }
+
+      // 1. Parse URL Parameters
+      const params = new URLSearchParams(window.location.search);
+      const credits = parseInt(params.get('credits'), 10);
+      const amount = parseFloat(params.get('amount'));
+      const method = params.get('method') || 'fake_card_checkout';
+
+      // 2. Validate params (redirect back if missing/invalid)
+      if (isNaN(credits) || isNaN(amount)) {
+        window.location.href = '/wallet';
+        return;
+      }
+
+      // 3. Render Summary
+      document.getElementById('summary-credits').textContent = `${credits} Credits`;
+      document.getElementById('summary-amount').textContent = `$${amount.toFixed(2)}`;
+      document.getElementById('pay-btn-text').textContent = `Pay $${amount.toFixed(2)}`;
+
+      // 4. Form Formatting Magic
+      const cardNumberInput = document.getElementById('card-number');
+      cardNumberInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\\D/g, '');
+        if (value.length > 16) value = value.slice(0, 16);
+        const parts = [];
+        for (let i = 0; i < value.length; i += 4) {
+          parts.push(value.slice(i, i + 4));
+        }
+        e.target.value = parts.join(' ');
+      });
+
+      const expiryInput = document.getElementById('card-expiry');
+      expiryInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\\D/g, '');
+        if (value.length >= 2) {
+          value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        }
+        e.target.value = value;
+      });
+
+      const cvvInput = document.getElementById('card-cvv');
+      cvvInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\\D/g, '').slice(0, 4);
+      });
+
+      // 5. Form Submission (The Fake Payment flow)
+      const form = document.getElementById('checkout-form');
+      const payBtn = document.getElementById('pay-btn');
+      const payBtnText = document.getElementById('pay-btn-text');
+      const paySpinner = document.getElementById('pay-spinner');
+      const statusDiv = document.getElementById('payment-status');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // UI Loading State
+        payBtn.disabled = true;
+        payBtn.classList.add('opacity-70', 'cursor-not-allowed');
+        payBtnText.textContent = 'Processing...';
+        paySpinner.classList.remove('hidden');
+        statusDiv.classList.add('hidden');
+
+        try {
+          // Simulate network delay for realism (1.5 seconds)
+          await new Promise(r => setTimeout(r, 1500));
+
+          // Send actual transaction to backend
+          const res = await API.post('/api/wallet/topup', {
+            amountPaid: amount,
+            creditPoints: credits,
+            paymentMethod: method
+          });
+
+          // Show success
+          statusDiv.textContent = 'Payment successful! Redirecting...';
+          statusDiv.className = 'block text-center text-xs font-semibold py-2 rounded-lg mt-4 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30';
+          
+          // Redirect to wallet after brief success message
+          setTimeout(() => {
+            window.location.href = '/wallet';
+          }, 1500);
+
+        } catch (err) {
+          // Reset UI on failure
+          payBtn.disabled = false;
+          payBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          payBtnText.textContent = `Pay $${amount.toFixed(2)}`;
+          paySpinner.classList.add('hidden');
+          
+          // Show error
+          statusDiv.textContent = err.message || 'Payment failed. Please try again.';
+          statusDiv.className = 'block text-center text-xs font-semibold py-2 rounded-lg mt-4 bg-rose-500/10 text-rose-400 border border-rose-500/30';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

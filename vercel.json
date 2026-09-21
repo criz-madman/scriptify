@@ -65,6 +65,10 @@
       "dest": "/frontend/presets.html"
     },
     {
+      "src": "/checkout",
+      "dest": "/frontend/checkout.html"
+    },
+    {
       "src": "/wallet",
       "dest": "/frontend/wallet.html"
     },
