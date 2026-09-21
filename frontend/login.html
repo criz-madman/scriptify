@@ -151,7 +151,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (API.isAuthenticated()) {
-        window.location.href = '/dashboard.html';
+        window.location.href = '/dashboard';
         return;
       }
 
@@ -209,7 +209,7 @@
             // Wait for the Firebase module to fully initialize before calling
             const bridge = await waitForFirebase();
             const { user, session } = await bridge.loginWithGoogle();
-            window.location.href = '/dashboard.html';
+            window.location.href = '/dashboard';
           } catch (err) {
             console.error(err);
             if (err.code === 'auth/popup-closed-by-user') {
@@ -274,7 +274,7 @@
           const data = await API.post('/api/auth/verify-otp', { email: pendingEmail, otp });
           API.setToken(data.token);
 
-          window.location.href = '/dashboard.html';
+          window.location.href = '/dashboard';
         } catch (err) {
           showError(err.message || 'Verification failed. Please try again.');
         } finally {

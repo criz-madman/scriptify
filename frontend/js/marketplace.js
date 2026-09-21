@@ -248,7 +248,7 @@ const Marketplace = (() => {
   // Open Purchase Modal
   const openPurchaseModal = async (product) => {
     if (!API.isAuthenticated()) {
-      window.location.href = '/login.html';
+      window.location.href = '/login';
       return;
     }
 

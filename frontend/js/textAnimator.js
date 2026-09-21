@@ -486,7 +486,7 @@ ${exprBody}`;
   const downloadScript = async () => {
     if (!API.isAuthenticated()) {
       alert('Please sign in to generate and download your custom After Effects script.');
-      window.location.href = '/login.html';
+      window.location.href = '/login';
       return;
     }
 
@@ -528,7 +528,7 @@ ${exprBody}`;
 
       if (err.status === 402) {
         if (confirm('Insufficient credits to generate this tool. Would you like to top up your wallet?')) {
-          window.location.href = '/wallet.html';
+          window.location.href = '/wallet';
         }
         return;
       }

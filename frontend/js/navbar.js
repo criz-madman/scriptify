@@ -10,11 +10,11 @@ const Navbar = (() => {
 
     const navItems = [
       { id: 'home', label: 'Home', href: '/', icon: 'fa-house' },
-      { id: 'dashboard', label: 'Tools Hub', href: '/dashboard.html', icon: 'fa-gauge-high' },
-      { id: 'panel-builder', label: 'UI Panel Builder', href: '/panel-builder.html', icon: 'fa-shapes' },
-      { id: 'text-animator', label: 'Text Animator', href: '/text-animator.html', icon: 'fa-font' },
-      { id: 'presets', label: 'Marketplace', href: '/presets.html', icon: 'fa-store' },
-      { id: 'wallet', label: 'Credits & Wallet', href: '/wallet.html', icon: 'fa-wallet' }
+      { id: 'dashboard', label: 'Tools Hub', href: '/dashboard', icon: 'fa-gauge-high' },
+      { id: 'panel-builder', label: 'UI Panel Builder', href: '/panel-builder', icon: 'fa-shapes' },
+      { id: 'text-animator', label: 'Text Animator', href: '/text-animator', icon: 'fa-font' },
+      { id: 'presets', label: 'Marketplace', href: '/presets', icon: 'fa-store' },
+      { id: 'wallet', label: 'Credits & Wallet', href: '/wallet', icon: 'fa-wallet' }
     ];
 
     target.innerHTML = `
@@ -55,7 +55,7 @@ const Navbar = (() => {
           <div class="flex items-center space-x-3">
             
             <!-- Credit Wallet Widget -->
-            <a href="/wallet.html" title="Manage Credits" class="flex items-center bg-[#140e06]/90 border border-amber-500/30 hover:border-orange-500/60 rounded-full p-1 transition-all group shadow-sm">
+            <a href="/wallet" title="Manage Credits" class="flex items-center bg-[#140e06]/90 border border-amber-500/30 hover:border-orange-500/60 rounded-full p-1 transition-all group shadow-sm">
               <div class="px-3 py-1 flex items-center space-x-2">
                 <i class="fa-solid fa-bolt text-amber-400 text-xs animate-pulse-subtle"></i>
                 <span class="text-xs font-bold text-zinc-100 group-hover:text-amber-200 font-mono" id="nav-wallet-balance">--</span>
@@ -68,7 +68,7 @@ const Navbar = (() => {
             </a>
 
             <!-- Unauthenticated Sign In Button -->
-            <a href="/login.html" id="nav-btn-login" class="btn-amber-outline px-4 py-1.5 text-zinc-200 hover:text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-sm">
+            <a href="/login" id="nav-btn-login" class="btn-amber-outline px-4 py-1.5 text-zinc-200 hover:text-white text-xs font-bold transition-all flex items-center space-x-1.5 shadow-sm">
               <i class="fa-regular fa-user text-amber-400"></i>
               <span>Sign In</span>
             </a>
