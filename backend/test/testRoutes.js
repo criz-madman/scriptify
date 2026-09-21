@@ -22,7 +22,7 @@ async function testAllRoutes() {
   try {
     const routes = [
       { path: '/', expected: 'Automate After Effects' },
-      { path: '/login', expected: 'Passwordless Studio Sign In' },
+      { path: '/login', expected: 'Studio Sign In' },
       { path: '/dashboard', expected: 'Studio Tools Hub' },
       { path: '/panel-builder', expected: 'Pick your actions' },
       { path: '/text-animator', expected: 'Text Animation Generator' },

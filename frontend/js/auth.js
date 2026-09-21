@@ -133,7 +133,10 @@ const Auth = (() => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    if (window.FirebaseBridge && typeof window.FirebaseBridge.logoutFirebase === 'function') {
+      try { await window.FirebaseBridge.logoutFirebase(); } catch (e) {}
+    }
     API.removeToken();
     currentUser = null;
     updateUserUI(null);

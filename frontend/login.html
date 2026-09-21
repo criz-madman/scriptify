@@ -32,6 +32,8 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <!-- Firebase Authentication & Analytics -->
+  <script type="module" src="js/firebaseConfig.js"></script>
 </head>
 <body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col justify-center items-center p-4 relative overflow-hidden">
 
@@ -46,12 +48,32 @@
       <a href="/" class="inline-flex items-center justify-center mb-3 group">
         <img src="/images/logo.png" alt="Scriptify" class="h-10 sm:h-11 w-auto object-contain transition-opacity group-hover:opacity-85">
       </a>
-      <h1 class="text-sm font-bold uppercase tracking-wider text-amber-400 font-mono mt-1">Passwordless Studio Sign In</h1>
-      <p class="text-xs text-zinc-400 mt-1">We'll dispatch a 6-digit one-time code to your email</p>
+      <h1 class="text-sm font-bold uppercase tracking-wider text-amber-400 font-mono mt-1">Studio Sign In</h1>
+      <p class="text-xs text-zinc-400 mt-1">Sign in with Google or one-time email code</p>
     </div>
 
-    <!-- Step 1: Request OTP -->
-    <div id="login-step-email" class="space-y-5">
+    <!-- Step 1: Request OTP or Google Sign-In -->
+    <div id="login-step-email" class="space-y-4">
+      <!-- Firebase Google Sign-In Button -->
+      <button 
+        type="button"
+        id="btn-login-google" 
+        class="w-full py-3.5 px-4 rounded-xl border border-amber-500/30 hover:border-amber-400/80 bg-[#140e07] hover:bg-[#1f150b] text-zinc-100 font-semibold text-xs transition-all duration-200 flex items-center justify-center space-x-3 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] hover:shadow-[0_0_20px_rgba(249,115,22,0.2)] group cursor-pointer"
+      >
+        <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+        </svg>
+        <span class="tracking-wide">Continue with Google</span>
+      </button>
+
+      <!-- Divider -->
+      <div class="relative my-3 flex items-center justify-center">
+        <div class="border-t border-amber-500/15 w-full"></div>
+        <span class="bg-[#100b06] px-3 text-[10px] font-mono text-zinc-400 uppercase tracking-widest relative z-10">or continue with email</span>
+      </div>
       <div>
         <label class="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-2">
           Email Address
@@ -140,6 +162,7 @@
       const otpInput = document.getElementById('login-otp-input');
       const btnSend = document.getElementById('btn-login-send-otp');
       const btnVerify = document.getElementById('btn-login-verify-otp');
+      const btnGoogle = document.getElementById('btn-login-google');
       const btnChange = document.getElementById('btn-login-change-email');
       const devNotice = document.getElementById('login-dev-notice');
       const devCode = document.getElementById('login-dev-code');
@@ -147,6 +170,44 @@
       const targetEmailText = document.getElementById('login-target-email');
 
       const showError = (msg) => { errorText.textContent = msg; };
+
+      // Google Sign-In with Firebase
+      if (btnGoogle) {
+        btnGoogle.addEventListener('click', async () => {
+          try {
+            showError('');
+            btnGoogle.disabled = true;
+            btnGoogle.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Connecting to Google...`;
+
+            if (!window.FirebaseBridge) {
+              throw new Error("Firebase is initializing. Please wait a moment and try again.");
+            }
+
+            const { user, session } = await window.FirebaseBridge.loginWithGoogle();
+            window.location.href = '/dashboard.html';
+          } catch (err) {
+            console.error(err);
+            if (err.code === 'auth/popup-closed-by-user') {
+              showError('Google sign-in popup was closed before completing.');
+            } else if (err.code === 'auth/cancelled-popup-request') {
+              // Popup replaced or cancelled
+            } else {
+              showError(err.message || 'Failed to sign in with Google.');
+            }
+          } finally {
+            btnGoogle.disabled = false;
+            btnGoogle.innerHTML = `
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+              </svg>
+              <span class="tracking-wide">Continue with Google</span>
+            `;
+          }
+        });
+      }
 
       btnSend.addEventListener('click', async () => {
         const email = emailInput.value.trim();

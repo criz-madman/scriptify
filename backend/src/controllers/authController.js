@@ -181,8 +181,86 @@ const getMe = async (req, res, next) => {
   }
 };
 
+// 4. Authenticate or Register with Firebase
+const firebaseLogin = async (req, res, next) => {
+  try {
+    const { email, uid, displayName } = req.body;
+
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        error: 'A valid email address is required from Firebase authentication.'
+      });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Find or create user in Users table (Table D1)
+    let user;
+    const existingUserRes = await query(
+      'SELECT "userId", "email", "createdAt" FROM "Users" WHERE LOWER("email") = $1',
+      [normalizedEmail]
+    );
+
+    let isNewUser = false;
+    if (existingUserRes.rows.length > 0) {
+      user = existingUserRes.rows[0];
+    } else {
+      isNewUser = true;
+      const newUserRes = await query(
+        `INSERT INTO "Users" ("email") 
+         VALUES ($1) 
+         RETURNING "userId", "email", "createdAt"`,
+        [normalizedEmail]
+      );
+      user = newUserRes.rows[0];
+
+      // Grant new user initial starter credits in CreditWallet (Table D2)
+      await query(
+        `INSERT INTO "CreditWallet" ("userId", "balancePoints") 
+         VALUES ($1, $2)`,
+        [user.userId, env.initialCredits]
+      );
+    }
+
+    // Fetch current wallet balance
+    const walletRes = await query(
+      'SELECT "balancePoints" FROM "CreditWallet" WHERE "userId" = $1',
+      [user.userId]
+    );
+    const balance = walletRes.rows.length > 0 ? walletRes.rows[0].balancePoints : env.initialCredits;
+
+    // Issue JWT
+    const token = jwt.sign(
+      {
+        userId: user.userId,
+        email: user.email,
+        firebaseUid: uid || null
+      },
+      env.jwtSecret,
+      { expiresIn: env.jwtExpiresIn }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: isNewUser ? 'Welcome to Scriptify! Account created with 100 free credits.' : 'Signed in with Firebase successfully.',
+      token,
+      user: {
+        userId: user.userId,
+        email: user.email,
+        displayName: displayName || null,
+        createdAt: user.createdAt
+      },
+      walletBalance: balance
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   sendOtp,
   verifyOtp,
-  getMe
+  getMe,
+  firebaseLogin
 };

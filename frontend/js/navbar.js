@@ -101,7 +101,10 @@ const Navbar = (() => {
     const balanceDisplay = document.getElementById('nav-wallet-balance');
 
     if (btnLogout) {
-      btnLogout.addEventListener('click', () => {
+      btnLogout.addEventListener('click', async () => {
+        if (window.FirebaseBridge && typeof window.FirebaseBridge.logoutFirebase === 'function') {
+          try { await window.FirebaseBridge.logoutFirebase(); } catch (e) {}
+        }
         API.removeToken();
         window.location.href = '/';
       });
