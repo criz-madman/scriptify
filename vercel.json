@@ -12,6 +12,26 @@
   ],
   "routes": [
     {
+      "src": "/js/(.*)",
+      "dest": "backend/src/server.js"
+    },
+    {
+      "src": "/css/(.*)",
+      "dest": "backend/src/server.js"
+    },
+    {
+      "src": "/images/(.*)",
+      "dest": "backend/src/server.js"
+    },
+    {
+      "src": "/myimages/(.*)",
+      "dest": "backend/src/server.js"
+    },
+    {
+      "src": "/(.*\\.(png|ico|svg|webp|jpg|jpeg|gif|woff|woff2|ttf|otf))",
+      "dest": "backend/src/server.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "backend/src/server.js"
     }

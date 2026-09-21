@@ -36,11 +36,17 @@ app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
 // Static directory for frontend assets (css, js, images)
-// process.cwd() = project root in both local (workspace root) and Vercel (lambda root)
-// This is more reliable than __dirname-relative paths in serverless environments
-const frontendPath = process.env.VERCEL
-  ? path.resolve(process.cwd(), 'frontend')
-  : path.resolve(__dirname, '../../frontend');
+// Use a fallback chain to find the frontend directory reliably across both
+// local dev (where __dirname is backend/src/) and Vercel serverless lambdas
+// (where process.cwd() may be /var/task or the repo root depending on runtime).
+const fs = require('fs');
+const frontendCandidates = [
+  path.resolve(process.cwd(), 'frontend'),           // Vercel: /var/task/frontend or repo-root/frontend
+  path.resolve(__dirname, '../../frontend'),          // Local dev: backend/src/../../frontend
+  path.resolve(__dirname, '../../../frontend'),       // Rare monorepo layout
+];
+const frontendPath = frontendCandidates.find(p => fs.existsSync(p)) || frontendCandidates[0];
+console.log(`[Scriptify Static] Serving frontend from: ${frontendPath}`);
 app.use(express.static(frontendPath));
 
 // Favicon route
