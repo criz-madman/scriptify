@@ -36,8 +36,11 @@ app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
 // Static directory for frontend assets (css, js, images)
-// path.resolve ensures this works in both local and Vercel serverless environments
-const frontendPath = path.resolve(__dirname, '../../frontend');
+// process.cwd() = project root in both local (workspace root) and Vercel (lambda root)
+// This is more reliable than __dirname-relative paths in serverless environments
+const frontendPath = process.env.VERCEL
+  ? path.resolve(process.cwd(), 'frontend')
+  : path.resolve(__dirname, '../../frontend');
 app.use(express.static(frontendPath));
 
 // Favicon route
