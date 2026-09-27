@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — Explore</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
+  <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#100b06',
+              surface: '#181008',
+              border: 'rgba(245, 158, 11, 0.2)',
+              accent: '#f97316',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          animation: {
+            'marquee': 'marquee 30s linear infinite',
+            'marquee-slow': 'marquee 40s linear infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .glass-liquid-card {
+      background: linear-gradient(135deg, rgba(20, 12, 6, 0.6) 0%, rgba(10, 6, 3, 0.8) 100%);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), inset 0 -1px 2px rgba(245, 158, 11, 0.1), 0 15px 35px -10px rgba(0, 0, 0, 0.8);
+    }
+
+    .liquid-glow {
+      background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+    }
+
+    .marquee-container:hover .animate-marquee {
+      animation-play-state: paused;
+    }
+  </style>
+</head>
+
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased relative">
+
+  <!-- Top Light Beam -->
+  <div class="light-beam-glow"></div>
+
+  <!-- Universal Navbar -->
+  <div id="site-navbar"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-8 mt-6 relative z-10 space-y-12">
+
+    <!-- Header Section -->
+    <div class="text-center space-y-4 max-w-3xl mx-auto">
+      <div
+        class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-amber-300 text-xs font-mono shadow-[0_0_20px_rgba(249,115,22,0.15)]">
+        <i class="fa-solid fa-compass animate-pulse"></i>
+        <span>Welcome to Scriptify Studio</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-xl">
+        Explore <span
+          class="bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent">Capabilities</span>
+      </h1>
+      <p class="text-sm sm:text-base text-zinc-400 font-medium">Discover powerful tools, automated physics engines, and
+        highly-rated community presets to elevate your After Effects workflow.</p>
+    </div>
+
+    <!-- Main Grid Layout for Tools -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4">
+
+      <!-- Card 1: UI Panel Builder -->
+      <div
+        class="relative group rounded-3xl p-[1px] overflow-hidden transition-transform duration-500 hover:-translate-y-2">
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-orange-500/40 via-amber-500/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+        </div>
+        <div
+          class="relative h-full glass-liquid-card backdrop-blur-2xl rounded-[1.4rem] p-8 flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 liquid-glow opacity-50 group-hover:opacity-100 transition-opacity duration-700">
+          </div>
+
+          <div class="relative z-10">
+            <div
+              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2a1a0d] to-[#120a04] border border-amber-500/30 flex items-center justify-center text-2xl text-amber-400 mb-6 shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-500">
+              <i class="fa-solid fa-shapes"></i>
+            </div>
+            <h2 class="text-2xl font-black text-white tracking-tight mb-3 group-hover:text-amber-300 transition-colors">
+              UI Panel Builder</h2>
+            <p class="text-sm text-zinc-400 leading-relaxed font-medium">Design production-ready, dockable ScriptUI
+              panels for AE using 30+ categorized tools with drag-and-drop layouts.</p>
+          </div>
+
+          <div class="mt-10 relative z-10">
+            <a href="/panel-builder"
+              class="inline-flex items-center justify-center w-full space-x-2 text-xs font-black uppercase tracking-widest text-amber-950 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 transition-all px-6 py-3.5 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+              <span>Create Project</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Kinetic Text Animator -->
+      <div
+        class="relative group rounded-3xl p-[1px] overflow-hidden transition-transform duration-500 hover:-translate-y-2">
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-orange-500/40 via-amber-500/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+        </div>
+        <div
+          class="relative h-full glass-liquid-card backdrop-blur-2xl rounded-[1.4rem] p-8 flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 liquid-glow opacity-50 group-hover:opacity-100 transition-opacity duration-700">
+          </div>
+
+          <div class="relative z-10">
+            <div
+              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2a1a0d] to-[#120a04] border border-amber-500/30 flex items-center justify-center text-2xl text-amber-400 mb-6 shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-500">
+              <i class="fa-solid fa-font"></i>
+            </div>
+            <h2 class="text-2xl font-black text-white tracking-tight mb-3 group-hover:text-amber-300 transition-colors">
+              Kinetic Animator</h2>
+            <p class="text-sm text-zinc-400 leading-relaxed font-medium">Generate real-time decaying sine bounce physics
+              for typography. Export production ExtendScript instantly.</p>
+          </div>
+
+          <div class="mt-10 relative z-10">
+            <a href="/text-animator"
+              class="inline-flex items-center justify-center w-full space-x-2 text-xs font-black uppercase tracking-widest text-amber-400 border border-amber-500/40 hover:bg-amber-500/10 hover:border-amber-400 transition-all px-6 py-3.5 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+              <span>Try It Now</span>
+              <i class="fa-solid fa-bolt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: User Profile & Wallet -->
+      <div
+        class="relative group rounded-3xl p-[1px] overflow-hidden transition-transform duration-500 hover:-translate-y-2">
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-orange-500/40 via-amber-500/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+        </div>
+        <div
+          class="relative h-full glass-liquid-card backdrop-blur-2xl rounded-[1.4rem] p-8 flex flex-col justify-between overflow-hidden">
+          <div class="absolute inset-0 liquid-glow opacity-50 group-hover:opacity-100 transition-opacity duration-700">
+          </div>
+
+          <div class="relative z-10">
+            <div
+              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2a1a0d] to-[#120a04] border border-amber-500/30 flex items-center justify-center text-2xl text-amber-400 mb-6 shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-500">
+              <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <h2 class="text-2xl font-black text-white tracking-tight mb-3 group-hover:text-amber-300 transition-colors">
+              My Profile</h2>
+            <p class="text-sm text-zinc-400 leading-relaxed font-medium">Manage your personal settings, view active
+              subscription credits, and track your history of generated scripts.</p>
+          </div>
+
+          <div class="mt-10 relative z-10">
+            <a href="/profile"
+              class="inline-flex items-center justify-center w-full space-x-2 text-xs font-black uppercase tracking-widest text-amber-400 border border-amber-500/40 hover:bg-amber-500/10 hover:border-amber-400 transition-all px-6 py-3.5 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+              <span>View Account</span>
+              <i class="fa-solid fa-wallet"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Marketplace Slider Section -->
+    <div class="pt-20 pb-10">
+      <div class="flex items-center justify-between mb-8 px-2">
+        <div>
+          <h3 class="text-2xl font-black text-white tracking-tight">Top Rated <span class="text-amber-400">Marketplace
+              Assets</span></h3>
+          <p class="text-xs text-zinc-400 font-mono mt-1">Community-driven presets and scripts</p>
+        </div>
+        <a href="/presets"
+          class="hidden sm:inline-flex text-xs font-bold uppercase tracking-widest text-amber-500 hover:text-amber-300 transition-colors items-center space-x-1.5">
+          <span>View All</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Marquee Wrapper -->
+      <div class="relative w-full overflow-hidden marquee-container mask-edges">
+        <!-- Mask for fading edges -->
+        <div
+          class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#070503] to-transparent z-20 pointer-events-none">
+        </div>
+        <div
+          class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#070503] to-transparent z-20 pointer-events-none">
+        </div>
+
+        <div class="flex animate-marquee w-[max-content] pb-6">
+
+          <!-- Slider Items Set 1 -->
+          <!-- Asset 1 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-layer-group"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md text-[10px] font-black uppercase font-mono">6
+                Credits</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">QuickStagger Pro</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(128)</span>
+              </div>
+            </div>
+          </div>
+          <!-- Asset 2 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-wave-square"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md text-[10px] font-black uppercase font-mono">8
+                Credits</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">AutoBounce Elastic Rig</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star-half-stroke"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(94)</span>
+              </div>
+            </div>
+          </div>
+          <!-- Asset 3 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-palette"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md text-[10px] font-black uppercase font-mono">Free</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">MotionPalette UI</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(312)</span>
+              </div>
+            </div>
+          </div>
+          <!-- Asset 4 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md text-[10px] font-black uppercase font-mono">4
+                Credits</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">Auto-Focus Rig 2.0</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-regular fa-star"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(45)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slider Items Set 2 (Exact Duplicate for Infinite Loop) -->
+          <!-- Asset 1 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-layer-group"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md text-[10px] font-black uppercase font-mono">6
+                Credits</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">QuickStagger Pro</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(128)</span>
+              </div>
+            </div>
+          </div>
+          <!-- Asset 2 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-wave-square"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md text-[10px] font-black uppercase font-mono">8
+                Credits</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">AutoBounce Elastic Rig</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star-half-stroke"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(94)</span>
+              </div>
+            </div>
+          </div>
+          <!-- Asset 3 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-palette"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md text-[10px] font-black uppercase font-mono">Free</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">MotionPalette UI</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(312)</span>
+              </div>
+            </div>
+          </div>
+          <!-- Asset 4 -->
+          <div
+            class="w-80 h-44 bg-[#100a06]/80 backdrop-blur-md border border-amber-500/15 rounded-2xl p-4 flex flex-col justify-between shrink-0 mx-3 hover:border-amber-500/40 hover:bg-[#150d08] transition-colors cursor-pointer group shadow-lg">
+            <div class="flex justify-between items-start">
+              <div
+                class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+              <span
+                class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md text-[10px] font-black uppercase font-mono">4
+                Credits</span>
+            </div>
+            <div>
+              <h4 class="font-black text-white text-base">Auto-Focus Rig 2.0</h4>
+              <div class="flex items-center space-x-2 mt-1">
+                <div class="flex text-amber-400 text-[10px]"><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-regular fa-star"></i></div>
+                <span class="text-xs text-zinc-500 font-mono">(45)</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set active page to dashboard for navigation highlighting (since explore is replacing the old dashboard conceptually)
+      if (typeof Navbar !== 'undefined' && Navbar.mount) {
+        Navbar.mount('dashboard');
+      }
+    });
+  </script>
+</body>
+
+</html>

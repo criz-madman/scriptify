@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — User Profile</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#100b06',
+              surface: '#181008',
+              border: 'rgba(245, 158, 11, 0.2)',
+              accent: '#f97316',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Firebase Authentication -->
+  <script type="module" src="js/firebaseConfig.js"></script>
+  <style>
+    .glass-card {
+      background: rgba(16, 11, 6, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    .glass-panel {
+      background: rgba(24, 16, 8, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen relative overflow-x-hidden font-sans">
+  
+  <!-- Ambient background glow -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-orange-500/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+
+  <!-- Auth Loader -->
+  <div id="auth-loader" class="fixed inset-0 z-50 bg-[#070503] flex flex-col items-center justify-center transition-opacity duration-500">
+    <i class="fa-solid fa-circle-notch fa-spin text-4xl text-amber-500 mb-4"></i>
+    <p class="text-zinc-400 text-sm animate-pulse tracking-widest uppercase font-mono">Loading Profile...</p>
+  </div>
+
+  <div class="relative z-10 container mx-auto px-4 py-8 max-w-6xl hidden" id="profile-content">
+    
+    <!-- Top Navigation -->
+    <nav class="flex items-center justify-between mb-8">
+      <a href="/dashboard" class="text-zinc-400 hover:text-amber-500 transition-colors flex items-center space-x-2 text-sm font-medium">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Back to Dashboard</span>
+      </a>
+      <button onclick="window.FirebaseBridge.logoutFirebase().then(() => window.location.href='/login')" class="px-4 py-2 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer">
+        Sign Out
+      </button>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column: Personal Info & Wallet -->
+      <div class="space-y-8">
+        
+        <!-- Profile Card -->
+        <div class="glass-card rounded-3xl p-8 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+          
+          <div class="flex flex-col items-center text-center relative z-10">
+            <div class="w-24 h-24 rounded-full border-2 border-amber-500/40 p-1 mb-4 relative">
+              <img id="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=f59e0b&color=fff&size=128" alt="Avatar" class="w-full h-full rounded-full object-cover">
+              <button class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-amber-500 text-[#070503] flex items-center justify-center hover:bg-amber-400 transition-colors cursor-pointer border border-[#070503]">
+                <i class="fa-solid fa-camera text-xs"></i>
+              </button>
+            </div>
+            <h2 id="profile-name" class="text-xl font-bold text-zinc-100 mb-1">Motion Designer</h2>
+            <p id="profile-email" class="text-xs text-zinc-400 font-mono mb-4">Loading...</p>
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+              <i class="fa-solid fa-check-circle mr-1.5"></i> Active Member
+            </div>
+            <p class="text-[10px] text-zinc-500 uppercase tracking-widest mt-6">Joined: <span id="profile-joined">Sep 2026</span></p>
+          </div>
+        </div>
+
+        <!-- Wallet / Credits Card -->
+        <div class="glass-card rounded-3xl p-6 relative">
+          <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4 flex items-center">
+            <i class="fa-solid fa-wallet mr-2 text-amber-500"></i> My Wallet
+          </h3>
+          <div class="bg-[#140e07] border border-amber-500/20 rounded-2xl p-5 mb-4">
+            <p class="text-zinc-500 text-xs mb-1">Available Credits</p>
+            <div class="flex items-end justify-between">
+              <h4 class="text-3xl font-mono font-bold text-amber-400">1,250 <span class="text-sm text-zinc-500 font-sans font-normal">CR</span></h4>
+              <a href="/wallet" class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center hover:bg-amber-500/20 transition-colors cursor-pointer">
+                <i class="fa-solid fa-plus text-xs"></i>
+              </a>
+            </div>
+          </div>
+          <div class="text-xs text-zinc-400 flex justify-between items-center px-1">
+            <span>Pro Subscription</span>
+            <span class="text-emerald-400 font-medium">Active</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Activity & Settings -->
+      <div class="lg:col-span-2 space-y-8">
+        
+        <!-- Tabs -->
+        <div class="flex space-x-6 border-b border-amber-500/10 pb-4">
+          <button class="text-amber-500 text-sm font-bold uppercase tracking-wider border-b-2 border-amber-500 pb-4 -mb-[17px]">Activity & History</button>
+          <button class="text-zinc-500 hover:text-zinc-300 text-sm font-bold uppercase tracking-wider pb-4 -mb-[17px] transition-colors cursor-pointer">Account Settings</button>
+        </div>
+
+        <!-- Tab Content 1: Activity -->
+        <div class="space-y-6 animate-fade-in">
+          
+          <h3 class="text-lg font-bold text-zinc-100 flex items-center">
+            Recent Presets & Scripts
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Activity Item -->
+            <div class="glass-panel rounded-2xl p-4 flex gap-4 hover:border-amber-500/30 transition-colors group cursor-pointer">
+              <div class="w-16 h-16 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-bolt text-2xl text-amber-500/50 group-hover:text-amber-500 transition-colors"></i>
+              </div>
+              <div class="flex flex-col justify-center">
+                <h4 class="text-sm font-bold text-zinc-200">Kinetic Typography Pack</h4>
+                <p class="text-xs text-zinc-500 mb-1">Text Animator Preset</p>
+                <p class="text-[10px] text-zinc-600 font-mono">Downloaded • 2 days ago</p>
+              </div>
+            </div>
+
+            <!-- Activity Item -->
+            <div class="glass-panel rounded-2xl p-4 flex gap-4 hover:border-amber-500/30 transition-colors group cursor-pointer">
+              <div class="w-16 h-16 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-code text-2xl text-amber-500/50 group-hover:text-amber-500 transition-colors"></i>
+              </div>
+              <div class="flex flex-col justify-center">
+                <h4 class="text-sm font-bold text-zinc-200">Auto-Align Panel Builder</h4>
+                <p class="text-xs text-zinc-500 mb-1">UI Script Generated</p>
+                <p class="text-[10px] text-zinc-600 font-mono">Created • 1 week ago</p>
+              </div>
+            </div>
+            
+            <!-- Activity Item -->
+            <div class="glass-panel rounded-2xl p-4 flex gap-4 hover:border-amber-500/30 transition-colors group cursor-pointer">
+              <div class="w-16 h-16 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-bookmark text-2xl text-emerald-500/50 group-hover:text-emerald-500 transition-colors"></i>
+              </div>
+              <div class="flex flex-col justify-center">
+                <h4 class="text-sm font-bold text-zinc-200">Glitch Title Reveal</h4>
+                <p class="text-xs text-zinc-500 mb-1">Preset Bookmark</p>
+                <p class="text-[10px] text-zinc-600 font-mono">Saved • 2 weeks ago</p>
+              </div>
+            </div>
+
+          </div>
+
+          <button class="w-full py-3 rounded-xl border border-amber-500/20 text-amber-500 text-xs font-bold uppercase tracking-wider hover:bg-amber-500/5 transition-colors cursor-pointer mt-4">
+            View All History
+          </button>
+        </div>
+
+        <!-- Preferences Section -->
+        <div class="glass-card rounded-3xl p-6 mt-8">
+          <h3 class="text-sm font-bold text-zinc-100 mb-6">Preferences</h3>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 rounded-xl bg-[#140e07] border border-amber-500/10">
+              <div>
+                <p class="text-sm font-medium text-zinc-200">Email Notifications</p>
+                <p class="text-xs text-zinc-500">Receive updates about new preset drops</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+              </label>
+            </div>
+            
+            <div class="flex items-center justify-between p-4 rounded-xl bg-[#140e07] border border-amber-500/10">
+              <div>
+                <p class="text-sm font-medium text-zinc-200">Dark Mode</p>
+                <p class="text-xs text-zinc-500">Toggle dark studio aesthetics</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" class="sr-only peer" checked disabled>
+                <div class="w-11 h-6 bg-amber-500 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all opacity-80 cursor-not-allowed"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('firebase:ready', () => {
+      window.FirebaseBridge.onAuthStateChanged((user) => {
+        const loader = document.getElementById('auth-loader');
+        const content = document.getElementById('profile-content');
+        
+        if (user) {
+          // Populate user data
+          const displayName = user.displayName || user.email.split('@')[0];
+          document.getElementById('profile-name').textContent = displayName;
+          document.getElementById('profile-email').textContent = user.email;
+          
+          if (user.photoURL) {
+            document.getElementById('profile-avatar').src = user.photoURL;
+          } else {
+            // Generate avatar based on first letter
+            document.getElementById('profile-avatar').src = `https://ui-avatars.com/api/?name=${displayName}&background=f59e0b&color=fff&size=128`;
+          }
+
+          // Format creation time
+          if (user.metadata && user.metadata.creationTime) {
+            const date = new Date(user.metadata.creationTime);
+            document.getElementById('profile-joined').textContent = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+          }
+          
+          // Reveal content
+          loader.style.opacity = '0';
+          setTimeout(() => {
+            loader.classList.add('hidden');
+            content.classList.remove('hidden');
+            content.classList.add('animate-fade-in');
+          }, 500);
+        } else {
+          // Not logged in
+          window.location.href = '/login?redirect=/profile';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

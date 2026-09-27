@@ -33,92 +33,134 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  
+  <!-- GSAP Libraries for Carousel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+
+  <style>
+    /* Custom Animations for Premium Feel */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.4); transform: scale(1); }
+      50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.7); transform: scale(1.02); }
+      100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.4); transform: scale(1); }
+    }
+    .animate-pulse-glow {
+      animation: pulse-glow 3s infinite;
+    }
+    
+    .gsap-card-hover {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .gsap-card-hover:hover {
+      transform: scale(1.15) translateZ(0) !important;
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.4);
+      border-color: rgba(245, 158, 11, 0.6);
+      z-index: 20;
+    }
+  </style>
 </head>
-<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-orange-500 selection:text-white relative">
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-orange-500 selection:text-white relative font-sans">
 
   <!-- Top Radiant Light Beam Effect -->
   <div class="light-beam-glow"></div>
 
-  <!-- Universal Navbar -->
-  <div id="site-navbar"></div>
+  <!-- Minimal Fixed Navbar -->
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-amber-500/10 bg-[#070503]/70 backdrop-blur-2xl transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center group" title="Scriptify">
+        <img 
+          src="/images/logo.png" 
+          alt="Scriptify" 
+          class="h-8 sm:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_15px_rgba(249,115,22,0.2)]"
+          onerror="this.src='/myimages/scriptfy icon.png'"
+        >
+      </a>
+
+      <!-- Right: Sign In / Dashboard Button -->
+      <a href="/login" class="px-5 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500 hover:text-[#070503] text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(245,158,11,0.1)] hover:shadow-[0_0_25px_rgba(245,158,11,0.4)] flex items-center space-x-2">
+        <i class="fa-regular fa-user"></i>
+        <span>Sign In</span>
+      </a>
+
+    </div>
+  </header>
 
   <!-- Hero Section -->
-  <section class="relative overflow-hidden py-20 sm:py-28 px-4 sm:px-6">
-    <div class="max-w-5xl mx-auto text-center relative z-10 space-y-7">
+  <section class="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-32 px-4 sm:px-6 min-h-screen flex items-center justify-center">
+    
+    <!-- Ambient Glow & GSAP Circular Carousel -->
+    <div class="absolute inset-0 z-0 flex items-center justify-center opacity-40 pointer-events-none md:pointer-events-auto overflow-hidden">
+      <!-- Soft Orange/Amber Ambient Glow Behind Carousel -->
+      <div class="absolute w-[600px] h-[600px] md:w-[900px] md:h-[900px] bg-gradient-to-tr from-orange-600/30 via-amber-500/10 to-transparent rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
+      
+      <div id="gsap-wheel" class="relative w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full border border-amber-500/10 cursor-grab active:cursor-grabbing">
+        <!-- JavaScript will populate carousel cards here -->
+      </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto text-center relative z-10 space-y-8 pointer-events-none">
       
       <!-- Feature Pill -->
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-amber-300 text-xs font-mono shadow-[0_0_20px_rgba(249,115,22,0.15)]">
+      <div class="inline-flex items-center space-x-2 px-5 py-2 rounded-full bg-[#120803]/80 backdrop-blur-md border border-orange-500/30 text-amber-300 text-xs font-mono shadow-[0_0_20px_rgba(249,115,22,0.15)] pointer-events-auto animate-float">
         <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-        <span>Adobe After Effects CC 2020 - 2026 Compatible</span>
+        <span>Adobe After Effects CC 2024 - 2026 Compatible</span>
       </div>
 
       <!-- Main Headline -->
-      <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-[1.12]">
-        Automate After Effects <br class="hidden sm:inline">
-        <span class="text-gradient-amber">
-          Without Writing Any Code
-        </span>
+      <h1 class="text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tight leading-[1.12] drop-shadow-2xl">
+        <span class="bg-gradient-to-br from-orange-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent">Speed Up Your Workflow</span>
+        <br class="hidden sm:inline">
+        <span class="text-3xl sm:text-5xl md:text-6xl text-zinc-300 mt-3 block font-bold">Without Writing Any Code</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="max-w-2xl mx-auto text-sm sm:text-base text-zinc-300 leading-relaxed font-normal">
+      <p class="max-w-2xl mx-auto text-sm sm:text-base text-zinc-400 leading-relaxed font-normal">
         Scriptify generates production-ready ExtendScript (<code class="font-mono text-amber-400 bg-[#160d05] px-1.5 py-0.5 rounded border border-amber-500/30">.jsx</code>) scripts and dockable ScriptUI panels. Assemble custom toolbars, kinetic typography rigs, and timeline automations in seconds.
       </p>
 
-      <!-- Prominent Call-to-Action Pill Buttons -->
-      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a 
-          href="/panel-builder" 
-          class="btn-amber-pill w-full sm:w-auto px-8 py-4 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2.5"
-        >
-          <i class="fa-solid fa-shapes text-sm"></i>
-          <span>Launch UI Panel Builder</span>
-        </a>
-
-        <a 
-          href="/text-animator" 
-          class="btn-amber-outline w-full sm:w-auto px-8 py-4 text-amber-300 hover:text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2.5"
-        >
-          <i class="fa-solid fa-font text-sm"></i>
-          <span>Text Animation Generator</span>
-        </a>
-
+      <!-- Prominent Call-to-Action Buttons -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-5 pointer-events-auto">
         <a 
           href="/login" 
-          class="btn-amber-outline w-full sm:w-auto px-7 py-4 text-zinc-300 hover:text-white font-semibold text-xs flex items-center justify-center space-x-2"
+          class="w-full sm:w-auto px-10 py-5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center space-x-3 transition-all animate-pulse-glow"
         >
-          <i class="fa-regular fa-user text-amber-400"></i>
-          <span>Sign In (OTP)</span>
+          <i class="fa-solid fa-rocket text-lg"></i>
+          <span>Get Started</span>
         </a>
-      </div>
 
-      <!-- Trust Metrics -->
-      <div class="pt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-zinc-400 font-mono">
-        <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-check text-emerald-400"></i>
-          <span>ES3 Syntax Validated</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-rotate-left text-orange-400"></i>
-          <span>Single-Step Undo Groups</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-shield-halved text-amber-400"></i>
-          <span>PostgreSQL 3NF Wallet</span>
-        </div>
+        <button 
+          onclick="document.getElementById('features-modal').classList.remove('hidden')" 
+          class="w-full sm:w-auto px-10 py-5 rounded-2xl text-amber-300 hover:text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center space-x-2.5 bg-[#140e07]/80 backdrop-blur-md border border-amber-500/20 hover:bg-amber-500/10 hover:border-amber-500/40 transition-all cursor-pointer"
+        >
+          <i class="fa-solid fa-shapes text-base"></i>
+          <span>View Features</span>
+        </button>
       </div>
 
     </div>
   </section>
 
-  <!-- Feature Grid -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-    <div class="text-center mb-14">
-      <h2 class="text-xs font-bold uppercase tracking-widest text-amber-400 font-mono">Platform Capabilities</h2>
-      <h3 class="text-2xl sm:text-4xl font-black text-white mt-1.5">Four Specialized Motion Studios</h3>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+  <!-- Features Modal -->
+  <div id="features-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-[#070503]/95 backdrop-blur-md overflow-y-auto">
+    <div class="relative w-full max-w-6xl my-auto">
+      <button onclick="document.getElementById('features-modal').classList.add('hidden')" class="absolute -top-10 sm:-top-12 right-0 text-zinc-400 hover:text-white transition-colors cursor-pointer text-2xl z-10">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-7 mt-8 sm:mt-0">
       
       <!-- Feature 1: UI Panel Builder -->
       <div class="glass-card glass-card-hover rounded-3xl p-7 sm:p-8 flex flex-col justify-between group">
@@ -174,10 +216,10 @@
         </div>
 
         <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
-          <a href="/panel-builder" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+          <div class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
             <span>Explore Panel Builder</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </a>
+          </div>
           <span class="text-[10px] font-mono text-zinc-400">Export .jsx Panels</span>
         </div>
       </div>
@@ -232,10 +274,10 @@
         </div>
 
         <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
-          <a href="/text-animator" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+          <div class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
             <span>Open Text Animator</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </a>
+          </div>
           <span class="text-[10px] font-mono text-zinc-400">Live Physics Engine</span>
         </div>
       </div>
@@ -287,10 +329,10 @@
         </div>
 
         <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
-          <a href="/presets" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+          <div class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
             <span>Browse Marketplace</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </a>
+          </div>
           <span class="text-[10px] font-mono text-zinc-400">ES3 Syntax Engine</span>
         </div>
       </div>
@@ -342,39 +384,89 @@
         </div>
 
         <div class="mt-6 pt-4 border-t border-amber-500/15 flex items-center justify-between">
-          <a href="/wallet" class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
+          <div class="text-xs font-bold text-amber-400 hover:text-orange-300 flex items-center space-x-1.5">
             <span>Manage Wallet & Credits</span>
             <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </a>
+          </div>
           <span class="text-[10px] font-mono text-zinc-400">Atomic Row Locks</span>
         </div>
       </div>
 
     </div>
-  </section>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="mt-auto border-t border-amber-500/20 bg-[#090603]/90 py-10 px-4 text-center text-xs text-zinc-400">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <img src="myimages/scriptfy%20icon.png" alt="Scriptify" class="h-6 w-auto object-contain">
+        <img src="myimages/scriptfy%20icon.png" alt="Scriptify" class="h-6 w-auto object-contain" onerror="this.src='/myimages/scriptfy icon.png'">
         <span>&bull;</span>
         <span>Adobe After Effects ExtendScript Automation</span>
       </div>
       <div class="flex items-center space-x-5 text-zinc-300 font-medium">
-        <a href="/panel-builder" class="hover:text-amber-300 transition-colors">Panel Builder</a>
-        <a href="/text-animator" class="hover:text-amber-300 transition-colors">Text Animator</a>
-        <a href="/presets" class="hover:text-amber-300 transition-colors">Marketplace</a>
-        <a href="/wallet" class="hover:text-amber-300 transition-colors">Pricing & Wallet</a>
+        <a href="#" class="hover:text-amber-300 transition-colors">Contact</a>
+        <a href="#" class="hover:text-amber-300 transition-colors">Copyright</a>
+        <a href="#" class="hover:text-amber-300 transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-amber-300 transition-colors">Terms</a>
       </div>
     </div>
   </footer>
 
   <script src="js/api.js"></script>
-  <script src="js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      Navbar.mount('home');
+
+      // GSAP Circular Carousel Logic
+      gsap.registerPlugin(Draggable, Flip);
+
+      const wheel = document.getElementById("gsap-wheel");
+      const numCards = 8;
+      const isMobile = window.innerWidth < 768;
+      const radius = isMobile ? 300 : 400;
+      
+      const icons = [
+        'fa-bolt', 'fa-code', 'fa-shapes', 'fa-font', 
+        'fa-layer-group', 'fa-palette', 'fa-wand-magic-sparkles', 'fa-cube'
+      ];
+      
+      // Dynamically generate cards around the wheel
+      for(let i=0; i<numCards; i++) {
+        const card = document.createElement('div');
+        card.className = "absolute top-1/2 left-1/2 w-24 h-32 md:w-32 md:h-40 bg-[#100b06]/60 backdrop-blur-xl border border-amber-500/20 rounded-2xl flex flex-col items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.1)] -ml-12 -mt-16 md:-ml-16 md:-mt-20 gsap-card-hover cursor-pointer";
+        card.innerHTML = `<i class="fa-solid ${icons[i]} text-2xl md:text-3xl text-amber-500/80 mb-2"></i><div class="w-8 h-1 bg-amber-500/20 rounded-full"></div>`;
+        
+        const angle = (i / numCards) * Math.PI * 2;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        
+        // Orient cards outwards
+        gsap.set(card, {
+          x: x,
+          y: y,
+          rotation: (angle * 180 / Math.PI) + 90
+        });
+        
+        wheel.appendChild(card);
+      }
+
+      // Initialize Draggable for spinning the wheel manually
+      Draggable.create(wheel, {
+        type: "rotation",
+        inertia: true,
+        bounds: { minRotation: -99999, maxRotation: 99999 },
+        onPress: function() {
+          gsap.killTweensOf(wheel); // Stop auto-spin on grab
+        }
+      });
+      
+      // Auto-spin infinite animation
+      gsap.to(wheel, {
+        rotation: 360,
+        duration: 50,
+        repeat: -1,
+        ease: "none"
+      });
     });
   </script>
 </body>

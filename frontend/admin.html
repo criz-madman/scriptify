@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — Admin Dashboard</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#100b06',
+              surface: '#181008',
+              border: 'rgba(245, 158, 11, 0.2)',
+              accent: '#f97316',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Firebase Authentication -->
+  <script type="module" src="js/firebaseConfig.js"></script>
+  <style>
+    .glass-card {
+      background: rgba(16, 11, 6, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen relative overflow-x-hidden font-sans">
+  
+  <!-- Light beam effect -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-orange-500/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+
+  <!-- Full page loader for auth check -->
+  <div id="auth-loader" class="fixed inset-0 z-50 bg-[#070503] flex flex-col items-center justify-center transition-opacity duration-500">
+    <i class="fa-solid fa-circle-notch fa-spin text-4xl text-amber-500 mb-4"></i>
+    <p class="text-zinc-400 text-sm animate-pulse tracking-widest uppercase font-mono">Verifying Admin Credentials...</p>
+  </div>
+
+  <div class="relative z-10 container mx-auto px-4 py-8 max-w-6xl hidden" id="admin-content">
+    
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row items-center justify-between mb-10 pb-6 border-b border-amber-500/10">
+      <div class="flex items-center space-x-4 mb-4 sm:mb-0">
+        <a href="/" class="group">
+          <!-- Fallback logic for logo included -->
+          <img src="/images/logo.png" alt="Scriptify" class="h-10 w-auto object-contain transition-opacity group-hover:opacity-85" onerror="this.src='myimages/scriptfy icon.png'">
+        </a>
+        <div class="h-8 w-px bg-amber-500/20"></div>
+        <div>
+          <h1 class="text-xl font-bold bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent">Admin Dashboard</h1>
+          <p class="text-xs text-zinc-500 font-mono mt-1">System Overview & Management</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="text-right hidden sm:block">
+          <p class="text-sm font-medium text-zinc-200" id="admin-email">Loading...</p>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase tracking-wide">Superadmin</span>
+        </div>
+        <button onclick="window.FirebaseBridge.logoutFirebase().then(() => window.location.href='/login')" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-zinc-400 hover:text-amber-500 hover:border-amber-500/40 transition-all cursor-pointer">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Analytics Section -->
+    <section class="mb-10">
+      <h2 class="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-4 flex items-center">
+        <i class="fa-solid fa-chart-line mr-2 text-amber-500"></i> Platform Analytics
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Metric Card 1 -->
+        <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:border-amber-500/30 transition-colors">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div>
+              <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider mb-1">Total Users</p>
+              <h3 class="text-4xl font-bold text-zinc-100 mt-2">1,248</h3>
+              <p class="text-emerald-400 text-xs mt-2 flex items-center"><i class="fa-solid fa-arrow-up mr-1"></i> 12% this week</p>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 text-xl shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+              <i class="fa-solid fa-users"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Metric Card 2 -->
+        <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:border-orange-500/30 transition-colors">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div>
+              <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider mb-1">Active Sessions</p>
+              <h3 class="text-4xl font-bold text-zinc-100 mt-2">86</h3>
+              <p class="text-zinc-400 text-xs mt-2 flex items-center"><i class="fa-regular fa-clock mr-1"></i> Live right now</p>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-500 text-xl shadow-[0_0_15px_rgba(249,115,22,0.15)]">
+              <i class="fa-solid fa-satellite-dish"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Card 3 -->
+        <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/30 transition-colors">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div>
+              <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider mb-1">DB Connection</p>
+              <h3 class="text-2xl font-bold text-emerald-400 mt-3 mb-1">Healthy</h3>
+              <p class="text-zinc-400 text-xs mt-2 flex items-center"><i class="fa-solid fa-check-circle mr-1 text-emerald-500"></i> PostgreSQL Active</p>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 text-xl shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+              <i class="fa-solid fa-database"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- User Management Table -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-sm font-bold uppercase tracking-widest text-zinc-400 flex items-center">
+            <i class="fa-solid fa-users-gear mr-2 text-amber-500"></i> User Management
+          </h2>
+          <button class="text-xs text-amber-500 hover:text-amber-400 transition-colors cursor-pointer">View All</button>
+        </div>
+        
+        <div class="glass-card rounded-2xl overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-zinc-400">
+              <thead class="text-xs uppercase bg-[#181008]/80 text-zinc-500 border-b border-amber-500/10 font-mono">
+                <tr>
+                  <th scope="col" class="px-6 py-4">User</th>
+                  <th scope="col" class="px-6 py-4">Status</th>
+                  <th scope="col" class="px-6 py-4">Credits</th>
+                  <th scope="col" class="px-6 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-amber-500/5">
+                <tr class="hover:bg-amber-500/5 transition-colors group">
+                  <td class="px-6 py-4 flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold text-xs">CJ</div>
+                    <div>
+                      <p class="font-medium text-zinc-200">Christan James</p>
+                      <p class="text-[10px] text-zinc-500">christanjames07@gmail.com</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Active</span>
+                  </td>
+                  <td class="px-6 py-4 font-mono text-zinc-300">1,250</td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="text-zinc-600 hover:text-amber-500 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="text-zinc-600 hover:text-red-400 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-ban"></i></button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-amber-500/5 transition-colors group">
+                  <td class="px-6 py-4 flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">JD</div>
+                    <div>
+                      <p class="font-medium text-zinc-200">Jane Doe</p>
+                      <p class="text-[10px] text-zinc-500">jane.motion@example.com</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Active</span>
+                  </td>
+                  <td class="px-6 py-4 font-mono text-zinc-300">450</td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="text-zinc-600 hover:text-amber-500 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="text-zinc-600 hover:text-red-400 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-ban"></i></button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-amber-500/5 transition-colors group">
+                  <td class="px-6 py-4 flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">MS</div>
+                    <div>
+                      <p class="font-medium text-zinc-200">Mike Smith</p>
+                      <p class="text-[10px] text-zinc-500">mike@vfxstudio.com</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-zinc-500/10 text-zinc-400 border border-zinc-500/20">Offline</span>
+                  </td>
+                  <td class="px-6 py-4 font-mono text-zinc-300">0</td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="text-zinc-600 hover:text-amber-500 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="text-zinc-600 hover:text-red-400 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-ban"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preset Moderation Panel -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-sm font-bold uppercase tracking-widest text-zinc-400 flex items-center">
+            <i class="fa-solid fa-layer-group mr-2 text-amber-500"></i> Preset Moderation
+          </h2>
+          <span class="bg-amber-500/20 text-amber-500 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">3 Pending</span>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Pending Item 1 -->
+          <div class="glass-card rounded-2xl p-5 flex flex-col sm:flex-row gap-4 border-l-2 border-l-amber-500 hover:bg-[#120d08] transition-colors">
+            <div class="w-20 h-14 bg-zinc-900 rounded-lg flex items-center justify-center overflow-hidden border border-zinc-800 shrink-0">
+              <span class="text-[10px] font-mono text-zinc-500">PREVIEW</span>
+            </div>
+            <div class="flex-grow">
+              <div class="flex justify-between items-start mb-1">
+                <h4 class="font-bold text-zinc-200 text-sm">Glitch Text Reveal Pro</h4>
+                <span class="text-[10px] text-zinc-500">2h ago</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-3 line-clamp-1">Dynamic RGB split with kinetic typography animation...</p>
+              <div class="flex gap-2">
+                <button class="px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-medium border border-emerald-500/20 transition-colors flex items-center cursor-pointer">
+                  <i class="fa-solid fa-check mr-1.5"></i> Approve
+                </button>
+                <button class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 transition-colors flex items-center cursor-pointer">
+                  <i class="fa-solid fa-xmark mr-1.5"></i> Reject
+                </button>
+                <button class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium border border-zinc-700 transition-colors cursor-pointer">
+                  Review
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pending Item 2 -->
+          <div class="glass-card rounded-2xl p-5 flex flex-col sm:flex-row gap-4 border-l-2 border-l-amber-500 hover:bg-[#120d08] transition-colors">
+            <div class="w-20 h-14 bg-zinc-900 rounded-lg flex items-center justify-center overflow-hidden border border-zinc-800 shrink-0">
+              <span class="text-[10px] font-mono text-zinc-500">PREVIEW</span>
+            </div>
+            <div class="flex-grow">
+              <div class="flex justify-between items-start mb-1">
+                <h4 class="font-bold text-zinc-200 text-sm">Cinematic Title Fade</h4>
+                <span class="text-[10px] text-zinc-500">5h ago</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-3 line-clamp-1">Smooth tracking with optical blur for elegant titles...</p>
+              <div class="flex gap-2">
+                <button class="px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-medium border border-emerald-500/20 transition-colors flex items-center cursor-pointer">
+                  <i class="fa-solid fa-check mr-1.5"></i> Approve
+                </button>
+                <button class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 transition-colors flex items-center cursor-pointer">
+                  <i class="fa-solid fa-xmark mr-1.5"></i> Reject
+                </button>
+                <button class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-xs font-medium border border-zinc-700 transition-colors cursor-pointer">
+                  Review
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    // Security Check: Enforce strictly christanjames07@gmail.com
+    window.addEventListener('firebase:ready', () => {
+      window.FirebaseBridge.onAuthStateChanged((user) => {
+        const loader = document.getElementById('auth-loader');
+        const content = document.getElementById('admin-content');
+        
+        if (user) {
+          if (user.email === 'christanjames07@gmail.com') {
+            // Authorized
+            document.getElementById('admin-email').textContent = user.email;
+            loader.style.opacity = '0';
+            setTimeout(() => {
+              loader.classList.add('hidden');
+              content.classList.remove('hidden');
+              content.classList.add('animate-fade-in');
+            }, 500);
+          } else {
+            // Unauthorized but logged in
+            alert("Unauthorized Access. You do not have administrator privileges.");
+            window.location.href = '/';
+          }
+        } else {
+          // Not logged in
+          window.location.href = '/login?redirect=/admin';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

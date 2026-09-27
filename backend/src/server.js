@@ -79,13 +79,17 @@ app.use('/api/marketplace', marketplaceRoutes);
 // Multi-Page Clean HTML Routing
 app.get('/', (req, res) => res.sendFile(path.join(frontendPath, 'index.html')));
 app.get('/login', (req, res) => res.sendFile(path.join(frontendPath, 'login.html')));
+app.get('/register', (req, res) => res.sendFile(path.join(frontendPath, 'register.html')));
 app.get('/dashboard', (req, res) => res.sendFile(path.join(frontendPath, 'dashboard.html')));
+app.get('/explore', (req, res) => res.sendFile(path.join(frontendPath, 'explore.html')));
+app.get('/profile', (req, res) => res.sendFile(path.join(frontendPath, 'profile.html')));
 app.get('/panel-builder', (req, res) => res.sendFile(path.join(frontendPath, 'panel-builder.html')));
 app.get('/text-animator', (req, res) => res.sendFile(path.join(frontendPath, 'text-animator.html')));
 app.get('/presets', (req, res) => res.sendFile(path.join(frontendPath, 'presets.html')));
 app.get('/marketplace', (req, res) => res.sendFile(path.join(frontendPath, 'presets.html')));
 app.get('/shop', (req, res) => res.sendFile(path.join(frontendPath, 'presets.html')));
 app.get('/wallet', (req, res) => res.sendFile(path.join(frontendPath, 'wallet.html')));
+app.get('/admin', (req, res) => res.sendFile(path.join(frontendPath, 'admin.html')));
 
 // Fallback for SPA or trailing slashes
 app.get('*', (req, res, next) => {
@@ -110,12 +114,15 @@ const startServer = async () => {
     console.log(`[Scriptify API]       Running on http://localhost:${env.port}`);
     console.log(`[Scriptify Web App]   Pages available at:`);
     console.log(`  - Home / Landing:   http://localhost:${env.port}/`);
-    console.log(`  - Login (OTP):      http://localhost:${env.port}/login`);
+    console.log(`  - Login:            http://localhost:${env.port}/login`);
+    console.log(`  - Register:         http://localhost:${env.port}/register`);
     console.log(`  - Dashboard:        http://localhost:${env.port}/dashboard`);
+    console.log(`  - Profile:          http://localhost:${env.port}/profile`);
     console.log(`  - UI Panel Builder: http://localhost:${env.port}/panel-builder`);
     console.log(`  - Text Animator:    http://localhost:${env.port}/text-animator`);
     console.log(`  - Preset Studio:    http://localhost:${env.port}/presets`);
     console.log(`  - Credit Wallet:    http://localhost:${env.port}/wallet`);
+    console.log(`  - Admin Dashboard:  http://localhost:${env.port}/admin`);
     console.log('====================================================');
   });
 };

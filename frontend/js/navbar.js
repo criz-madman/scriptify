@@ -34,20 +34,20 @@ const Navbar = (() => {
             <!-- Navigation Links -->
             <nav class="hidden lg:flex items-center space-x-1 bg-[#140e06]/80 p-1.5 rounded-full border border-amber-500/20 shadow-inner">
               ${navItems.map(item => {
-                const isActive = item.id === activePage;
-                return `
+      const isActive = item.id === activePage;
+      return `
                   <a 
                     href="${item.href}" 
                     class="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all flex items-center space-x-1.5
-                      ${isActive 
-                        ? 'bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 text-white shadow-md shadow-orange-500/30 border border-orange-400/40' 
-                        : 'text-zinc-400 hover:text-amber-200 hover:bg-orange-500/10'}"
+                      ${isActive
+          ? 'bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 text-white shadow-md shadow-orange-500/30 border border-orange-400/40'
+          : 'text-zinc-400 hover:text-amber-200 hover:bg-orange-500/10'}"
                   >
                     <i class="fa-solid ${item.icon} text-xs"></i>
                     <span>${item.label}</span>
                   </a>
                 `;
-              }).join('')}
+    }).join('')}
             </nav>
           </div>
 
@@ -103,7 +103,7 @@ const Navbar = (() => {
     if (btnLogout) {
       btnLogout.addEventListener('click', async () => {
         if (window.FirebaseBridge && typeof window.FirebaseBridge.logoutFirebase === 'function') {
-          try { await window.FirebaseBridge.logoutFirebase(); } catch (e) {}
+          try { await window.FirebaseBridge.logoutFirebase(); } catch (e) { }
         }
         API.removeToken();
         window.location.href = '/';
