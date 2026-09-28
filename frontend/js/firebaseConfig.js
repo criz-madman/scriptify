@@ -13,8 +13,12 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged 
+  onAuthStateChanged,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+// ... existing code ...
+// Let's just update the import and the window.FirebaseBridge object.
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -132,6 +136,7 @@ window.FirebaseBridge = {
   registerWithEmail,
   logoutFirebase,
   syncFirebaseSession,
+  updateProfile,
   onAuthStateChanged: (cb) => onAuthStateChanged(auth, cb)
 };
 

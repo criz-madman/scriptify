@@ -73,16 +73,15 @@ const Navbar = (() => {
               <span>Sign In</span>
             </a>
 
-            <!-- Authenticated User Profile Dropdown -->
-            <div id="nav-user-badge" class="hidden flex items-center space-x-2 bg-[#140e06]/90 border border-amber-500/30 rounded-full py-1 px-3">
-              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-[10px] font-bold text-white uppercase shadow-sm">
-                <i class="fa-solid fa-user"></i>
+            <!-- Authenticated User Profile Link -->
+            <a href="/profile" id="nav-user-badge" class="hidden flex items-center space-x-2 bg-[#140e06]/90 border border-amber-500/30 hover:border-amber-500/60 hover:bg-[#1a1208] rounded-full py-1 pr-3 pl-1 transition-all group shadow-sm cursor-pointer">
+              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-[10px] font-bold text-white uppercase shadow-sm overflow-hidden" id="nav-avatar-container">
+                <i class="fa-solid fa-user" id="nav-default-icon"></i>
+                <img id="nav-user-avatar" src="" alt="Avatar" class="w-full h-full object-cover hidden">
               </div>
-              <span id="nav-user-email" class="text-xs text-zinc-300 font-medium max-w-[130px] truncate"></span>
-              <button id="nav-btn-logout" title="Sign Out" class="text-zinc-500 hover:text-rose-400 text-xs ml-1 transition-colors">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-              </button>
-            </div>
+              <span id="nav-user-email" class="text-xs text-zinc-300 group-hover:text-amber-200 font-medium max-w-[130px] truncate transition-colors"></span>
+              <i class="fa-solid fa-arrow-right-to-bracket text-[10px] text-zinc-500 group-hover:text-amber-400 ml-1 transition-colors"></i>
+            </a>
 
           </div>
         </div>
@@ -91,24 +90,40 @@ const Navbar = (() => {
 
     // Hook session state
     syncSession();
+
+    // Hook into Firebase to get avatar
+    window.addEventListener('firebase:ready', () => {
+      window.FirebaseBridge.onAuthStateChanged((user) => {
+        if (user && user.photoURL) {
+          const avatarImg = document.getElementById('nav-user-avatar');
+          const defaultIcon = document.getElementById('nav-default-icon');
+          
+          if (avatarImg && defaultIcon) {
+            avatarImg.src = user.photoURL;
+            avatarImg.classList.remove('hidden');
+            defaultIcon.classList.add('hidden');
+          }
+        }
+      });
+    });
+
+    // Global function to update navbar avatar immediately on profile page
+    window.updateNavbarAvatar = (url) => {
+      const avatarImg = document.getElementById('nav-user-avatar');
+      const defaultIcon = document.getElementById('nav-default-icon');
+      if (avatarImg && defaultIcon) {
+        avatarImg.src = url;
+        avatarImg.classList.remove('hidden');
+        defaultIcon.classList.add('hidden');
+      }
+    };
   };
 
   const syncSession = async () => {
     const btnLogin = document.getElementById('nav-btn-login');
     const userBadge = document.getElementById('nav-user-badge');
     const userEmail = document.getElementById('nav-user-email');
-    const btnLogout = document.getElementById('nav-btn-logout');
     const balanceDisplay = document.getElementById('nav-wallet-balance');
-
-    if (btnLogout) {
-      btnLogout.addEventListener('click', async () => {
-        if (window.FirebaseBridge && typeof window.FirebaseBridge.logoutFirebase === 'function') {
-          try { await window.FirebaseBridge.logoutFirebase(); } catch (e) { }
-        }
-        API.removeToken();
-        window.location.href = '/';
-      });
-    }
 
     if (!API.isAuthenticated()) {
       if (btnLogin) btnLogin.classList.remove('hidden');

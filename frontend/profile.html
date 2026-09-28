@@ -91,11 +91,8 @@
           <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
           
           <div class="flex flex-col items-center text-center relative z-10">
-            <div class="w-24 h-24 rounded-full border-2 border-amber-500/40 p-1 mb-4 relative">
+            <div class="w-24 h-24 rounded-full border-2 border-amber-500/40 p-1 mb-4 relative group">
               <img id="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=f59e0b&color=fff&size=128" alt="Avatar" class="w-full h-full rounded-full object-cover">
-              <button class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-amber-500 text-[#070503] flex items-center justify-center hover:bg-amber-400 transition-colors cursor-pointer border border-[#070503]">
-                <i class="fa-solid fa-camera text-xs"></i>
-              </button>
             </div>
             <h2 id="profile-name" class="text-xl font-bold text-zinc-100 mb-1">Motion Designer</h2>
             <p id="profile-email" class="text-xs text-zinc-400 font-mono mb-4">Loading...</p>
@@ -193,7 +190,7 @@
         <div class="glass-card rounded-3xl p-6 mt-8">
           <h3 class="text-sm font-bold text-zinc-100 mb-6">Preferences</h3>
           
-          <div class="space-y-4">
+          <div class="space-y-4 mb-8">
             <div class="flex items-center justify-between p-4 rounded-xl bg-[#140e07] border border-amber-500/10">
               <div>
                 <p class="text-sm font-medium text-zinc-200">Email Notifications</p>
@@ -215,6 +212,13 @@
                 <div class="w-11 h-6 bg-amber-500 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all opacity-80 cursor-not-allowed"></div>
               </label>
             </div>
+          </div>
+
+          <!-- Avatar Selection Section -->
+          <h3 class="text-sm font-bold text-zinc-100 mb-4">Choose Avatar</h3>
+          <p class="text-xs text-zinc-500 mb-4">Select a custom character or pet to represent you across the studio.</p>
+          <div class="grid grid-cols-4 sm:grid-cols-6 gap-3" id="avatar-grid">
+            <!-- Avatars injected by JS -->
           </div>
         </div>
 
@@ -246,6 +250,59 @@
             const date = new Date(user.metadata.creationTime);
             document.getElementById('profile-joined').textContent = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
           }
+          
+          // Populate Avatar Grid
+          const avatars = [
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Felix',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Jasper',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Jack',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Nala',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Bandit',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Buster',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Gizmo',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Mittens',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Oliver',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Tiger',
+            'https://api.dicebear.com/7.x/adventurer/svg?seed=Bella'
+          ];
+          
+          const grid = document.getElementById('avatar-grid');
+          grid.innerHTML = '';
+          avatars.forEach(url => {
+            const div = document.createElement('div');
+            div.className = `cursor-pointer rounded-xl overflow-hidden border-2 transition-all ${user.photoURL === url ? 'border-amber-500 scale-105' : 'border-transparent hover:border-amber-500/50'}`;
+            div.innerHTML = `<img src="${url}" alt="Avatar" class="w-full h-auto bg-amber-500/10">`;
+            div.onclick = async () => {
+              if (user.photoURL === url) return;
+              try {
+                const oldText = div.innerHTML;
+                div.innerHTML = `<div class="flex items-center justify-center w-full h-full bg-amber-500/20 py-4"><i class="fa-solid fa-circle-notch fa-spin text-amber-500"></i></div>`;
+                await window.FirebaseBridge.updateProfile(user, { photoURL: url });
+                document.getElementById('profile-avatar').src = url;
+                user.photoURL = url; // Update local user state
+                
+                // Update grid highlighting
+                Array.from(grid.children).forEach(child => {
+                  const childImg = child.querySelector('img');
+                  const childUrl = childImg ? childImg.src : child.getAttribute('data-url');
+                  child.className = `cursor-pointer rounded-xl overflow-hidden border-2 transition-all ${childUrl === url ? 'border-amber-500 scale-105' : 'border-transparent hover:border-amber-500/50'}`;
+                });
+                
+                div.innerHTML = `<img src="${url}" alt="Avatar" class="w-full h-auto bg-amber-500/10">`;
+                div.setAttribute('data-url', url);
+                
+                // Update navbar if loaded
+                if (window.updateNavbarAvatar) window.updateNavbarAvatar(url);
+              } catch (e) {
+                console.error("Failed to update avatar", e);
+                alert("Failed to update avatar. Please try again.");
+                div.innerHTML = `<img src="${url}" alt="Avatar" class="w-full h-auto bg-amber-500/10">`;
+              }
+            };
+            div.setAttribute('data-url', url);
+            grid.appendChild(div);
+          });
           
           // Reveal content
           loader.style.opacity = '0';
