@@ -491,11 +491,44 @@ const getUserPurchases = async (userId) => {
   return res.rows;
 };
 
+const updateProduct = async (productId, data) => {
+  const { title, description, category, creditPrice, instructions, payloadCode, version, author } = data;
+  const sql = `
+    UPDATE "MarketplaceProducts"
+    SET
+      "title" = COALESCE($2, "title"),
+      "description" = COALESCE($3, "description"),
+      "category" = COALESCE($4, "category"),
+      "creditPrice" = COALESCE($5, "creditPrice"),
+      "instructions" = COALESCE($6, "instructions"),
+      "payloadCode" = COALESCE($7, "payloadCode"),
+      "version" = COALESCE($8, "version"),
+      "author" = COALESCE($9, "author"),
+      "updatedAt" = CURRENT_TIMESTAMP
+    WHERE "productId" = $1
+    RETURNING *;
+  `;
+  const res = await query(sql, [productId, title, description, category, creditPrice, instructions, payloadCode, version, author]);
+  if (res.rows.length === 0) throw { statusCode: 404, message: 'Product not found.' };
+  return res.rows[0];
+};
+
+const deleteProduct = async (productId) => {
+  // Option 1: Hard delete, but purchases might fail foreign key. Better to soft-delete or cascade.
+  // Assuming cascade is set or we delete from MarketplacePurchases first.
+  await query('DELETE FROM "MarketplacePurchases" WHERE "productId" = $1', [productId]);
+  const res = await query('DELETE FROM "MarketplaceProducts" WHERE "productId" = $1 RETURNING *', [productId]);
+  if (res.rows.length === 0) throw { statusCode: 404, message: 'Product not found.' };
+  return true;
+};
+
 module.exports = {
   seedDefaultProducts,
   getProducts,
   getProductById,
   purchaseProduct,
   createProduct,
+  updateProduct,
+  deleteProduct,
   getUserPurchases
 };

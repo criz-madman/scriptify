@@ -400,9 +400,9 @@
   <script src="js/navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Set active page to dashboard for navigation highlighting (since explore is replacing the old dashboard conceptually)
+      // Set active page for navigation highlighting
       if (typeof Navbar !== 'undefined' && Navbar.mount) {
-        Navbar.mount('dashboard');
+        Navbar.mount('explore');
       }
     });
   </script>

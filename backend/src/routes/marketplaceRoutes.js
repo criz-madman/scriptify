@@ -109,6 +109,39 @@ router.post('/products', async (req, res, next) => {
 });
 
 /**
+ * PUT /api/marketplace/products/:id
+ * Admin endpoint: Update existing product
+ */
+router.put('/products/:id', async (req, res, next) => {
+  try {
+    const updatedProduct = await marketplaceService.updateProduct(req.params.id, req.body);
+    res.json({
+      success: true,
+      message: 'Product updated successfully!',
+      product: updatedProduct
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * DELETE /api/marketplace/products/:id
+ * Admin endpoint: Delete product
+ */
+router.delete('/products/:id', async (req, res, next) => {
+  try {
+    await marketplaceService.deleteProduct(req.params.id);
+    res.json({
+      success: true,
+      message: 'Product deleted successfully!'
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * GET /api/marketplace/purchases
  * Get user's purchased items
  */

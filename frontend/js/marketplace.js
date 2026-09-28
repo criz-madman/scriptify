@@ -313,9 +313,14 @@ const Marketplace = (() => {
         if (activeBalanceDisplay) activeBalanceDisplay.textContent = res.remainingBalance;
       }
 
+      const purchasedProduct = activeProductForPurchase;
+
       // Close purchase modal and show guide modal with unlocked download
       closePurchaseModal();
-      openGuideModal(activeProductForPurchase);
+      openGuideModal(purchasedProduct);
+
+      // Trigger automatic direct download upon purchase confirmation
+      downloadProductPayload(purchasedProduct);
 
       // Refresh catalog
       await loadProducts();

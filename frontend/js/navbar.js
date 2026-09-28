@@ -9,7 +9,7 @@ const Navbar = (() => {
     if (!target) return;
 
     const navItems = [
-      { id: 'home', label: 'Home', href: '/', icon: 'fa-house' },
+      { id: 'explore', label: 'Explore', href: '/explore', icon: 'fa-compass' },
       { id: 'dashboard', label: 'Tools Hub', href: '/dashboard', icon: 'fa-gauge-high' },
       { id: 'panel-builder', label: 'UI Panel Builder', href: '/panel-builder', icon: 'fa-shapes' },
       { id: 'text-animator', label: 'Text Animator', href: '/text-animator', icon: 'fa-font' },
