@@ -184,7 +184,7 @@ const Marketplace = (() => {
     productsGrid.querySelectorAll('[data-open-guide]').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-open-guide');
-        const prod = allProducts.find(p => p.productId === id);
+        const prod = allProducts.find(p => String(p.productId) === String(id));
         if (prod) openGuideModal(prod);
       });
     });
@@ -192,7 +192,7 @@ const Marketplace = (() => {
     productsGrid.querySelectorAll('[data-purchase-prod]').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-purchase-prod');
-        const prod = allProducts.find(p => p.productId === id);
+        const prod = allProducts.find(p => String(p.productId) === String(id));
         if (prod) openPurchaseModal(prod);
       });
     });
@@ -200,7 +200,7 @@ const Marketplace = (() => {
     productsGrid.querySelectorAll('[data-download-prod]').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-download-prod');
-        const prod = allProducts.find(p => p.productId === id);
+        const prod = allProducts.find(p => String(p.productId) === String(id));
         if (prod) downloadProductPayload(prod);
       });
     });
@@ -208,10 +208,11 @@ const Marketplace = (() => {
 
   // Open Guide Modal
   const openGuideModal = (product) => {
+    if (!product) return;
     activeProductForGuide = product;
     if (!guideModal) return;
 
-    document.getElementById('guide-modal-title').textContent = product.title;
+    document.getElementById('guide-modal-title').textContent = product.title || 'Product';
     document.getElementById('guide-modal-cat').innerHTML = getCategoryBadge(product.category);
     document.getElementById('guide-modal-version').textContent = `v${product.version || '1.0.0'}`;
 
@@ -247,6 +248,7 @@ const Marketplace = (() => {
 
   // Open Purchase Modal
   const openPurchaseModal = async (product) => {
+    if (!product) return;
     if (!API.isAuthenticated()) {
       window.location.href = '/login';
       return;
@@ -255,7 +257,7 @@ const Marketplace = (() => {
     activeProductForPurchase = product;
     if (!purchaseModal) return;
 
-    document.getElementById('purchase-modal-title').textContent = product.title;
+    document.getElementById('purchase-modal-title').textContent = product.title || 'Product';
     document.getElementById('purchase-modal-price').textContent = product.creditPrice;
     
     // Fetch fresh balance
@@ -306,14 +308,21 @@ const Marketplace = (() => {
         productId: activeProductForPurchase.productId
       });
 
-      // Update state
-      activeProductForPurchase.isPurchased = true;
+      // We should use res.product because it has the payloadCode which isn't sent in the list view
+      const purchasedProduct = res.product || activeProductForPurchase;
+      purchasedProduct.isPurchased = true;
+      
+      // Update local state in allProducts
+      const index = allProducts.findIndex(p => String(p.productId) === String(purchasedProduct.productId));
+      if (index !== -1) {
+        allProducts[index].isPurchased = true;
+        allProducts[index].payloadCode = purchasedProduct.payloadCode; // Cache payload
+      }
+
       if (res.remainingBalance !== null && res.remainingBalance !== undefined) {
         Navbar.syncSession();
         if (activeBalanceDisplay) activeBalanceDisplay.textContent = res.remainingBalance;
       }
-
-      const purchasedProduct = activeProductForPurchase;
 
       // Close purchase modal and show guide modal with unlocked download
       closePurchaseModal();
@@ -322,8 +331,8 @@ const Marketplace = (() => {
       // Trigger automatic direct download upon purchase confirmation
       downloadProductPayload(purchasedProduct);
 
-      // Refresh catalog
-      await loadProducts();
+      // Refresh catalog UI
+      renderProducts();
     } catch (err) {
       alert('Purchase failed: ' + (err.message || 'Unknown error'));
       confirmBtn.disabled = false;
@@ -332,14 +341,53 @@ const Marketplace = (() => {
   };
 
   // Download product payload
-  const downloadProductPayload = (product) => {
-    const code = product.payloadCode || `// ${product.title} - Scriptify Official`;
-    const ext = product.category === 'script' ? '.jsx' : product.category === 'plugin' ? '.txt' : '.txt';
-    const filename = `${product.title.replace(/[^a-zA-Z0-9_-]/g, '_')}${ext}`;
+  const downloadProductPayload = async (product) => {
+    if (!product) return;
+    
+    // If we don't have the payloadCode locally, fetch it from the backend
+    let code = product.payloadCode;
+    if (!code) {
+      try {
+        const res = await API.get(`/api/marketplace/products/${product.productId}`);
+        if (res && res.product && res.product.payloadCode) {
+          code = res.product.payloadCode;
+          product.payloadCode = code; // cache it locally
+        } else {
+          throw new Error("Could not retrieve payload from server");
+        }
+      } catch (err) {
+        alert("Failed to download payload: " + err.message);
+        return;
+      }
+    }
+    
+    code = code || `// ${product.title || 'Product'} - Scriptify Official`;
+    let ext = '.txt';
+    if (product.category === 'script') ext = '.jsx';
+    if (product.category === 'plugin') ext = '.zip'; // usually cep is a zip/zxp
+    if (product.category === 'project_file') ext = '.aep';
+    
+    const filename = `${(product.title || 'Product').replace(/[^a-zA-Z0-9_-]/g, '_')}${ext}`;
+    
+    let blob;
+    // Check if it's a data URL (from file upload)
+    if (code.startsWith('data:')) {
+      const parts = code.split(',');
+      const mime = parts[0].match(/:(.*?);/)[1];
+      const bstr = atob(parts[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      blob = new Blob([u8arr], { type: mime });
+    } else {
+      blob = new Blob([code], { type: 'application/octet-stream' });
+    }
 
-    const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    a.style.display = 'none';
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);

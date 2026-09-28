@@ -373,8 +373,10 @@
         </div>
 
         <div class="space-y-1">
-          <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Payload Code (.jsx / file text contents)</label>
-          <textarea id="prod-payload" required rows="5" class="w-full bg-[#0a0704] border border-amber-500/30 rounded-lg px-4 py-2.5 text-amber-500 text-xs font-mono focus:outline-none focus:border-amber-500 transition-colors"></textarea>
+          <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Product File Upload</label>
+          <input type="file" id="prod-file" class="w-full bg-[#120d08] border border-amber-500/20 rounded-lg px-4 py-2.5 text-zinc-200 text-sm focus:outline-none focus:border-amber-500/50 transition-colors cursor-pointer">
+          <p class="text-[10px] text-zinc-500 mt-1">Upload the digital file (.jsx, .ffx, .zip). Leave blank to keep existing file on update.</p>
+          <input type="hidden" id="prod-payload" value="">
         </div>
 
         <div class="pt-4 flex justify-end space-x-3">
@@ -439,7 +441,7 @@
       
       tbody.innerHTML = allProducts.map(p => `
         <tr class="hover:bg-amber-500/5 transition-colors group">
-          <td class="px-6 py-4 font-mono text-zinc-500 text-xs">${p.productId.substring(0,8)}...</td>
+          <td class="px-6 py-4 font-mono text-zinc-500 text-xs">${String(p.productId).substring(0,8)}</td>
           <td class="px-6 py-4 font-bold text-zinc-200">${p.title}</td>
           <td class="px-6 py-4"><span class="inline-flex px-2 py-0.5 rounded text-[10px] bg-zinc-800 text-zinc-300 uppercase">${p.category}</span></td>
           <td class="px-6 py-4 font-mono text-amber-400">${p.creditPrice} cr</td>
@@ -454,6 +456,7 @@
     function openProductModal() {
       document.getElementById('product-form').reset();
       document.getElementById('prod-id').value = '';
+      document.getElementById('prod-payload').value = '';
       document.getElementById('product-modal-title').innerHTML = '<i class="fa-solid fa-box-open text-amber-500 mr-2"></i> Add New Product';
       document.getElementById('product-modal').classList.remove('hidden');
       document.getElementById('product-modal').classList.add('flex');
@@ -465,7 +468,7 @@
     }
 
     function editProduct(id) {
-      const p = allProducts.find(x => x.productId === id);
+      const p = allProducts.find(x => String(x.productId) === String(id));
       if(!p) return;
       document.getElementById('prod-id').value = p.productId;
       document.getElementById('prod-title').value = p.title || '';
@@ -475,7 +478,7 @@
       document.getElementById('prod-author').value = p.author || 'Scriptify Studio';
       document.getElementById('prod-desc').value = p.description || '';
       document.getElementById('prod-instructions').value = p.instructions || '';
-      document.getElementById('prod-payload').value = p.payloadCode || '';
+      document.getElementById('prod-payload').value = ''; // We won't prefill file input, but we will preserve it on backend if empty
       
       document.getElementById('product-modal-title').innerHTML = '<i class="fa-solid fa-pen text-amber-500 mr-2"></i> Edit Product';
       document.getElementById('product-modal').classList.remove('hidden');
@@ -492,24 +495,49 @@
       }
     }
 
+    function readUploadedFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (e) => reject(e);
+        // For jsx we could read as text, but base64 handles everything safely
+        reader.readAsDataURL(file);
+      });
+    }
+
     document.getElementById('product-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const id = document.getElementById('prod-id').value;
-      const data = {
-        title: document.getElementById('prod-title').value,
-        category: document.getElementById('prod-category').value,
-        creditPrice: parseInt(document.getElementById('prod-price').value, 10),
-        version: document.getElementById('prod-version').value,
-        author: document.getElementById('prod-author').value,
-        description: document.getElementById('prod-desc').value,
-        instructions: document.getElementById('prod-instructions').value,
-        payloadCode: document.getElementById('prod-payload').value
-      };
+      const fileInput = document.getElementById('prod-file');
+      
+      let finalPayload = document.getElementById('prod-payload').value;
       
       try {
         const btn = document.getElementById('prod-submit-btn');
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+        
+        // If a file was selected, read it as DataURL
+        if (fileInput.files.length > 0) {
+          finalPayload = await readUploadedFile(fileInput.files[0]);
+        }
+        
+        // If it's a new product and no file was provided
+        if (!id && !finalPayload) {
+          throw new Error('Please upload a product file.');
+        }
+
+        const data = {
+          title: document.getElementById('prod-title').value,
+          category: document.getElementById('prod-category').value,
+          creditPrice: parseInt(document.getElementById('prod-price').value, 10),
+          version: document.getElementById('prod-version').value,
+          author: document.getElementById('prod-author').value,
+          description: document.getElementById('prod-desc').value,
+          instructions: document.getElementById('prod-instructions').value,
+          // Only send payloadCode if we have one (it will preserve existing in backend during updates if not sent)
+          ...(finalPayload && { payloadCode: finalPayload })
+        };
         
         if (id) {
           await API.put('/api/marketplace/products/' + id, data);
