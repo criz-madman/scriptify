@@ -73,6 +73,22 @@
       "dest": "/frontend/wallet.html"
     },
     {
+      "src": "/explore",
+      "dest": "/frontend/explore.html"
+    },
+    {
+      "src": "/profile",
+      "dest": "/frontend/profile.html"
+    },
+    {
+      "src": "/register",
+      "dest": "/frontend/register.html"
+    },
+    {
+      "src": "/admin",
+      "dest": "/frontend/admin.html"
+    },
+    {
       "src": "/",
       "dest": "/frontend/index.html"
     },
