@@ -10,7 +10,6 @@ const Navbar = (() => {
 
     const navItems = [
       { id: 'explore', label: 'Explore', href: '/explore', icon: 'fa-compass' },
-      { id: 'dashboard', label: 'Tools Hub', href: '/dashboard', icon: 'fa-gauge-high' },
       { id: 'panel-builder', label: 'UI Panel Builder', href: '/panel-builder', icon: 'fa-shapes' },
       { id: 'text-animator', label: 'Text Animator', href: '/text-animator', icon: 'fa-font' },
       { id: 'presets', label: 'Marketplace', href: '/presets', icon: 'fa-store' },
