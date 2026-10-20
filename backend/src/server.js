@@ -89,6 +89,7 @@ app.get('/presets', (req, res) => res.sendFile(path.join(frontendPath, 'presets.
 app.get('/marketplace', (req, res) => res.sendFile(path.join(frontendPath, 'presets.html')));
 app.get('/shop', (req, res) => res.sendFile(path.join(frontendPath, 'presets.html')));
 app.get('/wallet', (req, res) => res.sendFile(path.join(frontendPath, 'wallet.html')));
+app.get('/checkout', (req, res) => res.sendFile(path.join(frontendPath, 'checkout.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(frontendPath, 'admin.html')));
 
 // Fallback for SPA or trailing slashes

@@ -7,7 +7,7 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "db:init": "node src/models/initDb.js",
-    "test": "node test/testRoutes.js && node test/testPanelBuilder.js && node test/testGenerator.js && node test/testMarketplace.js && node test/testE2E.js"
+    "test": "node test/testRoutes.js && node test/testCheckoutUI.js && node test/testPanelBuilder.js && node test/testGenerator.js && node test/testMarketplace.js && node test/testE2E.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

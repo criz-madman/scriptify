@@ -21,7 +21,7 @@ async function testAllRoutes() {
 
   try {
     const routes = [
-      { path: '/', expected: 'Automate After Effects' },
+      { path: '/', expected: 'Scriptify' },
       { path: '/login', expected: 'Studio Sign In' },
       { path: '/dashboard', expected: 'Studio Tools Hub' },
       { path: '/panel-builder', expected: 'Pick your actions' },
@@ -30,6 +30,7 @@ async function testAllRoutes() {
       { path: '/marketplace', expected: 'Marketplace' },
       { path: '/shop', expected: 'Marketplace' },
       { path: '/wallet', expected: 'Credit Balance & Purchases' },
+      { path: '/checkout', expected: 'Secure Checkout' },
       { path: '/health', expected: '"status":"ok"' }
     ];
 
