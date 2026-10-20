@@ -72,14 +72,12 @@ const Navbar = (() => {
               <span>Sign In</span>
             </a>
 
-            <!-- Authenticated User Profile Link -->
-            <a href="/profile" id="nav-user-badge" class="hidden flex items-center space-x-2 bg-[#140e06]/90 border border-amber-500/30 hover:border-amber-500/60 hover:bg-[#1a1208] rounded-full py-1 pr-3 pl-1 transition-all group shadow-sm cursor-pointer">
-              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-[10px] font-bold text-white uppercase shadow-sm overflow-hidden" id="nav-avatar-container">
-                <i class="fa-solid fa-user" id="nav-default-icon"></i>
+            <!-- Authenticated User Profile Link (Icon Only) -->
+            <a href="/profile" id="nav-user-badge" title="View Profile" class="hidden w-9 h-9 rounded-full bg-[#140e06]/90 border border-amber-500/35 hover:border-amber-400 hover:shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-all flex items-center justify-center group shadow-sm cursor-pointer overflow-hidden p-0.5">
+              <div class="w-full h-full rounded-full bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-xs font-bold text-white uppercase shadow-inner overflow-hidden" id="nav-avatar-container">
+                <i class="fa-solid fa-user text-[11px]" id="nav-default-icon"></i>
                 <img id="nav-user-avatar" src="" alt="Avatar" class="w-full h-full object-cover hidden">
               </div>
-              <span id="nav-user-email" class="text-xs text-zinc-300 group-hover:text-amber-200 font-medium max-w-[130px] truncate transition-colors"></span>
-              <i class="fa-solid fa-arrow-right-to-bracket text-[10px] text-zinc-500 group-hover:text-amber-400 ml-1 transition-colors"></i>
             </a>
 
           </div>
@@ -91,37 +89,45 @@ const Navbar = (() => {
     syncSession();
 
     // Hook into Firebase to get avatar
-    window.addEventListener('firebase:ready', () => {
-      window.FirebaseBridge.onAuthStateChanged((user) => {
-        if (user && user.photoURL) {
-          const avatarImg = document.getElementById('nav-user-avatar');
-          const defaultIcon = document.getElementById('nav-default-icon');
-          
-          if (avatarImg && defaultIcon) {
-            avatarImg.src = user.photoURL;
-            avatarImg.classList.remove('hidden');
-            defaultIcon.classList.add('hidden');
+    const checkFirebaseAvatar = () => {
+      if (window.FirebaseBridge && typeof window.FirebaseBridge.onAuthStateChanged === 'function') {
+        window.FirebaseBridge.onAuthStateChanged((user) => {
+          if (user && user.photoURL) {
+            localStorage.setItem('scriptify_user_avatar', user.photoURL);
+            const avatarImg = document.getElementById('nav-user-avatar');
+            const defaultIcon = document.getElementById('nav-default-icon');
+            if (avatarImg) {
+              avatarImg.src = user.photoURL;
+              avatarImg.classList.remove('hidden');
+              if (defaultIcon) defaultIcon.classList.add('hidden');
+            }
           }
-        }
-      });
-    });
+        });
+      }
+    };
+
+    if (window.FirebaseBridge) {
+      checkFirebaseAvatar();
+    } else {
+      window.addEventListener('firebase:ready', checkFirebaseAvatar, { once: true });
+    }
 
     // Global function to update navbar avatar immediately on profile page
     window.updateNavbarAvatar = (url) => {
       const avatarImg = document.getElementById('nav-user-avatar');
       const defaultIcon = document.getElementById('nav-default-icon');
-      if (avatarImg && defaultIcon) {
+      if (avatarImg && url) {
         avatarImg.src = url;
         avatarImg.classList.remove('hidden');
-        defaultIcon.classList.add('hidden');
+        if (defaultIcon) defaultIcon.classList.add('hidden');
       }
+      if (url) localStorage.setItem('scriptify_user_avatar', url);
     };
   };
 
   const syncSession = async () => {
     const btnLogin = document.getElementById('nav-btn-login');
     const userBadge = document.getElementById('nav-user-badge');
-    const userEmail = document.getElementById('nav-user-email');
     const balanceDisplay = document.getElementById('nav-wallet-balance');
 
     if (!API.isAuthenticated()) {
@@ -134,8 +140,30 @@ const Navbar = (() => {
     try {
       const data = await API.get('/api/auth/me');
       if (btnLogin) btnLogin.classList.add('hidden');
-      if (userBadge) userBadge.classList.remove('hidden');
-      if (userEmail) userEmail.textContent = data.user.email;
+      if (userBadge) {
+        userBadge.classList.remove('hidden');
+        const userEmail = data.user && data.user.email ? data.user.email : '';
+        if (userEmail) {
+          userBadge.title = `Profile (${userEmail})`;
+        }
+
+        const avatarImg = document.getElementById('nav-user-avatar');
+        const defaultIcon = document.getElementById('nav-default-icon');
+        const cachedAvatar = localStorage.getItem('scriptify_user_avatar');
+
+        if (avatarImg) {
+          if (cachedAvatar) {
+            avatarImg.src = cachedAvatar;
+            avatarImg.classList.remove('hidden');
+            if (defaultIcon) defaultIcon.classList.add('hidden');
+          } else if (userEmail) {
+            const initial = userEmail.charAt(0).toUpperCase();
+            avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(initial)}&background=f59e0b&color=070503&bold=true&size=128`;
+            avatarImg.classList.remove('hidden');
+            if (defaultIcon) defaultIcon.classList.add('hidden');
+          }
+        }
+      }
       if (balanceDisplay) balanceDisplay.textContent = data.walletBalance ?? '0';
     } catch (err) {
       API.removeToken();

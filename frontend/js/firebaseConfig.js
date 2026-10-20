@@ -83,6 +83,9 @@ async function syncFirebaseSession(firebaseUser) {
   if (data.token) {
     localStorage.setItem('scriptify_token', data.token);
   }
+  if (firebaseUser.photoURL) {
+    localStorage.setItem('scriptify_user_avatar', firebaseUser.photoURL);
+  }
 
   return data;
 }
@@ -123,6 +126,7 @@ async function registerWithEmail(email, password) {
 async function logoutFirebase() {
   await signOut(auth);
   localStorage.removeItem('scriptify_token');
+  localStorage.removeItem('scriptify_user_avatar');
 }
 
 // Expose on global window object for easy access across pages

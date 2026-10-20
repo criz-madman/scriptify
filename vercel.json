@@ -73,6 +73,10 @@
       "dest": "/frontend/wallet.html"
     },
     {
+      "src": "/history",
+      "dest": "/frontend/history.html"
+    },
+    {
       "src": "/explore",
       "dest": "/frontend/explore.html"
     },

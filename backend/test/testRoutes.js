@@ -30,6 +30,7 @@ async function testAllRoutes() {
       { path: '/marketplace', expected: 'Marketplace' },
       { path: '/shop', expected: 'Marketplace' },
       { path: '/wallet', expected: 'Credit Balance & Purchases' },
+      { path: '/history', expected: 'Transaction History' },
       { path: '/checkout', expected: 'Secure Checkout' },
       { path: '/health', expected: '"status":"ok"' }
     ];

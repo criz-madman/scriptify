@@ -138,6 +138,7 @@ const Auth = (() => {
       try { await window.FirebaseBridge.logoutFirebase(); } catch (e) {}
     }
     API.removeToken();
+    localStorage.removeItem('scriptify_user_avatar');
     currentUser = null;
     updateUserUI(null);
     window.dispatchEvent(new CustomEvent('scriptify:logout'));

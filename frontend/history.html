@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scriptify — Financial Transactions Ledger (Table D4) — Transaction History</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
+  <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#0f0c08',
+              surface: '#18130c',
+              border: '#2a2015',
+              accent: '#f59e0b',
+              glow: '#f97316'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased relative selection:bg-amber-500 selection:text-black overflow-x-hidden">
+
+  <!-- Atmospheric amber glow & top radiant beam -->
+  <div class="light-beam-glow pointer-events-none"></div>
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-gradient-to-b from-amber-500/10 via-orange-600/5 to-transparent blur-3xl pointer-events-none -z-10"></div>
+
+  <!-- Universal Navbar -->
+  <div id="site-navbar"></div>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-8 space-y-6 relative z-10">
+    
+    <!-- Top Return & Breadcrumb Bar -->
+    <div class="flex items-center justify-between">
+      <a href="/wallet" class="inline-flex items-center space-x-2 text-xs font-semibold text-zinc-400 hover:text-amber-400 transition-colors group">
+        <i class="fa-solid fa-arrow-left text-[11px] group-hover:-translate-x-1 transition-transform"></i>
+        <span>Back to Credits & Wallet</span>
+      </a>
+
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[11px] font-mono text-amber-300">
+        <i class="fa-solid fa-receipt text-xs"></i>
+        <span>Table D4 Ledger</span>
+      </div>
+    </div>
+
+    <!-- Header Card -->
+    <div class="glass-card rounded-2xl p-6 sm:p-8 border border-zinc-800/80 shadow-2xl relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div class="space-y-1.5">
+        <div class="flex items-center space-x-2">
+          <span class="badge-amber inline-flex">
+            <i class="fa-solid fa-receipt mr-1.5"></i>PostgreSQL 3NF Audit Trail
+          </span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Financial Transactions Ledger (Table D4)</h1>
+        <p class="text-xs sm:text-sm text-zinc-400 max-w-xl">
+          Complete immutable Transaction History and financial ledger of your generation credit purchases, receipts, and tokenized payment records.
+        </p>
+      </div>
+
+      <div class="flex items-center space-x-3 shrink-0">
+        <button id="btn-refresh-history" class="btn-amber-outline px-4 py-2.5 text-xs font-bold text-zinc-200 hover:text-white flex items-center space-x-2 transition-all cursor-pointer">
+          <i class="fa-solid fa-rotate-right text-amber-400"></i>
+          <span>Refresh</span>
+        </button>
+        <a href="/wallet" class="btn-amber-pill px-4 py-2.5 text-xs font-bold text-white flex items-center space-x-1.5 shadow-md shadow-amber-500/20">
+          <i class="fa-solid fa-plus text-[10px]"></i>
+          <span>Top Up Credits</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats Summary Row -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="glass-card rounded-xl p-5 border border-zinc-800/80">
+        <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">Total Transactions</span>
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-list-check text-amber-400 text-lg"></i>
+          <span id="stat-total-tx" class="text-2xl font-black text-white font-mono">0</span>
+        </div>
+        <span class="text-[10px] text-zinc-500 mt-1 block">Recorded on ledger</span>
+      </div>
+
+      <div class="glass-card rounded-xl p-5 border border-zinc-800/80">
+        <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">Total Credits Purchased</span>
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-bolt text-amber-400 text-lg"></i>
+          <span id="stat-total-credits" class="text-2xl font-black text-amber-400 font-mono">0</span>
+        </div>
+        <span class="text-[10px] text-zinc-500 mt-1 block">Generation credits</span>
+      </div>
+
+      <div class="glass-card rounded-xl p-5 border border-zinc-800/80">
+        <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">Total Amount Spent</span>
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-dollar-sign text-emerald-400 text-lg"></i>
+          <span id="stat-total-spent" class="text-2xl font-black text-emerald-400 font-mono">$0.00</span>
+        </div>
+        <span class="text-[10px] text-zinc-500 mt-1 block">USD Processed</span>
+      </div>
+    </div>
+
+    <!-- Transaction Ledger Table Card -->
+    <div class="glass-card rounded-2xl p-6 border border-zinc-800/80 shadow-2xl relative overflow-hidden space-y-4">
+      
+      <!-- Table Filter and Search Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800/80">
+        <div>
+          <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-200 flex items-center space-x-2">
+            <i class="fa-solid fa-table-list text-amber-400"></i>
+            <span>Financial Transactions Ledger (Table D4)</span>
+          </h2>
+          <p class="text-[11px] text-zinc-400 mt-0.5">Immutable audit trail of credit wallet funding events</p>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative min-w-[240px]">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-zinc-500"></i>
+          <input 
+            type="text" 
+            id="tx-search-input" 
+            placeholder="Search transactions..." 
+            class="w-full bg-[#140e07] border border-zinc-800 focus:border-amber-500/60 rounded-xl pl-9 pr-4 py-2 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none transition-all font-mono"
+          >
+        </div>
+      </div>
+
+      <!-- Ledger Table -->
+      <div class="overflow-x-auto border border-zinc-800/80 rounded-xl bg-black/40">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-black/60 border-b border-zinc-800/80 text-[11px] font-semibold text-zinc-400 uppercase tracking-wider font-mono">
+              <th class="py-3 px-4">Transaction ID</th>
+              <th class="py-3 px-4">Amount Paid</th>
+              <th class="py-3 px-4">Payment Method</th>
+              <th class="py-3 px-4">Status</th>
+              <th class="py-3 px-4">Timestamp</th>
+              <th class="py-3 px-4 text-right">Receipt</th>
+            </tr>
+          </thead>
+          <tbody id="history-transactions-tbody">
+            <tr>
+              <td colspan="6" class="py-10 text-center text-zinc-500 text-xs">
+                <i class="fa-solid fa-circle-notch fa-spin text-amber-400 text-lg mb-2 block"></i>
+                <span>Loading transaction records...</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Receipt Inspection Modal -->
+  <div id="receipt-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 sm:p-7 border border-amber-500/30 shadow-2xl relative space-y-5 text-left">
+      <div class="flex items-center justify-between border-b border-zinc-800/80 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider">Transaction Receipt</h3>
+        </div>
+        <button id="btn-close-receipt" class="text-zinc-500 hover:text-white p-1 text-sm cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs font-mono">
+        <div class="flex justify-between items-center text-zinc-400">
+          <span>Transaction ID:</span>
+          <span id="receipt-tx-id" class="text-zinc-200 font-bold">--</span>
+        </div>
+        <div class="flex justify-between items-center text-zinc-400">
+          <span>Amount Paid:</span>
+          <span id="receipt-amount" class="text-emerald-400 font-bold">--</span>
+        </div>
+        <div class="flex justify-between items-center text-zinc-400">
+          <span>Payment Gateway:</span>
+          <span id="receipt-method" class="text-zinc-200 capitalize">--</span>
+        </div>
+        <div class="flex justify-between items-center text-zinc-400">
+          <span>Status:</span>
+          <span id="receipt-status" class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">completed</span>
+        </div>
+        <div class="flex justify-between items-center text-zinc-400">
+          <span>Date & Time:</span>
+          <span id="receipt-date" class="text-zinc-300">--</span>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-end space-x-2">
+        <button onclick="window.print()" class="btn-amber-outline px-3.5 py-1.5 text-xs text-zinc-300 hover:text-white cursor-pointer flex items-center space-x-1.5">
+          <i class="fa-solid fa-print text-xs"></i>
+          <span>Print</span>
+        </button>
+        <button id="btn-copy-receipt-tx" class="btn-amber-pill px-4 py-1.5 text-xs font-bold text-white cursor-pointer flex items-center space-x-1.5">
+          <i class="fa-regular fa-copy text-xs"></i>
+          <span id="btn-copy-receipt-label">Copy ID</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Navbar.mount('wallet');
+
+      if (!API.isAuthenticated()) {
+        window.location.href = '/login?redirect=/history';
+        return;
+      }
+
+      let allTransactions = [];
+      const tbody = document.getElementById('history-transactions-tbody');
+      const searchInput = document.getElementById('tx-search-input');
+      const statTotalTx = document.getElementById('stat-total-tx');
+      const statTotalCredits = document.getElementById('stat-total-credits');
+      const statTotalSpent = document.getElementById('stat-total-spent');
+      const refreshBtn = document.getElementById('btn-refresh-history');
+
+      // Receipt modal elements
+      const receiptModal = document.getElementById('receipt-modal');
+      const btnCloseReceipt = document.getElementById('btn-close-receipt');
+      const receiptTxId = document.getElementById('receipt-tx-id');
+      const receiptAmount = document.getElementById('receipt-amount');
+      const receiptMethod = document.getElementById('receipt-method');
+      const receiptStatus = document.getElementById('receipt-status');
+      const receiptDate = document.getElementById('receipt-date');
+      const btnCopyReceipt = document.getElementById('btn-copy-receipt-tx');
+      const btnCopyLabel = document.getElementById('btn-copy-receipt-label');
+
+      let currentActiveTx = null;
+
+      const openReceipt = (tx) => {
+        currentActiveTx = tx;
+        receiptTxId.textContent = tx.transactionId;
+        receiptAmount.textContent = `$${parseFloat(tx.amountPaid).toFixed(2)}`;
+        receiptMethod.textContent = (tx.paymentMethod || 'FakePay Card').replace('_', ' ');
+        receiptStatus.textContent = tx.status || 'completed';
+        receiptDate.textContent = new Date(tx.timestamp).toLocaleString();
+        btnCopyLabel.textContent = 'Copy ID';
+        receiptModal.classList.remove('hidden');
+      };
+
+      if (btnCloseReceipt) {
+        btnCloseReceipt.addEventListener('click', () => receiptModal.classList.add('hidden'));
+      }
+      if (btnCopyReceipt) {
+        btnCopyReceipt.addEventListener('click', () => {
+          if (currentActiveTx) {
+            navigator.clipboard.writeText(currentActiveTx.transactionId);
+            btnCopyLabel.textContent = 'Copied!';
+            setTimeout(() => { btnCopyLabel.textContent = 'Copy ID'; }, 1500);
+          }
+        });
+      }
+
+      const renderTable = (list) => {
+        if (!list || list.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="py-12 text-center text-zinc-500 text-xs">
+                <i class="fa-regular fa-folder-open text-2xl text-zinc-600 mb-2 block"></i>
+                <span>No transactions match your search.</span>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = list.map((tx, idx) => {
+          const dt = new Date(tx.timestamp).toLocaleString();
+          const shortId = tx.transactionId.substring(0, 10);
+          const amount = parseFloat(tx.amountPaid);
+          
+          return `
+            <tr class="border-b border-zinc-800/60 hover:bg-amber-500/5 text-xs text-zinc-300 transition-colors">
+              <td class="py-3.5 px-4 font-mono text-zinc-300 flex items-center space-x-2">
+                <span title="${tx.transactionId}">${shortId}...</span>
+                <button class="text-zinc-500 hover:text-amber-400 copy-row-btn p-0.5" data-tx="${tx.transactionId}" title="Copy full ID">
+                  <i class="fa-regular fa-copy text-[11px]"></i>
+                </button>
+              </td>
+              <td class="py-3.5 px-4 font-bold text-emerald-400 font-mono">$${amount.toFixed(2)}</td>
+              <td class="py-3.5 px-4 capitalize">
+                <span class="inline-flex items-center space-x-1">
+                  <i class="fa-regular fa-credit-card text-zinc-500 text-xs"></i>
+                  <span>${tx.paymentMethod.replace('_', ' ')}</span>
+                </span>
+              </td>
+              <td class="py-3.5 px-4">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  ${tx.status}
+                </span>
+              </td>
+              <td class="py-3.5 px-4 text-zinc-400 font-mono text-[11px]">${dt}</td>
+              <td class="py-3.5 px-4 text-right">
+                <button class="receipt-btn px-2.5 py-1 rounded bg-zinc-900 border border-zinc-700/80 hover:border-amber-500 hover:text-amber-400 text-zinc-300 text-[11px] font-mono transition-all cursor-pointer" data-index="${idx}">
+                  View Receipt
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        // Attach receipt buttons
+        document.querySelectorAll('.receipt-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const index = parseInt(btn.getAttribute('data-index'), 10);
+            if (list[index]) openReceipt(list[index]);
+          });
+        });
+
+        // Attach copy buttons
+        document.querySelectorAll('.copy-row-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const txId = btn.getAttribute('data-tx');
+            navigator.clipboard.writeText(txId);
+            btn.innerHTML = '<i class="fa-solid fa-check text-emerald-400 text-[11px]"></i>';
+            setTimeout(() => {
+              btn.innerHTML = '<i class="fa-regular fa-copy text-[11px]"></i>';
+            }, 1200);
+          });
+        });
+      };
+
+      const loadHistory = async () => {
+        try {
+          const txData = await API.get('/api/wallet/transactions');
+          allTransactions = txData.transactions || [];
+
+          // Calculate summary stats
+          statTotalTx.textContent = allTransactions.length;
+          let totalSpent = 0;
+          allTransactions.forEach(tx => {
+            totalSpent += parseFloat(tx.amountPaid) || 0;
+          });
+          statTotalSpent.textContent = `$${totalSpent.toFixed(2)}`;
+
+          // Estimate credits from balance API
+          const balData = await API.get('/api/wallet/balance');
+          if (balData && balData.wallet) {
+            statTotalCredits.textContent = `${balData.wallet.balancePoints ?? 0}`;
+          }
+
+          renderTable(allTransactions);
+        } catch (err) {
+          console.error(err);
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="py-8 text-center text-rose-400 text-xs">
+                Failed to load transactions: ${err.message}
+              </td>
+            </tr>
+          `;
+        }
+      };
+
+      // Search filter
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        if (!query) {
+          renderTable(allTransactions);
+          return;
+        }
+        const filtered = allTransactions.filter(tx => 
+          (tx.transactionId && tx.transactionId.toLowerCase().includes(query)) ||
+          (tx.paymentMethod && tx.paymentMethod.toLowerCase().includes(query)) ||
+          (tx.status && tx.status.toLowerCase().includes(query)) ||
+          (String(tx.amountPaid).includes(query))
+        );
+        renderTable(filtered);
+      });
+
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+          tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-zinc-500 text-xs"><i class="fa-solid fa-circle-notch fa-spin text-amber-400 mr-2"></i>Refreshing...</td></tr>`;
+          loadHistory();
+        });
+      }
+
+      loadHistory();
+    });
+  </script>
+</body>
+</html>

@@ -229,6 +229,7 @@
           
           if (user.photoURL) {
             document.getElementById('profile-avatar').src = user.photoURL;
+            localStorage.setItem('scriptify_user_avatar', user.photoURL);
           } else {
             // Generate avatar based on first letter
             document.getElementById('profile-avatar').src = `https://ui-avatars.com/api/?name=${displayName}&background=f59e0b&color=fff&size=128`;
@@ -270,6 +271,7 @@
                 await window.FirebaseBridge.updateProfile(user, { photoURL: url });
                 document.getElementById('profile-avatar').src = url;
                 user.photoURL = url; // Update local user state
+                localStorage.setItem('scriptify_user_avatar', url);
                 
                 // Update grid highlighting
                 Array.from(grid.children).forEach(child => {

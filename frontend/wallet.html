@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scriptify — Credit Wallet & Transaction Management</title>
+  <title>Scriptify — Credit Wallet & Packages</title>
   <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
   <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
   
@@ -49,39 +49,53 @@
     <!-- Balance Card -->
     <div class="glass-card rounded-2xl p-6 sm:p-8 border border-zinc-800/80 relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-2xl">
       <div class="space-y-2">
-        <span class="badge-amber inline-flex">
-          <i class="fa-solid fa-database mr-1.5"></i>PostgreSQL 3NF Wallet (Table D2)
-        </span>
+        <div class="flex items-center space-x-2">
+          <span class="badge-amber inline-flex">
+            <i class="fa-solid fa-bolt mr-1.5"></i>Credit Balance & Studio Wallet
+          </span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        </div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Credit Balance & Purchases</h1>
         <p class="text-xs text-zinc-400 max-w-xl">
-          1 credit is deducted per script generation using atomic row-level locking (<code class="text-amber-400 font-mono">SELECT ... FOR UPDATE</code>) guaranteeing 100% consistency across concurrent tabs.
+          Generation credits empower automated After Effects ExtendScript and ScriptUI tool creation. Top up credits securely via FakePay™ with instant balance sync.
         </p>
       </div>
 
-      <div class="bg-black/60 border border-amber-500/30 rounded-2xl p-4 sm:p-6 text-center shrink-0 min-w-[190px] shadow-lg shadow-amber-500/5">
-        <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">Your Active Balance</span>
-        <div class="flex items-center justify-center space-x-2">
-          <i class="fa-solid fa-bolt text-amber-400 text-xl animate-pulse"></i>
-          <span id="wallet-page-balance" class="text-3xl font-black text-amber-400">--</span>
+      <div class="flex flex-col sm:flex-row items-center gap-4 shrink-0">
+        <div class="bg-black/60 border border-amber-500/30 rounded-2xl p-4 sm:p-6 text-center shrink-0 min-w-[190px] shadow-lg shadow-amber-500/5">
+          <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">Your Active Balance</span>
+          <div class="flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-bolt text-amber-400 text-xl animate-pulse"></i>
+            <span id="wallet-page-balance" class="text-3xl font-black text-amber-400">--</span>
+          </div>
+          <span class="text-[11px] text-zinc-400 font-medium">Generation Credits</span>
         </div>
-        <span class="text-[11px] text-zinc-400 font-medium">Generation Credits</span>
       </div>
     </div>
 
     <!-- Top Up Packages -->
     <div>
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-200 flex items-center space-x-2">
-          <i class="fa-solid fa-cart-shopping text-amber-400"></i>
-          <span>Choose a Credit Package</span>
-        </h2>
-        <span class="text-xs text-zinc-400 flex items-center space-x-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
-          <span>Instant Activation</span>
-        </span>
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-5">
+        <div class="flex items-center space-x-3">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-200 flex items-center space-x-2">
+            <i class="fa-solid fa-cart-shopping text-amber-400"></i>
+            <span>Choose a Credit Package</span>
+          </h2>
+          <span class="text-xs text-zinc-400 flex items-center space-x-1.5 ml-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+            <span>Instant Activation</span>
+          </span>
+        </div>
+
+        <!-- Dedicated Separate Button for History -->
+        <a href="/history" id="btn-view-history" class="btn-amber-outline px-4 py-2 text-xs font-bold text-zinc-200 hover:text-white flex items-center space-x-2 transition-all shadow-sm group">
+          <i class="fa-solid fa-receipt text-amber-400 group-hover:rotate-[-10deg] transition-transform"></i>
+          <span>Financial Transactions Ledger (Table D4)</span>
+          <i class="fa-solid fa-arrow-right text-[10px] text-zinc-500 group-hover:translate-x-0.5 transition-transform"></i>
+        </a>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-4">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
         
         <!-- Package 1: Starter -->
         <div 
@@ -148,58 +162,31 @@
 
       </div>
 
-      <!-- Instant Test Grant for immediate local testing -->
-      <div 
-        data-topup-credits="50" 
-        data-topup-amount="0.00" 
-        data-topup-method="dev_grant" 
-        class="glass-card p-4 sm:p-5 rounded-2xl border border-dashed border-amber-500/40 hover:border-amber-400 transition-all cursor-pointer flex items-center justify-between shadow-lg"
-      >
-        <div class="flex items-center space-x-3.5">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-base border border-amber-500/30">
-            <i class="fa-solid fa-gift"></i>
+      <!-- Dedicated History & Audit Trail Banner Card -->
+      <div class="glass-card rounded-2xl p-6 border border-zinc-800/80 shadow-2xl relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-5 group hover:border-amber-500/40 transition-all">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+            <i class="fa-solid fa-receipt"></i>
           </div>
           <div>
-            <span class="font-bold text-xs text-zinc-200 block">Instant Developer Test Grant (+50 Free Credits)</span>
-            <span class="text-[11px] text-zinc-400">Top up credits immediately without mock payment for local development testing.</span>
+            <div class="flex items-center space-x-2">
+              <h3 class="text-sm font-bold text-white tracking-wide">Financial Transactions Ledger (Table D4)</h3>
+              <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20 uppercase">Immutable Audit Trail</span>
+            </div>
+            <p class="text-xs text-zinc-400 mt-1 max-w-xl">
+              Inspect your separate transaction history page with complete purchase records, payment gateway receipts, and verified PostgreSQL transactions.
+            </p>
           </div>
         </div>
-        <span class="px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold">
-          FREE ($0.00)
-        </span>
+
+        <a href="/history" class="btn-amber-pill px-5 py-2.5 text-xs font-bold text-white flex items-center space-x-2 shrink-0 shadow-lg shadow-amber-500/20 hover:scale-[1.02] transition-transform">
+          <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+          <span>Open Ledger Page</span>
+          <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+        </a>
       </div>
 
       <div id="wallet-tx-status" class="text-center text-xs mt-3"></div>
-    </div>
-
-    <!-- Financial Transactions Audit Log (Table D4) -->
-    <div class="glass-card rounded-2xl p-6 border border-zinc-800/80 shadow-2xl relative overflow-hidden">
-      <div class="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-200 flex items-center space-x-2">
-          <i class="fa-solid fa-receipt text-amber-400"></i>
-          <span>Financial Transactions Ledger (Table D4)</span>
-        </h2>
-        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Immutable Audit Trail</span>
-      </div>
-
-      <div class="overflow-x-auto border border-zinc-800/80 rounded-xl bg-black/40">
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="bg-black/60 border-b border-zinc-800/80 text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
-              <th class="py-3 px-4">Transaction ID</th>
-              <th class="py-3 px-4">Amount Paid</th>
-              <th class="py-3 px-4">Payment Method</th>
-              <th class="py-3 px-4">Status</th>
-              <th class="py-3 px-4">Timestamp</th>
-            </tr>
-          </thead>
-          <tbody id="wallet-transactions-tbody">
-            <tr>
-              <td colspan="5" class="py-6 text-center text-zinc-500 text-xs">Loading ledger...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
   </main>
@@ -211,75 +198,30 @@
       Navbar.mount('wallet');
 
       if (!API.isAuthenticated()) {
-        window.location.href = '/login';
+        window.location.href = '/login?redirect=/wallet';
         return;
       }
 
       const balanceDisplay = document.getElementById('wallet-page-balance');
-      const tableBody = document.getElementById('wallet-transactions-tbody');
-      const statusText = document.getElementById('wallet-tx-status');
 
       const refreshWallet = async () => {
         try {
           const balData = await API.get('/api/wallet/balance');
           if (balanceDisplay) balanceDisplay.textContent = balData.wallet.balancePoints ?? '0';
           Navbar.syncSession();
-
-          const txData = await API.get('/api/wallet/transactions');
-          if (!txData.transactions || txData.transactions.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-zinc-500 text-xs">No transactions recorded yet.</td></tr>`;
-            return;
-          }
-
-          tableBody.innerHTML = txData.transactions.map(tx => {
-            const dt = new Date(tx.timestamp).toLocaleString();
-            return `
-              <tr class="border-b border-zinc-800/60 hover:bg-amber-500/5 text-xs text-zinc-300 transition-colors">
-                <td class="py-3 px-4 font-mono text-zinc-400">${tx.transactionId.substring(0, 8)}...</td>
-                <td class="py-3 px-4 font-bold text-amber-400">$${parseFloat(tx.amountPaid).toFixed(2)}</td>
-                <td class="py-3 px-4 capitalize">${tx.paymentMethod.replace('_', ' ')}</td>
-                <td class="py-3 px-4">
-                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                    ${tx.status}
-                  </span>
-                </td>
-                <td class="py-3 px-4 text-zinc-500 font-mono text-[11px]">${dt}</td>
-              </tr>
-            `;
-          }).join('');
         } catch (err) {
           console.error(err);
         }
       };
 
-      // Handle package purchases
+      // Handle package purchases -> Redirects to clean checkout
       document.querySelectorAll('[data-topup-credits]').forEach(card => {
-        card.addEventListener('click', async () => {
+        card.addEventListener('click', () => {
           const credits = parseInt(card.getAttribute('data-topup-credits'), 10);
           const amount = parseFloat(card.getAttribute('data-topup-amount'));
           const method = card.getAttribute('data-topup-method') || 'stripe_checkout';
 
-          // If it's a free test grant, process immediately
-          if (amount === 0) {
-            try {
-              statusText.textContent = 'Processing free grant...';
-              statusText.className = 'text-center text-xs text-amber-400 mt-3 font-semibold';
-
-              const res = await API.post('/api/wallet/topup', {
-                amountPaid: amount,
-                creditPoints: credits,
-                paymentMethod: method
-              });
-
-              statusText.textContent = `✓ Successfully added ${credits} free test credits! (Tx: ${res.transactionId.substring(0, 8)})`;
-              statusText.className = 'text-center text-xs text-emerald-400 mt-3 font-semibold';
-              await refreshWallet();
-            } catch (err) {
-              statusText.textContent = 'Grant failed: ' + err.message;
-              statusText.className = 'text-center text-xs text-rose-400 mt-3';
-            }
-          } else {
-            // Paid packages redirect to the checkout flow
+          if (!isNaN(credits) && !isNaN(amount)) {
             window.location.href = `/checkout?credits=${credits}&amount=${amount}&method=${method}`;
           }
         });
