@@ -509,12 +509,21 @@ const updateProduct = async (productId, data) => {
       "instructions" = COALESCE($6, "instructions"),
       "payloadCode" = COALESCE($7, "payloadCode"),
       "version" = COALESCE($8, "version"),
-      "author" = COALESCE($9, "author"),
-      "updatedAt" = CURRENT_TIMESTAMP
+      "author" = COALESCE($9, "author")
     WHERE "productId" = $1
     RETURNING *;
   `;
-  const res = await query(sql, [productId, title, description, category, creditPrice, instructions, payloadCode, version, author]);
+  const res = await query(sql, [
+    productId,
+    title ?? null,
+    description ?? null,
+    category ?? null,
+    creditPrice !== undefined && creditPrice !== null ? parseInt(creditPrice, 10) : null,
+    instructions ?? null,
+    payloadCode ?? null,
+    version ?? null,
+    author ?? null
+  ]);
   if (res.rows.length === 0) throw { statusCode: 404, message: 'Product not found.' };
   return res.rows[0];
 };
