@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Scriptify Studio</title>
+  <link rel="icon" type="image/png" href="myimages/scriptfy%20icon.png">
+  <link rel="apple-touch-icon" href="myimages/scriptfy%20icon.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ae: {
+              darkest: '#070503',
+              panel: '#100b06',
+              surface: '#181008',
+              border: 'rgba(245, 158, 11, 0.2)',
+              accent: '#f97316',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070503] text-zinc-100 min-h-screen flex flex-col antialiased selection:bg-orange-500 selection:text-white relative font-sans">
+
+  <!-- Top Radiant Light Beam Effect -->
+  <div class="light-beam-glow"></div>
+
+  <!-- Universal Navbar -->
+  <div id="site-navbar"></div>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-8 relative z-10">
+
+    <!-- Legal / Info Navigation Pills -->
+    <div class="flex items-center justify-center space-x-2 sm:space-x-3 overflow-x-auto no-scrollbar py-2">
+      <a href="/contact" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 text-zinc-400 hover:text-zinc-200 hover:bg-amber-500/10 border border-transparent transition-all">
+        <i class="fa-regular fa-envelope"></i>
+        <span>Contact</span>
+      </a>
+      <a href="/copyright" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 text-zinc-400 hover:text-zinc-200 hover:bg-amber-500/10 border border-transparent transition-all">
+        <i class="fa-regular fa-copyright"></i>
+        <span>Copyright</span>
+      </a>
+      <a href="/privacy" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/25 border border-orange-400/30">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Privacy Policy</span>
+      </a>
+      <a href="/terms" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 text-zinc-400 hover:text-zinc-200 hover:bg-amber-500/10 border border-transparent transition-all">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span>Terms</span>
+      </a>
+    </div>
+
+    <!-- Privacy Container Card -->
+    <div class="glass-card rounded-3xl p-6 sm:p-10 border border-amber-500/25 shadow-2xl relative overflow-hidden space-y-8">
+      
+      <div class="space-y-2">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-orange-500/10 border border-orange-500/30 text-amber-400">
+          <i class="fa-solid fa-lock mr-1.5 text-xs"></i> Data Protection & Privacy
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Privacy Policy</h1>
+        <p class="text-xs sm:text-sm text-zinc-300 max-w-2xl leading-relaxed">
+          Effective Date: October 2026 &bull; Scriptify Studio operates on privacy-first design principles. We do not sell your personal data or index your proprietary project scripts.
+        </p>
+      </div>
+
+      <!-- Sections -->
+      <div class="space-y-6">
+        
+        <!-- 1. Data Collection -->
+        <div class="p-6 rounded-2xl bg-[#110b06]/90 border border-amber-500/20 space-y-3">
+          <h2 class="text-base font-bold text-white flex items-center">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2.5">1</span>
+            Information We Collect
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            We collect the minimum information required to manage your account and deliver ExtendScript automation tools:
+          </p>
+          <ul class="list-disc list-inside text-xs sm:text-sm text-zinc-400 space-y-1.5 ml-1">
+            <li><strong class="text-zinc-200">Account Identity:</strong> Your email address and authentication tokens via Google/Firebase Authentication or email login.</li>
+            <li><strong class="text-zinc-200">Wallet & Activity:</strong> Credit top-up transactions, receipt references, and tool generation counters.</li>
+            <li><strong class="text-zinc-200">Session State:</strong> Local browser storage preferences such as panel layout modes and UI theme configurations.</li>
+          </ul>
+        </div>
+
+        <!-- 2. Creative Confidentiality -->
+        <div class="p-6 rounded-2xl bg-[#110b06]/90 border border-amber-500/20 space-y-3">
+          <h2 class="text-base font-bold text-white flex items-center">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2.5">2</span>
+            Confidentiality of Your After Effects Compositions
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Your animations, layer names, kinetic expressions, and custom script toolbars are assembled directly inside your browser or synthesized through ephemeral API requests. We <strong class="text-white">never harvest, store, or train AI models</strong> on your proprietary project files, client names, or creative motion workflows.
+          </p>
+        </div>
+
+        <!-- 3. Payments & Gateway Security -->
+        <div class="p-6 rounded-2xl bg-[#110b06]/90 border border-amber-500/20 space-y-3">
+          <h2 class="text-base font-bold text-white flex items-center">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2.5">3</span>
+            Payment Processing & Security
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Financial transactions for studio credits are processed through certified PCI-DSS Level 1 compliant payment gateways (Stripe / Razorpay). Scriptify never accesses, intercepts, or retains raw credit card numbers or bank security codes on our database servers.
+          </p>
+        </div>
+
+        <!-- 4. Storage & Tracking -->
+        <div class="p-6 rounded-2xl bg-[#110b06]/90 border border-amber-500/20 space-y-3">
+          <h2 class="text-base font-bold text-white flex items-center">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2.5">4</span>
+            Cookies and Browser Storage
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Scriptify strictly uses browser <code class="font-mono text-amber-300">localStorage</code> for active user authentication tokens and interface states. We do not use third-party behavioral advertising cookies, data broker trackers, or intrusive analytics scripts.
+          </p>
+        </div>
+
+        <!-- 5. User Rights & Data Deletion -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-[#180f07] to-[#100a05] border border-amber-500/30 space-y-4">
+          <h2 class="text-base font-bold text-white flex items-center">
+            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2.5">5</span>
+            Your Data Rights & Erasure Requests
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            Under GDPR, CCPA, and international data protection laws, you have the right to request a complete copy of your stored records, or to request the permanent deletion and erasure of your profile and history.
+          </p>
+          <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="space-y-0.5">
+              <span class="text-[10px] uppercase font-mono text-zinc-400 font-bold">Privacy Officer & Data Inquiries</span>
+              <p class="text-sm font-mono font-bold text-amber-300">christanjames07@gmail.com</p>
+            </div>
+            <a 
+              href="mailto:christanjames07@gmail.com?subject=Data%20Privacy%20%2F%20Erasure%20Request" 
+              class="px-4 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 hover:text-white font-bold text-xs uppercase tracking-wider transition-colors flex items-center space-x-2"
+            >
+              <i class="fa-regular fa-envelope"></i>
+              <span>Email Privacy Request</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="mt-auto border-t border-amber-500/20 bg-[#090603]/90 py-10 px-4 text-center text-xs text-zinc-400">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <img src="myimages/scriptfy%20icon.png" alt="Scriptify" class="h-6 w-auto object-contain" onerror="this.src='/myimages/scriptfy icon.png'">
+        <span>&bull;</span>
+        <span>Adobe After Effects ExtendScript Automation</span>
+      </div>
+      <div class="flex items-center space-x-5 text-zinc-300 font-medium">
+        <a href="/contact" class="hover:text-amber-300 transition-colors">Contact</a>
+        <a href="/copyright" class="hover:text-amber-300 transition-colors">Copyright</a>
+        <a href="/privacy" class="text-amber-300 font-bold">Privacy Policy</a>
+        <a href="/terms" class="hover:text-amber-300 transition-colors">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/info-modal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Navbar.mount('privacy');
+    });
+  </script>
+</body>
+</html>

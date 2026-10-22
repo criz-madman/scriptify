@@ -92,6 +92,12 @@ app.get('/wallet', (req, res) => res.sendFile(path.join(frontendPath, 'wallet.ht
 app.get('/history', (req, res) => res.sendFile(path.join(frontendPath, 'history.html')));
 app.get('/checkout', (req, res) => res.sendFile(path.join(frontendPath, 'checkout.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(frontendPath, 'admin.html')));
+app.get('/contact', (req, res) => res.sendFile(path.join(frontendPath, 'contact.html')));
+app.get('/copyright', (req, res) => res.sendFile(path.join(frontendPath, 'copyright.html')));
+app.get('/privacy', (req, res) => res.sendFile(path.join(frontendPath, 'privacy.html')));
+app.get('/privacy-policy', (req, res) => res.sendFile(path.join(frontendPath, 'privacy.html')));
+app.get('/terms', (req, res) => res.sendFile(path.join(frontendPath, 'terms.html')));
+app.get('/terms-of-service', (req, res) => res.sendFile(path.join(frontendPath, 'terms.html')));
 
 // Fallback for SPA or trailing slashes
 app.get('*', (req, res, next) => {

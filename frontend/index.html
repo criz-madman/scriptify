@@ -396,6 +396,395 @@
     </div>
   </div>
 
+  <!-- Universal Legal / Info / Contact Modal -->
+  <div id="info-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+    <div class="relative w-full max-w-3xl my-auto glass-panel border border-amber-500/30 rounded-3xl p-5 sm:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_40px_rgba(249,115,22,0.15)] overflow-hidden">
+      
+      <!-- Ambient Top Glow Beam -->
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-28 bg-gradient-to-b from-orange-500/25 via-amber-500/10 to-transparent blur-2xl pointer-events-none"></div>
+
+      <!-- Header: Tabs & Close Button -->
+      <div class="relative z-10 flex items-center justify-between border-b border-amber-500/20 pb-4 mb-5">
+        <div class="flex items-center space-x-1.5 sm:space-x-2 overflow-x-auto no-scrollbar py-1">
+          <button type="button" onclick="switchInfoTab('contact')" id="tab-btn-contact" class="info-tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 transition-all">
+            <i class="fa-regular fa-envelope"></i>
+            <span>Contact</span>
+          </button>
+          <button type="button" onclick="switchInfoTab('copyright')" id="tab-btn-copyright" class="info-tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 transition-all">
+            <i class="fa-regular fa-copyright"></i>
+            <span>Copyright</span>
+          </button>
+          <button type="button" onclick="switchInfoTab('privacy')" id="tab-btn-privacy" class="info-tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 transition-all">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Privacy Policy</span>
+          </button>
+          <button type="button" onclick="switchInfoTab('terms')" id="tab-btn-terms" class="info-tab-btn px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-2 transition-all">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <span>Terms</span>
+          </button>
+        </div>
+
+        <button type="button" onclick="closeInfoModal()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-zinc-900/90 border border-zinc-700/70 hover:border-amber-400 text-zinc-400 hover:text-white flex items-center justify-center transition-all cursor-pointer shrink-0 ml-3 shadow-inner" aria-label="Close modal">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Tab Scrollable Content Container -->
+      <div id="info-modal-scroll" class="relative z-10 max-h-[68vh] overflow-y-auto pr-1 sm:pr-2 space-y-6 text-zinc-300 text-xs sm:text-sm leading-relaxed custom-scrollbar">
+
+        <!-- ================= TAB 1: CONTACT ================= -->
+        <div id="info-tab-contact" class="space-y-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-orange-500/10 border border-orange-500/30 text-amber-400 mb-2">
+                <i class="fa-solid fa-headset mr-1.5 text-xs"></i> Creator & Support Channel
+              </span>
+              <h3 id="info-modal-title" class="text-xl sm:text-2xl font-black text-white tracking-tight">Contact Scriptify Studio</h3>
+              <p class="text-xs text-zinc-400 mt-1">Have questions about ExtendScript development, custom ScriptUI panels, bugs, or enterprise licensing? Reach out directly.</p>
+            </div>
+          </div>
+
+          <!-- Highlight Contact Card -->
+          <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#180f07] to-[#0d0804] border border-amber-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.6)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <span class="text-[10px] uppercase font-mono font-bold text-amber-400/90 tracking-wider flex items-center">
+                <i class="fa-regular fa-envelope mr-1.5"></i> Direct Inquiries & Support
+              </span>
+              <div class="font-mono text-base sm:text-lg font-bold text-white selection:bg-orange-500 selection:text-black">
+                christanjames07@gmail.com
+              </div>
+              <p class="text-[11px] text-zinc-400">Owner & Developer: Christan James &bull; Replies within 24 hours</p>
+            </div>
+            
+            <div class="flex items-center space-x-2.5 w-full sm:w-auto shrink-0">
+              <a 
+                href="mailto:christanjames07@gmail.com?subject=Scriptify%20Studio%20Inquiry%20%26%20Support" 
+                class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs flex items-center justify-center space-x-2 shadow-lg shadow-orange-500/25 transition-all"
+              >
+                <i class="fa-solid fa-paper-plane text-xs"></i>
+                <span>Send Email</span>
+              </a>
+              <button 
+                type="button" 
+                onclick="copyContactEmail(this)" 
+                class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#1f140b] hover:bg-[#2c1b0f] text-zinc-200 hover:text-white border border-amber-500/30 hover:border-amber-400 font-bold text-xs flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                title="Copy email to clipboard"
+              >
+                <i class="fa-regular fa-copy text-xs"></i>
+                <span>Copy Email</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Inquiry Form -->
+          <div class="p-5 rounded-2xl bg-[#110b06]/80 border border-amber-500/20 space-y-4">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center">
+                <i class="fa-solid fa-pen-fancy text-amber-400 mr-2"></i> Quick Message Composer
+              </h4>
+              <span class="text-[10px] font-mono text-zinc-500">Opens in your default email client</span>
+            </div>
+
+            <form onsubmit="handleContactSubmit(event)" class="space-y-3.5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-zinc-300 mb-1">Your Name</label>
+                  <input 
+                    type="text" 
+                    id="contact-name-input" 
+                    placeholder="Motion Designer" 
+                    class="w-full bg-[#181008] border border-amber-500/25 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500 transition-colors font-medium"
+                  >
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-zinc-300 mb-1">Your Email</label>
+                  <input 
+                    type="email" 
+                    id="contact-email-input" 
+                    placeholder="you@studio.com" 
+                    class="w-full bg-[#181008] border border-amber-500/25 rounded-xl px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500 transition-colors font-medium"
+                  >
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-zinc-300 mb-1">Subject</label>
+                <select 
+                  id="contact-subject-input" 
+                  class="w-full bg-[#181008] border border-amber-500/25 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-orange-500 transition-colors font-medium"
+                >
+                  <option value="General Support">General Support & Inquiries</option>
+                  <option value="Custom ScriptUI Request">Custom After Effects ScriptUI Request</option>
+                  <option value="Bug Report">Bug Report / Compatibility Feedback</option>
+                  <option value="Wallet & Credits Inquiry">Wallet, Billing & Credits Assistance</option>
+                  <option value="Partnership / Commercial">Commercial Licensing & Partnership</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-zinc-300 mb-1">Message *</label>
+                <textarea 
+                  id="contact-body-input" 
+                  rows="3" 
+                  required 
+                  placeholder="Describe your After Effects workflow requirement, question, or issue..." 
+                  class="w-full bg-[#181008] border border-amber-500/25 rounded-xl p-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500 transition-colors font-medium"
+                ></textarea>
+              </div>
+
+              <div id="contact-form-status"></div>
+
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-[10px] text-zinc-500">
+                  <i class="fa-solid fa-lock text-[9px] mr-1"></i> Sent directly to <span class="text-zinc-400 font-mono">christanjames07@gmail.com</span>
+                </span>
+                <button 
+                  type="submit" 
+                  class="px-5 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs flex items-center space-x-2 transition-all cursor-pointer shadow-md"
+                >
+                  <i class="fa-solid fa-paper-plane text-xs"></i>
+                  <span>Send Message</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Fast Facts Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+            <div class="p-3.5 rounded-xl bg-[#140e07] border border-amber-500/15">
+              <span class="text-[10px] font-mono uppercase text-amber-400 block font-bold">Turnaround Time</span>
+              <p class="text-xs text-zinc-200 mt-1 font-semibold">Under 24 Hours</p>
+              <p class="text-[10px] text-zinc-500 mt-0.5">Monday to Saturday priority replies</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-[#140e07] border border-amber-500/15">
+              <span class="text-[10px] font-mono uppercase text-amber-400 block font-bold">Tested Releases</span>
+              <p class="text-xs text-zinc-200 mt-1 font-semibold">After Effects CC 2024 - 2026</p>
+              <p class="text-[10px] text-zinc-500 mt-0.5">ExtendScript & ScriptUI native</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-[#140e07] border border-amber-500/15">
+              <span class="text-[10px] font-mono uppercase text-amber-400 block font-bold">Custom Development</span>
+              <p class="text-xs text-zinc-200 mt-1 font-semibold">Bespoke Studio Rigs</p>
+              <p class="text-[10px] text-zinc-500 mt-0.5">Tailored panels for motion teams</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 2: COPYRIGHT ================= -->
+        <div id="info-tab-copyright" class="hidden space-y-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-orange-500/10 border border-orange-500/30 text-amber-400 mb-2">
+                <i class="fa-regular fa-copyright mr-1.5 text-xs"></i> Intellectual Property Notice
+              </span>
+              <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Copyright & Licensing Rights</h3>
+              <p class="text-xs text-zinc-400 mt-1">Clear distinction between platform ownership and your 100% royalty-free rights to generated scripts.</p>
+            </div>
+          </div>
+
+          <!-- Highlight Box: Your Generated Scripts are 100% Yours -->
+          <div class="p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-2">
+            <div class="flex items-center space-x-2 text-emerald-400 font-bold text-xs uppercase tracking-wider font-mono">
+              <i class="fa-solid fa-circle-check text-sm"></i>
+              <span>Generated Script Ownership (100% Royalty-Free)</span>
+            </div>
+            <p class="text-xs text-zinc-200 leading-relaxed">
+              Any ExtendScript (<code class="font-mono text-amber-300">.jsx</code>), dockable ScriptUI panel file, kinetic typography rig, or keyframe automation you create or export using Scriptify Studio is <strong class="text-white">100% your own property</strong>. You are granted an irrevocable, worldwide, perpetual, royalty-free license to execute, modify, compile, distribute, and embed these scripts into any personal, client, or commercial motion graphics and visual effects productions with zero attribution required.
+            </p>
+          </div>
+
+          <!-- Platform Intellectual Property -->
+          <div class="space-y-3">
+            <h4 class="text-sm font-bold text-white flex items-center">
+              <i class="fa-solid fa-shield-halved text-amber-400 mr-2"></i> Platform & Code Engine Ownership
+            </h4>
+            <p class="text-xs text-zinc-300 leading-relaxed">
+              The Scriptify Studio website, design system, graphic branding, UI Panel Builder assembly algorithms, Text Animator expression compilers, marketplace architecture, and server codebase are copyright <strong class="text-amber-300">&copy; 2026 Scriptify / Christan James</strong>. All rights reserved.
+            </p>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Unauthorized copying, reverse-engineering, decompilation, re-hosting, or sublicensing of the Scriptify Studio platform engine itself without written permission from the copyright owner is strictly prohibited.
+            </p>
+          </div>
+
+          <!-- Adobe Trademark Disclaimer -->
+          <div class="p-4 rounded-xl bg-[#140e07] border border-amber-500/20 space-y-2 text-zinc-400 text-xs">
+            <span class="text-[10px] font-mono uppercase text-amber-400 block font-bold">Adobe Systems Trademark Notice</span>
+            <p class="text-[11px] leading-relaxed">
+              Adobe&reg;, Adobe After Effects&reg;, ExtendScript&reg;, ScriptUI&reg;, and Creative Cloud&reg; are registered trademarks of Adobe Inc. in the United States and/or other countries.
+            </p>
+            <p class="text-[11px] leading-relaxed">
+              Scriptify Studio is an independent development platform created by Christan James to empower motion graphics designers. Scriptify is not affiliated with, sponsored, authorized, or endorsed by Adobe Inc.
+            </p>
+          </div>
+
+          <!-- Contact for Licensing -->
+          <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#100a05] border border-amber-500/15 text-xs">
+            <span class="text-zinc-400">Questions about copyright or commercial licensing?</span>
+            <a href="mailto:christanjames07@gmail.com?subject=Scriptify%20Copyright%20Inquiry" class="text-amber-300 hover:text-white font-mono font-bold transition-colors">christanjames07@gmail.com</a>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: PRIVACY POLICY ================= -->
+        <div id="info-tab-privacy" class="hidden space-y-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-orange-500/10 border border-orange-500/30 text-amber-400 mb-2">
+                <i class="fa-solid fa-lock mr-1.5 text-xs"></i> Data Protection & Privacy
+              </span>
+              <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Privacy Policy</h3>
+              <p class="text-xs text-zinc-400 mt-1">Last Updated: October 2026 &bull; We believe in minimal data footprint and maximum creator privacy.</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <!-- 1. What We Collect -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-2">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">1</span>
+                Information We Collect
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                We only collect data necessary to provide and secure your Scriptify account:
+              </p>
+              <ul class="list-disc list-inside text-xs text-zinc-400 space-y-1 ml-1">
+                <li><strong class="text-zinc-200">Account Credentials:</strong> Email address provided during sign in (e.g. via Firebase Authentication) and authentication user identifier.</li>
+                <li><strong class="text-zinc-200">Wallet & Credits:</strong> Transaction timestamps, credit purchase ledger, and remaining wallet balance.</li>
+                <li><strong class="text-zinc-200">Preferences:</strong> Workspace state (e.g., UI Panel layout, dark mode tokens) stored in your local browser storage.</li>
+              </ul>
+            </div>
+
+            <!-- 2. Your Script Confidentiality -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-2">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">2</span>
+                Confidentiality of Your Motion Graphics Projects
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                Your creative assets belong strictly to you. Layer configurations, custom label names, and kinetic keyframe presets assembled in the UI Panel Builder or Text Animator are synthesized directly in your local browser session or via stateless generation routines. We <strong class="text-white">never harvest, index, or sell your After Effects project files or proprietary scripts</strong> to third parties.
+              </p>
+            </div>
+
+            <!-- 3. Payments & Security -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-2">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">3</span>
+                Payment Security & Third-Party Processors
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                Credit wallet top-ups are processed via encrypted, industry-standard PCI-DSS compliant checkout platforms (Stripe / Razorpay). Scriptify never accesses, handles, or stores your raw credit card numbers or CVV codes on our servers.
+              </p>
+            </div>
+
+            <!-- 4. Storage & Cookies -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-2">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">4</span>
+                Local Browser Storage & Cookies
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                Scriptify uses browser <code class="font-mono text-amber-400">localStorage</code> strictly for functional session continuity (keeping you signed in and caching your tool presets). We do not deploy intrusive third-party cross-site marketing trackers or sell ad analytics.
+              </p>
+            </div>
+
+            <!-- 5. Data Rights & Erasure -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-2">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">5</span>
+                Your Data Rights & Deletion
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                You have the absolute right to inspect your account data, export generation receipts, or request immediate and permanent deletion of your profile and history from our database at any time. Simply send an email request to:
+              </p>
+              <div class="pt-1">
+                <a href="mailto:christanjames07@gmail.com?subject=Data%20Privacy%20%2F%20Deletion%20Request" class="inline-flex items-center space-x-2 text-amber-300 hover:text-white font-mono font-bold text-xs bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/25 transition-colors">
+                  <i class="fa-solid fa-envelope"></i>
+                  <span>christanjames07@gmail.com</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 4: TERMS OF SERVICE ================= -->
+        <div id="info-tab-terms" class="hidden space-y-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-orange-500/10 border border-orange-500/30 text-amber-400 mb-2">
+                <i class="fa-solid fa-file-contract mr-1.5 text-xs"></i> User Agreement
+              </span>
+              <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Terms of Service</h3>
+              <p class="text-xs text-zinc-400 mt-1">Last Updated: October 2026 &bull; Clear conditions for using Scriptify Studio tools and services.</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <!-- 1. Acceptance -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-1.5">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">1</span>
+                Acceptance of Terms
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                By creating an account, browsing the marketplace, or utilizing Scriptify tools (including UI Panel Builder, Text Animator, and Presets), you agree to these Terms of Service. If you do not agree with any part, you may discontinue use of the platform.
+              </p>
+            </div>
+
+            <!-- 2. AE Compatibility & Execution -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-1.5">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">2</span>
+                After Effects Compatibility & Script Execution
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                Scriptify generates ExtendScript (<code class="font-mono text-amber-400">.jsx</code>) code engineered for Adobe After Effects CC 2024 through CC 2026. While all standard templates and panel builders are rigorously validated against ExtendScript specifications, you acknowledge that custom third-party AE plugins or localized timeline configurations may require testing before deployment in production renders.
+              </p>
+            </div>
+
+            <!-- 3. Credit Economy -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-1.5">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">3</span>
+                Credits, Wallets & Digital Goods
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                Credits represent digital usage units inside Scriptify used for script synthesis, panel code compilation, and marketplace preset acquisition. Credit balances are deposited instantaneously upon transaction completion. Due to the digital nature of instant script generation, credits consumed are non-refundable once the script file has been synthesized.
+              </p>
+            </div>
+
+            <!-- 4. Acceptable Use -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-1.5">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">4</span>
+                Acceptable Use Policy
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                You agree not to abuse Scriptify API endpoints, execute automated scraping against our preset marketplace, distribute malicious ExtendScript payloads that harm local host systems, or attempt unauthorized privilege escalation.
+              </p>
+            </div>
+
+            <!-- 5. Limitation of Liability -->
+            <div class="p-4 rounded-xl bg-[#120b06] border border-amber-500/20 space-y-1.5">
+              <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs flex items-center justify-center mr-2">5</span>
+                Limitation of Liability
+              </h4>
+              <p class="text-xs text-zinc-300 leading-relaxed">
+                Scriptify Studio and Christan James provide software and script templates on an "as-is" and "as-available" basis without warranties of any kind. Under no circumstances shall Scriptify be liable for indirect, incidental, or consequential damages resulting from project data loss, render crashes, or host application conflicts.
+              </p>
+            </div>
+
+            <!-- 6. Legal Contact -->
+            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#100a05] border border-amber-500/15 text-xs">
+              <span class="text-zinc-400">Questions or terms inquiries?</span>
+              <a href="mailto:christanjames07@gmail.com?subject=Scriptify%20Terms%20Inquiry" class="text-amber-300 hover:text-white font-mono font-bold transition-colors">christanjames07@gmail.com</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="mt-auto border-t border-amber-500/20 bg-[#090603]/90 py-10 px-4 text-center text-xs text-zinc-400">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -405,15 +794,16 @@
         <span>Adobe After Effects ExtendScript Automation</span>
       </div>
       <div class="flex items-center space-x-5 text-zinc-300 font-medium">
-        <a href="#" class="hover:text-amber-300 transition-colors">Contact</a>
-        <a href="#" class="hover:text-amber-300 transition-colors">Copyright</a>
-        <a href="#" class="hover:text-amber-300 transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-amber-300 transition-colors">Terms</a>
+        <a href="#contact" onclick="openInfoModal('contact'); return false;" class="hover:text-amber-300 transition-colors cursor-pointer">Contact</a>
+        <a href="#copyright" onclick="openInfoModal('copyright'); return false;" class="hover:text-amber-300 transition-colors cursor-pointer">Copyright</a>
+        <a href="#privacy" onclick="openInfoModal('privacy'); return false;" class="hover:text-amber-300 transition-colors cursor-pointer">Privacy Policy</a>
+        <a href="#terms" onclick="openInfoModal('terms'); return false;" class="hover:text-amber-300 transition-colors cursor-pointer">Terms</a>
       </div>
     </div>
   </footer>
 
   <script src="js/api.js"></script>
+  <script src="js/info-modal.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
