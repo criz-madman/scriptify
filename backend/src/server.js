@@ -59,8 +59,8 @@ app.use(express.static(frontendPath));
 // Favicon route
 app.get('/favicon.ico', (req, res) => res.sendFile(path.join(frontendPath, 'myimages/scriptfy icon.png')));
 
-// Health check endpoint
-app.get('/health', async (req, res) => {
+// Health check endpoint (accessible via /health and /api/health)
+app.get(['/health', '/api/health'], async (req, res) => {
   const dbConnected = await testConnection();
   res.status(200).json({
     status: 'ok',

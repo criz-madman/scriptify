@@ -275,13 +275,23 @@
   <script src="js/api.js"></script>
   <script>
     // Security Check: Enforce strictly christanjames07@gmail.com
-    window.addEventListener('firebase:ready', () => {
-      window.FirebaseBridge.onAuthStateChanged((user) => {
+    function initAdminAuth() {
+      if (!window.FirebaseBridge || !window.FirebaseBridge.onAuthStateChanged) return;
+      window.FirebaseBridge.onAuthStateChanged(async (user) => {
         const loader = document.getElementById('auth-loader');
         const content = document.getElementById('admin-content');
         
         if (user) {
           if (user.email === 'christanjames07@gmail.com') {
+            // Ensure token is synced into localStorage for authenticated API requests
+            if (!API.getToken() && window.FirebaseBridge.syncFirebaseSession) {
+              try {
+                await window.FirebaseBridge.syncFirebaseSession(user);
+              } catch(e) {
+                console.warn('Session sync warning:', e);
+              }
+            }
+            
             // Authorized
             document.getElementById('admin-email').textContent = user.email;
             loader.style.opacity = '0';
@@ -303,22 +313,28 @@
           window.location.href = '/login?redirect=/admin';
         }
       });
-    });
+    }
+
+    if (window.FirebaseBridge) {
+      initAdminAuth();
+    } else {
+      window.addEventListener('firebase:ready', initAdminAuth);
+    }
 
     // --- Analytics Logic ---
     async function loadAdminStats() {
       try {
         const statsRes = await API.get('/api/auth/admin/stats');
         if (statsRes && statsRes.stats) {
-          document.getElementById('stat-total-users').textContent = statsRes.stats.totalUsers.toLocaleString();
-          document.getElementById('stat-total-products').textContent = statsRes.stats.totalProducts.toLocaleString();
+          document.getElementById('stat-total-users').textContent = Number(statsRes.stats.totalUsers || 0).toLocaleString();
+          document.getElementById('stat-total-products').textContent = Number(statsRes.stats.totalProducts || 0).toLocaleString();
         }
       } catch (err) {
-        console.warn('Could not fetch admin stats:', err);
+        console.warn('Could not fetch admin stats endpoint:', err);
       }
 
       try {
-        const healthRes = await fetch('/health');
+        const healthRes = await fetch('/health').catch(() => fetch('/api/health'));
         const healthData = await healthRes.json();
         const isDbOk = healthData && healthData.database === 'connected';
         const statusElem = document.getElementById('stat-db-status');
@@ -345,8 +361,14 @@
       try {
         const res = await API.get('/api/auth/admin/users');
         const users = res.users || [];
+        
+        // Sync Realtime Total Users Stat Card
+        if (users.length > 0) {
+          document.getElementById('stat-total-users').textContent = users.length.toLocaleString();
+        }
+
         if (users.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-zinc-500">No users found in database.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-zinc-500">No registered members found in database.</td></tr>';
           return;
         }
 
@@ -391,6 +413,7 @@
       try {
         const res = await API.get('/api/marketplace/products');
         allProducts = res.products || [];
+        document.getElementById('stat-total-products').textContent = allProducts.length.toLocaleString();
         renderAdminProducts();
       } catch (err) {
         console.error(err);
