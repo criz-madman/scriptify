@@ -90,19 +90,20 @@
     </header>
 
     <!-- Analytics Section -->
+    <!-- Analytics Section -->
     <section class="mb-10">
       <h2 class="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-4 flex items-center">
         <i class="fa-solid fa-chart-line mr-2 text-amber-500"></i> Platform Analytics
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Metric Card 1 -->
+        <!-- Metric Card 1: Live Real User Count -->
         <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:border-amber-500/30 transition-colors">
           <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
           <div class="relative z-10 flex justify-between items-start">
             <div>
               <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider mb-1">Total Users</p>
-              <h3 class="text-4xl font-bold text-zinc-100 mt-2">1,248</h3>
-              <p class="text-emerald-400 text-xs mt-2 flex items-center"><i class="fa-solid fa-arrow-up mr-1"></i> 12% this week</p>
+              <h3 id="stat-total-users" class="text-4xl font-bold text-zinc-100 mt-2">--</h3>
+              <p class="text-amber-400 text-xs mt-2 flex items-center"><i class="fa-solid fa-users mr-1"></i> Registered Members</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 text-xl shadow-[0_0_15px_rgba(245,158,11,0.15)]">
               <i class="fa-solid fa-users"></i>
@@ -110,29 +111,29 @@
           </div>
         </div>
         
-        <!-- Metric Card 2 -->
+        <!-- Metric Card 2: Live Marketplace Products Count -->
         <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:border-orange-500/30 transition-colors">
           <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
           <div class="relative z-10 flex justify-between items-start">
             <div>
-              <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider mb-1">Active Sessions</p>
-              <h3 class="text-4xl font-bold text-zinc-100 mt-2">86</h3>
-              <p class="text-zinc-400 text-xs mt-2 flex items-center"><i class="fa-regular fa-clock mr-1"></i> Live right now</p>
+              <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider mb-1">Catalog Products</p>
+              <h3 id="stat-total-products" class="text-4xl font-bold text-zinc-100 mt-2">--</h3>
+              <p class="text-orange-400 text-xs mt-2 flex items-center"><i class="fa-solid fa-box-open mr-1"></i> Active Tools & Presets</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-500 text-xl shadow-[0_0_15px_rgba(249,115,22,0.15)]">
-              <i class="fa-solid fa-satellite-dish"></i>
+              <i class="fa-solid fa-store"></i>
             </div>
           </div>
         </div>
 
-        <!-- Metric Card 3 -->
+        <!-- Metric Card 3: Real PostgreSQL Health Check -->
         <div class="glass-card rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/30 transition-colors">
           <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-150"></div>
           <div class="relative z-10 flex justify-between items-start">
             <div>
               <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider mb-1">DB Connection</p>
-              <h3 class="text-2xl font-bold text-emerald-400 mt-3 mb-1">Healthy</h3>
-              <p class="text-zinc-400 text-xs mt-2 flex items-center"><i class="fa-solid fa-check-circle mr-1 text-emerald-500"></i> PostgreSQL Active</p>
+              <h3 id="stat-db-status" class="text-2xl font-bold text-emerald-400 mt-3 mb-1">Checking...</h3>
+              <p id="stat-db-sub" class="text-zinc-400 text-xs mt-2 flex items-center"><i class="fa-solid fa-spinner fa-spin mr-1 text-emerald-500"></i> Pinging PostgreSQL...</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 text-xl shadow-[0_0_15px_rgba(16,185,129,0.15)]">
               <i class="fa-solid fa-database"></i>
@@ -148,7 +149,7 @@
         <h2 class="text-sm font-bold uppercase tracking-widest text-zinc-400 flex items-center">
           <i class="fa-solid fa-users-gear mr-2 text-amber-500"></i> User Management
         </h2>
-        <span class="text-xs text-zinc-500 font-mono">Active Members</span>
+        <span class="text-xs text-zinc-500 font-mono">Real-time Account Directory</span>
       </div>
       
       <div class="glass-card rounded-2xl overflow-hidden">
@@ -157,63 +158,13 @@
             <thead class="text-xs uppercase bg-[#181008]/80 text-zinc-500 border-b border-amber-500/10 font-mono">
               <tr>
                 <th scope="col" class="px-6 py-4">User</th>
+                <th scope="col" class="px-6 py-4">Registered</th>
                 <th scope="col" class="px-6 py-4">Status</th>
-                <th scope="col" class="px-6 py-4">Credits</th>
-                <th scope="col" class="px-6 py-4 text-right">Actions</th>
+                <th scope="col" class="px-6 py-4">Wallet Balance</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-amber-500/5">
-              <tr class="hover:bg-amber-500/5 transition-colors group">
-                <td class="px-6 py-4 flex items-center space-x-3">
-                  <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold text-xs">CJ</div>
-                  <div>
-                    <p class="font-medium text-zinc-200">Christan James</p>
-                    <p class="text-[10px] text-zinc-500">christanjames07@gmail.com</p>
-                  </div>
-                </td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Active</span>
-                </td>
-                <td class="px-6 py-4 font-mono text-zinc-300">1,250</td>
-                <td class="px-6 py-4 text-right">
-                  <button class="text-zinc-600 hover:text-amber-500 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button class="text-zinc-600 hover:text-red-400 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-ban"></i></button>
-                </td>
-              </tr>
-              <tr class="hover:bg-amber-500/5 transition-colors group">
-                <td class="px-6 py-4 flex items-center space-x-3">
-                  <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">JD</div>
-                  <div>
-                    <p class="font-medium text-zinc-200">Jane Doe</p>
-                    <p class="text-[10px] text-zinc-500">jane.motion@example.com</p>
-                  </div>
-                </td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Active</span>
-                </td>
-                <td class="px-6 py-4 font-mono text-zinc-300">450</td>
-                <td class="px-6 py-4 text-right">
-                  <button class="text-zinc-600 hover:text-amber-500 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button class="text-zinc-600 hover:text-red-400 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-ban"></i></button>
-                </td>
-              </tr>
-              <tr class="hover:bg-amber-500/5 transition-colors group">
-                <td class="px-6 py-4 flex items-center space-x-3">
-                  <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 font-bold text-xs">MS</div>
-                  <div>
-                    <p class="font-medium text-zinc-200">Mike Smith</p>
-                    <p class="text-[10px] text-zinc-500">mike@vfxstudio.com</p>
-                  </div>
-                </td>
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-zinc-500/10 text-zinc-400 border border-zinc-500/20">Offline</span>
-                </td>
-                <td class="px-6 py-4 font-mono text-zinc-300">0</td>
-                <td class="px-6 py-4 text-right">
-                  <button class="text-zinc-600 hover:text-amber-500 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button class="text-zinc-600 hover:text-red-400 transition-colors mx-1 cursor-pointer"><i class="fa-solid fa-ban"></i></button>
-                </td>
-              </tr>
+            <tbody id="admin-users-tbody" class="divide-y divide-amber-500/5">
+              <tr><td colspan="4" class="text-center py-4">Loading registered accounts...</td></tr>
             </tbody>
           </table>
         </div>
@@ -338,7 +289,9 @@
               loader.classList.add('hidden');
               content.classList.remove('hidden');
               content.classList.add('animate-fade-in');
-              loadAdminProducts(); // Load products once authorized
+              loadAdminStats();
+              loadAdminUsers();
+              loadAdminProducts();
             }, 500);
           } else {
             // Unauthorized but logged in
@@ -351,6 +304,85 @@
         }
       });
     });
+
+    // --- Analytics Logic ---
+    async function loadAdminStats() {
+      try {
+        const statsRes = await API.get('/api/auth/admin/stats');
+        if (statsRes && statsRes.stats) {
+          document.getElementById('stat-total-users').textContent = statsRes.stats.totalUsers.toLocaleString();
+          document.getElementById('stat-total-products').textContent = statsRes.stats.totalProducts.toLocaleString();
+        }
+      } catch (err) {
+        console.warn('Could not fetch admin stats:', err);
+      }
+
+      try {
+        const healthRes = await fetch('/health');
+        const healthData = await healthRes.json();
+        const isDbOk = healthData && healthData.database === 'connected';
+        const statusElem = document.getElementById('stat-db-status');
+        const subElem = document.getElementById('stat-db-sub');
+        
+        if (isDbOk) {
+          statusElem.textContent = 'Healthy';
+          statusElem.className = 'text-2xl font-bold text-emerald-400 mt-3 mb-1';
+          subElem.innerHTML = '<i class="fa-solid fa-check-circle mr-1 text-emerald-500"></i> PostgreSQL Active';
+        } else {
+          statusElem.textContent = 'Offline';
+          statusElem.className = 'text-2xl font-bold text-rose-400 mt-3 mb-1';
+          subElem.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1 text-rose-500"></i> Disconnected';
+        }
+      } catch (err) {
+        document.getElementById('stat-db-status').textContent = 'Error';
+        document.getElementById('stat-db-sub').innerHTML = '<i class="fa-solid fa-xmark mr-1 text-rose-500"></i> Health check failed';
+      }
+    }
+
+    // --- User Management Logic (Real Live DB Directory) ---
+    async function loadAdminUsers() {
+      const tbody = document.getElementById('admin-users-tbody');
+      try {
+        const res = await API.get('/api/auth/admin/users');
+        const users = res.users || [];
+        if (users.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-zinc-500">No users found in database.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = users.map(u => {
+          const email = u.email || 'Anonymous';
+          const initial = email.substring(0, 2).toUpperCase();
+          const date = u.createdAt ? new Date(u.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
+          const isSuperadmin = email.toLowerCase() === 'christanjames07@gmail.com';
+
+          return `
+            <tr class="hover:bg-amber-500/5 transition-colors group">
+              <td class="px-6 py-4 flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-full ${isSuperadmin ? 'bg-gradient-to-tr from-amber-500 to-orange-600 text-white font-bold' : 'bg-zinc-800 text-zinc-300 font-mono'} flex items-center justify-center text-xs shrink-0">
+                  ${initial}
+                </div>
+                <div>
+                  <p class="font-medium text-zinc-200 text-xs sm:text-sm flex items-center gap-1.5">
+                    ${email}
+                    ${isSuperadmin ? '<span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-mono uppercase">Admin</span>' : ''}
+                  </p>
+                  <p class="text-[10px] text-zinc-500 font-mono">${String(u.userId || '').substring(0, 8)}</p>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-xs font-mono text-zinc-400">${date}</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Active</span>
+              </td>
+              <td class="px-6 py-4 font-mono font-bold text-amber-400">${Number(u.balancePoints || 0).toLocaleString()} cr</td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('Failed to load users:', err);
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center text-rose-400 py-4">Failed to load real users directory.</td></tr>';
+      }
+    }
 
     // --- Product Management Logic ---
     let allProducts = [];
@@ -424,6 +456,7 @@
       try {
         await API.delete('/api/marketplace/products/' + id);
         loadAdminProducts();
+        loadAdminStats();
       } catch(err) {
         alert('Failed to delete: ' + err.message);
       }
@@ -481,6 +514,7 @@
         
         closeProductModal();
         loadAdminProducts();
+        loadAdminStats();
       } catch (err) {
         alert('Failed to save product: ' + err.message);
       } finally {

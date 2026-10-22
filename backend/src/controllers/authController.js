@@ -258,9 +258,53 @@ const firebaseLogin = async (req, res, next) => {
   }
 };
 
+// 5. Admin: Get all users with their wallet balance
+const getAllUsersForAdmin = async (req, res, next) => {
+  try {
+    const usersRes = await query(
+      `SELECT u."userId", u."email", u."createdAt", COALESCE(w."balancePoints", 0) AS "balancePoints"
+       FROM "Users" u
+       LEFT JOIN "CreditWallet" w ON u."userId" = w."userId"
+       ORDER BY u."createdAt" DESC
+       LIMIT 100`
+    );
+
+    res.status(200).json({
+      success: true,
+      users: usersRes.rows
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// 6. Admin: Get platform analytics stats
+const getAdminStats = async (req, res, next) => {
+  try {
+    const [usersCountRes, productsCountRes, generationsCountRes] = await Promise.all([
+      query('SELECT COUNT(*)::int AS count FROM "Users"'),
+      query('SELECT COUNT(*)::int AS count FROM "MarketplaceProducts"'),
+      query('SELECT COUNT(*)::int AS count FROM "HistoryLog"')
+    ]);
+
+    res.status(200).json({
+      success: true,
+      stats: {
+        totalUsers: usersCountRes.rows[0].count,
+        totalProducts: productsCountRes.rows[0].count,
+        totalGenerations: generationsCountRes.rows[0].count
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   sendOtp,
   verifyOtp,
   getMe,
-  firebaseLogin
+  firebaseLogin,
+  getAllUsersForAdmin,
+  getAdminStats
 };

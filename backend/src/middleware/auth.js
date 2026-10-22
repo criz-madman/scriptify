@@ -61,6 +61,21 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
+/**
+ * Authorization middleware to restrict endpoint to system superadmin
+ */
+const requireAdmin = (req, res, next) => {
+  const adminEmail = (process.env.ADMIN_EMAIL || 'christanjames07@gmail.com').toLowerCase().trim();
+  if (!req.user || req.user.email.toLowerCase().trim() !== adminEmail) {
+    return res.status(403).json({
+      success: false,
+      error: 'Forbidden: Administrator privileges required.'
+    });
+  }
+  next();
+};
+
 module.exports = {
-  requireAuth
+  requireAuth,
+  requireAdmin
 };
