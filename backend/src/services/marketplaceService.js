@@ -227,10 +227,14 @@ Place the extracted extension folder into the Adobe CEP extensions directory:
   }
 ];
 
+// In-memory seed flag: only run the seed check once per process lifetime
+let _seeded = false;
+
 /**
  * Ensures marketplace tables exist and default seed catalog is populated
  */
 const seedDefaultProducts = async () => {
+  if (_seeded) return;
   try {
     // Check if MarketplaceProducts table has any rows
     const res = await query('SELECT COUNT(*) as count FROM "MarketplaceProducts"');
@@ -257,6 +261,7 @@ const seedDefaultProducts = async () => {
       }
       console.log(`[Marketplace] Successfully seeded ${DEFAULT_PRODUCTS.length} digital products.`);
     }
+    _seeded = true;
   } catch (err) {
     console.warn('[Marketplace] Seed check warning:', err.message);
   }
@@ -294,7 +299,8 @@ const getProducts = async ({ category, search, userId } = {}) => {
 
   if (search && search.trim()) {
     params.push(`%${search.trim().toLowerCase()}%`);
-    sql += ` AND (LOWER(p."title") LIKE $${params.length} OR LOWER(p."description") LIKE $${params.length})`;
+    params.push(`%${search.trim().toLowerCase()}%`); // push twice — one per LIKE clause
+    sql += ` AND (LOWER(p."title") LIKE $${params.length - 1} OR LOWER(p."description") LIKE $${params.length})`;
   }
 
   sql += ` ORDER BY p."createdAt" DESC`;
@@ -514,12 +520,20 @@ const updateProduct = async (productId, data) => {
 };
 
 const deleteProduct = async (productId) => {
-  // Option 1: Hard delete, but purchases might fail foreign key. Better to soft-delete or cascade.
-  // Assuming cascade is set or we delete from MarketplacePurchases first.
-  await query('DELETE FROM "MarketplacePurchases" WHERE "productId" = $1', [productId]);
-  const res = await query('DELETE FROM "MarketplaceProducts" WHERE "productId" = $1 RETURNING *', [productId]);
-  if (res.rows.length === 0) throw { statusCode: 404, message: 'Product not found.' };
-  return true;
+  const client = await getClient();
+  try {
+    await client.query('BEGIN');
+    await client.query('DELETE FROM "MarketplacePurchases" WHERE "productId" = $1', [productId]);
+    const res = await client.query('DELETE FROM "MarketplaceProducts" WHERE "productId" = $1 RETURNING *', [productId]);
+    if (res.rows.length === 0) throw { statusCode: 404, message: 'Product not found.' };
+    await client.query('COMMIT');
+    return true;
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
 };
 
 module.exports = {

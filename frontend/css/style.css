@@ -29,6 +29,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Mobile: disable fixed attachment which causes repaints on scroll */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
 /* Custom Amber Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
@@ -61,7 +68,7 @@ code, pre, .font-mono {
   max-width: 900px;
   height: 280px;
   background: radial-gradient(ellipse at 50% 0%, rgba(249, 115, 22, 0.35) 0%, rgba(245, 158, 11, 0.12) 40%, transparent 75%);
-  pointer-events-none;
+  pointer-events: none;
   z-index: 0;
 }
 

@@ -34,15 +34,27 @@
     },
     {
       "src": "/favicon.ico",
-      "dest": "/frontend/myimages/scriptfy icon.png"
+      "dest": "/frontend/myimages/scriptfy%20icon.png"
     },
     {
       "src": "/login",
       "dest": "/frontend/login.html"
     },
     {
+      "src": "/register",
+      "dest": "/frontend/register.html"
+    },
+    {
       "src": "/dashboard",
       "dest": "/frontend/dashboard.html"
+    },
+    {
+      "src": "/explore",
+      "dest": "/frontend/explore.html"
+    },
+    {
+      "src": "/profile",
+      "dest": "/frontend/profile.html"
     },
     {
       "src": "/panel-builder",
@@ -77,20 +89,32 @@
       "dest": "/frontend/history.html"
     },
     {
-      "src": "/explore",
-      "dest": "/frontend/explore.html"
-    },
-    {
-      "src": "/profile",
-      "dest": "/frontend/profile.html"
-    },
-    {
-      "src": "/register",
-      "dest": "/frontend/register.html"
-    },
-    {
       "src": "/admin",
       "dest": "/frontend/admin.html"
+    },
+    {
+      "src": "/contact",
+      "dest": "/frontend/contact.html"
+    },
+    {
+      "src": "/copyright",
+      "dest": "/frontend/copyright.html"
+    },
+    {
+      "src": "/privacy",
+      "dest": "/frontend/privacy.html"
+    },
+    {
+      "src": "/privacy-policy",
+      "dest": "/frontend/privacy.html"
+    },
+    {
+      "src": "/terms",
+      "dest": "/frontend/terms.html"
+    },
+    {
+      "src": "/terms-of-service",
+      "dest": "/frontend/terms.html"
     },
     {
       "src": "/",

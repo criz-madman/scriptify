@@ -17,9 +17,6 @@ import {
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-// ... existing code ...
-// Let's just update the import and the window.FirebaseBridge object.
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAoYYoUMWHoD6awIRNhieAGh0Z4fYsY8ZM",

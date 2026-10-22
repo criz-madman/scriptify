@@ -83,7 +83,7 @@
           <p class="text-sm font-medium text-zinc-200" id="admin-email">Loading...</p>
           <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase tracking-wide">Superadmin</span>
         </div>
-        <button onclick="window.FirebaseBridge.logoutFirebase().then(() => window.location.href='/login')" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-zinc-400 hover:text-amber-500 hover:border-amber-500/40 transition-all cursor-pointer">
+        <button onclick="(function(){ var fb = window.FirebaseBridge; if(fb && fb.logoutFirebase){ fb.logoutFirebase().catch(function(){}).then(function(){ window.location.href='/login'; }); } else { localStorage.removeItem('scriptify_token'); window.location.href='/login'; } })()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-zinc-400 hover:text-amber-500 hover:border-amber-500/40 transition-all cursor-pointer">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </button>
       </div>

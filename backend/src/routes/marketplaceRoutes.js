@@ -5,6 +5,9 @@ const env = require('../config/env');
 const { requireAuth } = require('../middleware/auth');
 const marketplaceService = require('../services/marketplaceService');
 
+// Admin email — can also be driven by ADMIN_EMAIL env var
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'christanjames07@gmail.com';
+
 /**
  * Optional authentication helper: extracts user if token provided, but doesn't reject guests
  */
@@ -18,6 +21,19 @@ const optionalAuth = async (req, res, next) => {
     } catch (e) {
       // Ignore invalid token for guest browsing
     }
+  }
+  next();
+};
+
+/**
+ * Admin-only guard: must be authenticated AND have the admin email
+ */
+const requireAdmin = (req, res, next) => {
+  if (!req.user || req.user.email !== ADMIN_EMAIL) {
+    return res.status(403).json({
+      success: false,
+      error: 'Forbidden: Administrator privileges required.'
+    });
   }
   next();
 };
@@ -84,7 +100,7 @@ router.post('/purchase', requireAuth, async (req, res, next) => {
  * POST /api/marketplace/products
  * Admin endpoint: Add new product to marketplace
  */
-router.post('/products', async (req, res, next) => {
+router.post('/products', requireAuth, requireAdmin, async (req, res, next) => {
   try {
     const { title, description, category, creditPrice, instructions, payloadCode, version, author } = req.body;
     const newProduct = await marketplaceService.createProduct({
@@ -112,7 +128,7 @@ router.post('/products', async (req, res, next) => {
  * PUT /api/marketplace/products/:id
  * Admin endpoint: Update existing product
  */
-router.put('/products/:id', async (req, res, next) => {
+router.put('/products/:id', requireAuth, requireAdmin, async (req, res, next) => {
   try {
     const updatedProduct = await marketplaceService.updateProduct(req.params.id, req.body);
     res.json({
@@ -129,7 +145,7 @@ router.put('/products/:id', async (req, res, next) => {
  * DELETE /api/marketplace/products/:id
  * Admin endpoint: Delete product
  */
-router.delete('/products/:id', async (req, res, next) => {
+router.delete('/products/:id', requireAuth, requireAdmin, async (req, res, next) => {
   try {
     await marketplaceService.deleteProduct(req.params.id);
     res.json({
